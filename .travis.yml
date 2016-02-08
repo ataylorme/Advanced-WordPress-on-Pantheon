@@ -26,14 +26,20 @@ env:
     # Where we deploy to if the build passes
     - PENV='dev'
 
+install:
+  # Dynamic hosts through Pantheon mean constantly checking interactively
+  # that we mean to connect to an unknown host. We ignore those here.
+  - echo Disabling strict host checking
+  - echo "StrictHostKeyChecking no" > ~/.ssh/config
+
 before_script:
-    - cd $TRAVIS_BUILD_DIR
     - composer self-update
-    - composer install
+    - composer install --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader --prefer-source
     - git config --global user.email "andrew@ataylor.me"
     - git config --global user.name "ataylorme"
 
 after_script:
-
+    - cd $TRAVIS_BUILD_DIR
+    - rsync -a $TRAVIS_BUILD_DIR/vendor/pantheon-systems/WordPress/* $TRAVIS_BUILD_DIR/public/
 
 script:

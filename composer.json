@@ -40,6 +40,7 @@
     "vlucas/phpdotenv": "~2.2.0",
     "wpackagist-plugin/wp-redis": "~0.2.2",
     "wpackagist-plugin/wp-native-php-sessions": "~0.4",
+    "wpackagist-plugin/wp-cfm": "~1.4.3",
     "pantheon-systems/wordpress": "4.4.2"
   },
   "config": {

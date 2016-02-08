@@ -62,10 +62,10 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "rsync -a vendor/pantheon-systems/WordPress/* public/"
+      "rsync -a ./vendor/pantheon-systems/WordPress/* ./public/"
     ],
     "post-update-cmd": [
-      "rsync -a vendor/pantheon-systems/WordPress/* public/"
+      "rsync -a ./vendor/pantheon-systems/WordPress/* ./public/"
     ]
   }
 }

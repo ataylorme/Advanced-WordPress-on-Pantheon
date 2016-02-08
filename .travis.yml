@@ -14,6 +14,10 @@ matrix:
     allow_failures:
         - php: hhvm
 
+branches:
+  only:
+    - master
+
 env:
   global:
     # Pantheon site UUID
@@ -34,7 +38,7 @@ install:
 
 before_script:
     - composer self-update
-    - composer install --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader --prefer-source
+    - composer install --no-ansi --no-dev --no-interaction --no-scripts --optimize-autoloader --prefer-source
     - git config --global user.email "andrew@ataylor.me"
     - git config --global user.name "ataylorme"
 
@@ -43,3 +47,5 @@ after_script:
     - rsync -a $TRAVIS_BUILD_DIR/vendor/pantheon-systems/WordPress/* $TRAVIS_BUILD_DIR/public/
 
 script:
+    - pwd
+    - ls

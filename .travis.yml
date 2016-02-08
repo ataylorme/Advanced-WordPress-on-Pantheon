@@ -27,8 +27,11 @@ env:
     - PENV='dev'
 
 before_script:
+    - cd $TRAVIS_BUILD_DIR
     - composer self-update
     - composer install
+    - git config --global user.email "andrew@ataylor.me"
+    - git config --global user.name "ataylorme"
 
 after_script:
 

@@ -1,0 +1,36 @@
+sudo: false
+
+language: php
+
+php:
+    - 5.3
+    - 5.4
+    - 5.5
+    - 5.6
+    - 7
+    - hhvm
+
+matrix:
+    allow_failures:
+        - php: hhvm
+
+env:
+  global:
+    # Pantheon site UUID
+    - PUUID='094f4627-a25e-4d60-8d5b-a3d99a7232bf'
+
+    # Pantheon site name
+    - PSITE='Pantheon WP Best Practices'
+
+    # Pantheon environment
+    # Where we deploy to if the build passes
+    - PENV='dev'
+
+before_script:
+    - composer self-update
+    - composer install
+
+after_script:
+
+
+script:

@@ -1,11 +1,18 @@
 vendor/
-public/wp/
+
 .*
 !.gitignore
+
 node_modules/
-public/wp-content/*
+
+public/
+
+!public/wp-config-local.php
+
 !public/wp-content/mu-plugins
 public/wp-content/mu-plugins/*
+!public/wp-content/plugins
+public/wp-content/plugins/*
 !public/wp-content/themes
 public/wp-content/themes/*
 
@@ -47,7 +54,3 @@ Thumbs.db
 # PHP Storm #
 #############
 .idea
-
-# Pantheon WordPress #
-######################
-vendor/pantheon-systems

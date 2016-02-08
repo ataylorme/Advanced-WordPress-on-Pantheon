@@ -1,14 +1,21 @@
+# Composer Vendor Directory #
+#############################
 vendor/
 
+# Hidden Files #
+############
 .*
 !.gitignore
+!.env-sample
 
+# NPM Modules #
+###############
 node_modules/
 
+# Webroot #
+###########
 public/
-
 !public/wp-config-local.php
-
 !public/wp-content/mu-plugins
 public/wp-content/mu-plugins/*
 !public/wp-content/plugins

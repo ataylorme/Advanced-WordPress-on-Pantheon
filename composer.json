@@ -1,0 +1,70 @@
+{
+  "name": "pantheon-wp-best-practices",
+  "description": "",
+  "version": "0.1.0",
+  "type": "project",
+  "keywords": [],
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Andrew Taylor",
+      "email": "andrew@ataylor.me",
+      "homepage": "http://www.ataylor.me"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "http://wpackagist.org"
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "pantheon-systems/wordpress",
+        "version": "4.4.2",
+        "dist": {
+          "url": "https://github.com/pantheon-systems/WordPress/archive/4.4.2.zip",
+          "type": "zip"
+        },
+        "source": {
+          "url": "git@github.com:pantheon-systems/WordPress.git",
+          "type": "git",
+          "reference": "tags/4.4.2"
+        }
+      }
+    }
+  ],
+  "require": {
+    "php": ">=5.2",
+    "composer/installers": "~1.0",
+    "vlucas/phpdotenv": "~2.2.0",
+    "wpackagist-plugin/wp-redis": "~0.2.2",
+    "wpackagist-plugin/wp-native-php-sessions": "~0.4",
+    "pantheon-systems/wordpress": "4.4.2"
+  },
+  "config": {
+    "vendor-dir": "vendor",
+    "preferred-install": "dist"
+  },
+  "extra": {
+    "installer-paths": {
+      "public/wp-content/plugins/{$name}/": [
+        "type:wordpress-plugin"
+      ],
+      "public/wp-content/themes/{$name}/": [
+        "type:wordpress-theme"
+      ],
+      "public/": [
+        "pantheon-systems/wordpress"
+      ]
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "rsync -a vendor/pantheon-systems/WordPress/* public/"
+    ],
+    "post-update-cmd": [
+      "rsync -a vendor/pantheon-systems/WordPress/* public/"
+    ]
+  }
+}

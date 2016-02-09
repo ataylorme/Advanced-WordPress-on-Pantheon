@@ -48,6 +48,6 @@ after_script:
     - cd $TRAVIS_BUILD_DIR/public
 
 script:
-    - return 1
+    - ls public
 
 deploy:

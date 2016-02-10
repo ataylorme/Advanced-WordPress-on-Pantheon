@@ -98,6 +98,8 @@ dependencies:
       # - cd $TRAVIS_BUILD_DIR
       # - rsync -a $TRAVIS_BUILD_DIR/vendor/pantheon-systems/WordPress/* $TRAVIS_BUILD_DIR/public/
       # - cd $TRAVIS_BUILD_DIR/public
+      - pwd
+      - echo "$PATH"
 
 test:
   override:

@@ -9,75 +9,9 @@ machine:
   hosts:
     wp-best-practices.dev: 127.0.0.1
 
-matrix:
-    allow_failures:
-        - php: hhvm
-
-branches:
-  only:
-    - master
-
-env:
-  global:
-    # Pantheon site UUID
-    - PUUID='094f4627-a25e-4d60-8d5b-a3d99a7232bf'
-
-    # Pantheon site name
-    - PSITE='Pantheon WP Best Practices'
-
-    # Pantheon environment
-    # Where we deploy to if the build passes
-    - PENV='dev'
-
-
-
-Continuous Integration With WordPress And CircleCi
-
-
-
-
-This is the story about how I wasted 3 days, but also, which is more important, how I set up continuous integration for WP Pusher with CircleCi. With a continuous integration service, you can have your tests run on every commit and ensure that nothing is broken. That is, if you have some tests to run of course.
-
-
-
-Introduction
-Last week I spent most of my awake hours playing around with CircleCi. What should have taken me an hour or two ended up being a weekend project and ultimately resulted in this article. Let me start out by saying that this was my own fault. I overcomplicated the process instead of just using the awesome tools that were already available to me in the CircleCi eco-system. Allow me to explain:
-
-A few weeks ago, I discovered a really cool project called Wocker – which is basically WordPress in a Docker container. Wocker is super awesome and makes setting up a WordPress environment extremely fast and simple. When I saw Wocker the first time my immediate thought was “Hey! This could really simplify setting up CI for WordPress“. I did a bit of Googling and after finding out that CircleCi supported Docker containers, I decided to give it a go… Quickly, I realised that Wocker was not the best fit to run in a CI container, so I decided to roll my own Docker image based on some of the existing Apache, MySQL and WordPress images I could find. Basically, I wanted to run apache in the Docker container so I had a simple environment where I could install WordPress and WP Pusher. This is where I should have taken a step back and looked at what is already included in the CircleCi container (which I guess is much like a Docker container), but I didn’t. Instead I spent my weekend hitting the wall again and again. Eventually I got it all working but then I found out: My CircleCi container already had Apache and MySQL running, which was basically all I needed to run WordPress. I went out the get some fresh air and when I came back, I reconfigured everything to not use Docker and made it all work in something like 2 hours. Now that I learned it the hard way, there is no need for you to do the same – hence this article.
-
-What Is Continuous Integration?
-Continuous integration (CI) is the practice of performing certain routines, such as  running a test suite, every time something is committed to version control. Let’s say you are using GitHub and have opened a pull request for a new feature. With a continuous integration service, you can be notified if the new feature breaks any tests before you merge it. As an example, here is a small pull request I made for the Laravel PHP framework. This pull request was run through 2 different CI services before it was merged – Travis CI and Scrutinizer. Actually, as you can see here, the build failed with Travis for PHP 5.4. However, it was merged anyways, since the failed test was not related to my code. But you can probably see why a CI service is a handy tool for someone like Taylor Otwell, the creator of Laravel, when you see that the project have about 4000 closed pull requests. That is a lot of code to review and test manually.
-
-Travis CI is great for open source projects, but in this tutorial, we will use a service called CircleCi, which I am very excited about these days. It is free for one build container, which covers my needs for WP Pusher so far.
-
-So let’s get started.
-
-The WordPress Environment
-Now is the time to start preparing our environment. These are the steps we will go through:
-
-Set up our machine and PHP environment
-Set up a database for WordPress
-Download, configure and install WordPress (hint: we will use WP CLI for this)
-Install and activate our plugin or theme – WP Pusher in this case (we will do this in the next section)
-Setup an Apache configuration for our WordPress installation
-When these steps are completed, we will have WordPress running in our CI container, so we can run some tests for our code to make sure it is working properly.
-
-In order to configure CircleCi, you can include a circle.yml file in your project. This file is a YAML file that contains instructions for CircleCi to use when it sets up your CI environment. This is also where you define how your tests are run. Here is an example circle.yml file for WP Pusher:
-
-machine:
-  timezone:
-    Europe/Copenhagen
-
-  php:
-    version: 5.3.3
-
-  # This will be added to the `/etc/hosts` file
-  hosts:
-    wppusher-plugin.dev: 127.0.0.1
-
 dependencies:
   pre:
-  # Dynamic hosts through Pantheon mean constantly checking interactively
+    # Dynamic hosts through Pantheon mean constantly checking interactively
     # that we mean to connect to an unknown host. We ignore those here.
     - echo Disabling strict host checking
     - echo "StrictHostKeyChecking no" > ~/.ssh/config
@@ -95,11 +29,11 @@ dependencies:
     - git config --global user.name "ataylorme"
 
   post:
-      # - cd $TRAVIS_BUILD_DIR
-      # - rsync -a $TRAVIS_BUILD_DIR/vendor/pantheon-systems/WordPress/* $TRAVIS_BUILD_DIR/public/
-      # - cd $TRAVIS_BUILD_DIR/public
-      - pwd
-      - echo "$PATH"
+    # - cd $TRAVIS_BUILD_DIR
+    # - rsync -a $TRAVIS_BUILD_DIR/vendor/pantheon-systems/WordPress/* $TRAVIS_BUILD_DIR/public/
+    # - cd $TRAVIS_BUILD_DIR/public
+    - pwd
+    - echo "$PATH"
 
 test:
   override:

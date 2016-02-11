@@ -1,5 +1,5 @@
 {
-  "name": "pantheon-wp-best-practices",
+  "name": "Advanced-WordPress-on-Pantheon",
   "description": "",
   "version": "0.1.0",
   "type": "project",
@@ -61,11 +61,8 @@
     }
   },
   "scripts": {
-    "post-install-cmd": [
-      "rsync -a ./vendor/pantheon-systems/WordPress/* ./public/"
-    ],
     "post-update-cmd": [
-      "rsync -a ./vendor/pantheon-systems/WordPress/* ./public/"
+      "rsync -a vendor/pantheon-systems/WordPress/* public/"
     ]
   }
 }

@@ -22,7 +22,6 @@ dependencies:
     # Make sure WP-CLI is executable
     # - chmod +x wp-cli.phar
 
-    - composer self-update
     - composer install --no-ansi --no-dev --no-interaction --no-scripts --optimize-autoloader --prefer-source
 
     - git config --global user.email "andrew@ataylor.me"

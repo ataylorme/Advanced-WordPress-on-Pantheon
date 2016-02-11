@@ -3,7 +3,7 @@ machine:
     America/Chicago
 
   php:
-    version: 5.5
+    version: 5.5.21
 
   # This will be added to the `/etc/hosts` file
   hosts:

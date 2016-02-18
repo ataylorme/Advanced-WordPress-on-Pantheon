@@ -17,13 +17,13 @@ node_modules/
 ###########
 public/
 !public/wp-config-local.php
-!public/wp-content/mu-plugins
+!public/wp-content/mu-plugins/
 public/wp-content/mu-plugins/*
-!public/wp-content/plugins
+!public/wp-content/plugins/
 public/wp-content/plugins/*
 !public/wp-content/themes
 public/wp-content/themes/*
-
+!public/wp-content/themes/twentysixteen-child/
 
 # Packages #
 ############

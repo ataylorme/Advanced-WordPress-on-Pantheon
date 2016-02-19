@@ -3,7 +3,7 @@
 vendor/
 
 # Hidden Files #
-############
+################
 .*
 !.gitignore
 !.env-sample
@@ -24,6 +24,7 @@ public/wp-content/plugins/*
 !public/wp-content/themes
 public/wp-content/themes/*
 !public/wp-content/themes/twentysixteen-child/
+!public/wp-content/config/
 
 # Packages #
 ############

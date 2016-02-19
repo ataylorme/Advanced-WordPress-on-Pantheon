@@ -15,7 +15,10 @@ node_modules/
 
 # Webroot #
 ###########
-public/
+!public/
+public/*
+!public/wp-content/
+public/wp-content/*
 !public/wp-config-local.php
 !public/wp-content/mu-plugins/
 public/wp-content/mu-plugins/*

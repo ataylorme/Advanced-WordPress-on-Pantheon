@@ -22,10 +22,18 @@ dependencies:
     # Make sure WP-CLI is executable
     # - chmod +x wp-cli.phar
 
-    - composer install --no-ansi --no-dev --no-interaction --no-scripts --optimize-autoloader --prefer-source
+    # Set github token to avoid rate limit
+    - composer config --global github-oauth.github.com $GIT_TOKEN
 
-    - git config --global user.email "andrew@ataylor.me"
-    - git config --global user.name "ataylorme"
+    - git config --global user.email $GIT_EMAIL
+    - git config --global user.name $GIT_USERNAME
+
+    # Install gulp
+    - echo Installing gulp globally
+    - npm install -g gulp
+
+  override:
+    - ./bin/build.sh
 
   post:
     - gitRoot=$(pwd)
@@ -34,3 +42,9 @@ dependencies:
 test:
   override:
     - ls
+
+deployment:
+  pantheon:
+    branch: master
+    commands:
+      - ./bin/deploy_to_pantheon.sh

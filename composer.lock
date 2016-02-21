@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ff4663721dcd810257494dafcba7d47d",
+    "hash": "18716ac26c60abde95354264109ffad1",
     "content-hash": "4899ce045a1a29f1d1191271188c5ea1",
     "packages": [
         {
@@ -127,12 +127,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "827febb0f15fd781cba52662700eef244d903f1f"
+                "reference": "11a353b704488944a7477b229d119fe1cfa56f68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/827febb0f15fd781cba52662700eef244d903f1f",
-                "reference": "827febb0f15fd781cba52662700eef244d903f1f",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/11a353b704488944a7477b229d119fe1cfa56f68",
+                "reference": "11a353b704488944a7477b229d119fe1cfa56f68",
                 "shasum": ""
             },
             "require": {
@@ -154,7 +154,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD"
+                "BSD-3-Clause-Attribution"
             ],
             "authors": [
                 {
@@ -170,7 +170,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2016-01-17 17:25:37"
+            "time": "2016-02-11 08:44:10"
         },
         {
             "name": "wpackagist-plugin/wp-cfm",

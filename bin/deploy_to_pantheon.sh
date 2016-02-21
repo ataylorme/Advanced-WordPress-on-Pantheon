@@ -50,7 +50,9 @@ find . -name 'node_modules' -type d -print0|xargs -0 rm -r --
 
 echo -e "\n${txtylw}Forcibly adding all files and committing${txtrst}"
 git add -A --force .
-git commit -m "Circle CI build $CIRCLE_BUILD_NUM by $CIRCLE_PROJECT_USERNAME from commit $CIRCLE_SHA1"
+git commit -m "Circle CI build $CIRCLE_BUILD_NUM by $CIRCLE_PROJECT_USERNAME from commit https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$CIRCLE_SHA1"
 
 echo -e "\n${txtylw}Pushing to pantheon  ${txtrst}"
 git push --force origin master
+
+tree .

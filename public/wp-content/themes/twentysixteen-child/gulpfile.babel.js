@@ -57,9 +57,7 @@ gulp.task('styles', () => {
         // send changes to Browser-sync
         .pipe(reload({stream: true}))
         // minify css
-        .pipe($.minifyCss({
-            keepSpecialComments: 1
-        }))
+        .pipe($.cssnano())
         // rename to min
         .pipe($.rename({
             suffix: ".min"

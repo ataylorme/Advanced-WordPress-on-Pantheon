@@ -21,15 +21,8 @@ if ( file_exists( $rootPath . '/.env' ) ) {
         'DB_USER',
         'DB_PASSWORD',
         'DB_HOST',
-        'DB_PREFIX',
-        'SITE_URL',
     ))->notEmpty();
 }
-
-/**
- * Set URL
- */
-$server_url = rtrim( getenv( 'SITE_URL' ), '/\\' ) . '/';
 
 /**
  * Set Database Details
@@ -76,16 +69,15 @@ define('NONCE_SALT',       'r%oyx_`[A-~<LB)]I.,^//}/&]a)H|fzk3IUWrZn[L4qf#Pp#lsB
 error_reporting( E_ALL ^ E_DEPRECATED );
 
 /**
- * WordPress Database Table prefix
- * Use something other than `wp_` for security
- */
-$table_prefix = getenv( 'DB_PREFIX' );
-
-/**
  * WordPress Localized Language, defaults to English.
  */
 define( 'WPLANG', '' );
 
+/**
+ * WordPress Database Table prefix
+ * Use something other than `wp_` for security
+ */
+$table_prefix = getenv( 'DB_PREFIX' ) !== false ? getenv( 'DB_PREFIX' ) : 'wp_';
 
 /**
  * Absolute path to the WordPress directory

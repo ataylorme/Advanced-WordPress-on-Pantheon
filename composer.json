@@ -65,6 +65,11 @@
       "rsync -a vendor/pantheon-systems/wordpress/* public/",
       "rm -rf vendor/pantheon-systems",
       "sed -i \"2s|^|/**\\n * Require Composer autoloader\\n */\\nrequire_once( realpath( __DIR__ . '/..' ) . '/vendor/autoload.php' );\\n\\n|\" public/wp-config.php"
+    ],
+    "post-install-cmd": [
+      "rsync -a vendor/pantheon-systems/wordpress/* public/",
+      "rm -rf vendor/pantheon-systems",
+      "sed -i \"2s|^|/**\\n * Require Composer autoloader\\n */\\nrequire_once( realpath( __DIR__ . '/..' ) . '/vendor/autoload.php' );\\n\\n|\" public/wp-config.php"
     ]
   }
 }

@@ -65,6 +65,9 @@ do
 	echo -e "\n${txtylw}Running 'gulp' ${txtrst}"
 	$FOUND
 
+	echo -e "\n${txtylw}Removing 'node_modules' ${txtrst}"
+	rm -rf node_modules
+
 	# Change back again
 	echo -e "\n${txtylw}changed directories back into: ${txtrst}"
 	cd -

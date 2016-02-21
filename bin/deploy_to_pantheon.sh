@@ -45,6 +45,9 @@ cp $BUILD_DIR/pantheon.yml .
 echo -e "\n${txtylw}Rsyncing $BUILD_DIR/vendor ${txtrst}"
 rsync -a $BUILD_DIR/vendor/* ./vendor/
 
+echo -e "\nRemoving instances of node_modules ${txtrst}"
+find . -name 'node_modules' -type d -print0|xargs -0 rm -r --
+
 echo -e "\n${txtylw}Forcibly adding all files and committing${txtrst}"
 git add -A --force .
 git commit -m "Circle CI build $CIRCLE_BUILD_NUM by $CIRCLE_PROJECT_USERNAME from commit CIRCLE_SHA1"

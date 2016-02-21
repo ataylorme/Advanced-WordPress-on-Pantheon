@@ -34,12 +34,16 @@ git clone $PANTHEON_GIT_URL pantheon
 cd pantheon
 
 mkdir -p public
+mkdir -p vendor
 
 echo -e "\n${txtylw}Rsyncing $BUILD_DIR/public ${txtrst}"
-rsync -a $BUILD_DIR/public/* .
+rsync -a $BUILD_DIR/public/* ./public/
 
 echo -e "\n${txtylw}Copying $BUILD_DIR/pantheon.yml ${txtrst}"
 cp $BUILD_DIR/pantheon.yml .
+
+echo -e "\n${txtylw}Rsyncing $BUILD_DIR/vendor ${txtrst}"
+rsync -a $BUILD_DIR/vendor/* ./vendor/
 
 echo -e "\n${txtylw}Forcibly adding all files and committing${txtrst}"
 git add -A --force .

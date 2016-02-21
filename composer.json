@@ -63,6 +63,7 @@
   "scripts": {
     "post-update-cmd": [
       "rsync -a vendor/pantheon-systems/WordPress/* public/",
+      "rm -rf vendor/pantheon-systems/WordPress",
       "sed -i \"2s|^|/**\\n * Require Composer autoloader\\n */\\nrequire_once( realpath( __DIR__ . '/..' ) . '/vendor/autoload.php' );\\n\\n|\" public/wp-config.php"
     ]
   }

@@ -171,3 +171,6 @@ gulp.task('watch', ['assets'], () => {
 
 // Default task
 gulp.task('default', ['browserSync', 'watch']);
+
+// Build task
+gulp.task('build', ['assets']);

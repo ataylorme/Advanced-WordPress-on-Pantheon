@@ -169,8 +169,8 @@ gulp.task('watch', ['assets'], () => {
     return buildScript(JSpaths.src, true);
 });
 
-// Default task
-gulp.task('default', ['browserSync', 'watch']);
+// Default task is to build assets
+gulp.task('default', ['assets']);
 
-// Build task
-gulp.task('build', ['assets']);
+// Watch task
+gulp.task('build', [['browserSync', 'watch']]);

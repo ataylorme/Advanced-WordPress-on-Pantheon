@@ -51,11 +51,3 @@ git commit -m "Circle CI build $CIRCLE_BUILD_NUM by $CIRCLE_PROJECT_USERNAME fro
 
 echo -e "\n${txtylw}Pushing to pantheon  ${txtrst}"
 git push --force origin master
-
-pwd
-ls
-find . -type d -name "twentysixteen-child"
-ls public
-ls public/wp-content/themes
-ls public/wp-content/plugins
-ls vendor

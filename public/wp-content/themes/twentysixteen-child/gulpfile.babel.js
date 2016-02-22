@@ -6,8 +6,6 @@ import browserify from 'browserify';
 import babelify from 'babelify';
 import watchify from 'watchify';
 import buffer from 'vinyl-buffer';
-import chalk from 'chalk';
-
 
 var $ = require('gulp-load-plugins')({
         pattern: ['gulp-*', 'gulp.*', 'main-bower-files'],

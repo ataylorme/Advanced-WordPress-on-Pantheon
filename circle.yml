@@ -12,6 +12,7 @@ machine:
 dependencies:
   cache_directories:
     - ~/.composer/cache
+    - node_modules
 
   pre:
     # Dynamic hosts through Pantheon mean constantly checking interactively

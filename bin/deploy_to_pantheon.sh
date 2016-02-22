@@ -45,6 +45,12 @@ cp $BUILD_DIR/pantheon.yml .
 echo -e "\n${txtylw}Rsyncing $BUILD_DIR/vendor ${txtrst}"
 rsync -a $BUILD_DIR/vendor/* ./vendor/
 
+echo -e "\n${txtylw}Removing all '.svn' directories${txtrst}"
+find . -name '.svn' -type d -exec rm -rf {} \;
+
+echo -e "\n${txtylw}Removing all 'node_modules' directories${txtrst}"
+find . -name 'node_modules' -type d -exec rm -rf {} \;
+
 echo -e "\n${txtylw}Forcibly adding all files and committing${txtrst}"
 git add -A --force .
 git commit -m "Circle CI build $CIRCLE_BUILD_NUM by $CIRCLE_PROJECT_USERNAME from commit https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$CIRCLE_SHA1"

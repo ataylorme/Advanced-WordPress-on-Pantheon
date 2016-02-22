@@ -59,8 +59,8 @@ do
 
 	# Create symlink to ~/node_modules, which is cached
 	CURRENT_DIR=${PWD##*/}
-	echo -e "\n${txtylw}Creating symlink to $HOME/$CURRENT_DIR ${txtrst}"
-	ln -s $HOME/$CURRENT_DIR ./node_modules
+	echo -e "\n${txtylw}Creating symlink to $HOME/node_modules/$CURRENT_DIR ${txtrst}"
+	ln -s $HOME/node_modules/$CURRENT_DIR ./node_modules
 
 	# Install any dependencies, if we find packages.json
 	echo -e "\n${txtylw}package.json found, running 'npm install' ${txtrst}"

@@ -57,6 +57,11 @@ do
 	echo -e "\n${txtylw}gulpfile found, changing directories into: ${d%/*} ${txtrst}"
 	cd ${d%/*}
 
+	# Create symlink to ~/node_modules, which is cached
+	CURRENT_DIR=${PWD##*/}
+	echo -e "\n${txtylw}Creating symlink to $HOME/$CURRENT_DIR ${txtrst}"
+	ln -s $HOME/$CURRENT_DIR ./node_modules
+
 	# Install any dependencies, if we find packages.json
 	echo -e "\n${txtylw}package.json found, running 'npm install' ${txtrst}"
 	[ -f 'package.json' ] && npm install

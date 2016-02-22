@@ -39,9 +39,6 @@ dependencies:
   override:
     - ./bin/build.sh
 
-  post:
-    - gitRoot=$(pwd)
-
 
 test:
   override:

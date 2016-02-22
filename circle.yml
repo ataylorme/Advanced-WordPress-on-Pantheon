@@ -10,6 +10,9 @@ machine:
     wp-best-practices.dev: 127.0.0.1
 
 dependencies:
+  cache_directories:
+    - ~/.composer/cache
+
   pre:
     # Dynamic hosts through Pantheon mean constantly checking interactively
     # that we mean to connect to an unknown host. We ignore those here.

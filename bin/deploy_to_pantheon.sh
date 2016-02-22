@@ -23,9 +23,7 @@ terminus auth login --machine-token=$TERMINUS_MACHINE_TOKEN
 echo -e "\n${txtylw}Creating a backup of the dev environment for site $PANTHEON_SITE_UUID ${txtrst}"
 terminus site backups create --element=all --site=$PANTHEON_SITE_UUID --env=dev
 
-# Clone deployment repository.
-echo -e "\n${txtylw}Cloning $PANTHEON_CODE ${txtrst}"
-git clone $PANTHEON_CODE pantheon
+COMMIT_MESSAGE="$(git show --name-only --decorate)"
 
 cd $HOME
 echo -e "\n${txtylw}Cloning Pantheon repository into $HOME/pantheon  ${txtrst}"
@@ -53,7 +51,7 @@ find . -name 'node_modules' -type d -exec rm -rf {} \;
 
 echo -e "\n${txtylw}Forcibly adding all files and committing${txtrst}"
 git add -A --force .
-git commit -m "Circle CI build $CIRCLE_BUILD_NUM by $CIRCLE_PROJECT_USERNAME from commit https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$CIRCLE_SHA1"
+git commit -m "Circle CI build $CIRCLE_BUILD_NUM by $CIRCLE_PROJECT_USERNAME from commit https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/commit/$CIRCLE_SHA1:\n$COMMIT_MESSAGE"
 
 echo -e "\n${txtylw}Pushing to pantheon  ${txtrst}"
 git push --force origin master

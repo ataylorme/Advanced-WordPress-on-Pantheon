@@ -14,7 +14,6 @@ txtrst=$(tput sgr0) # Text reset.
 
 
 JSON=composer.json
-VENDOR=./vendor
 EXE=composer
 
 # CI options
@@ -34,11 +33,20 @@ then
 	exit 1
 fi
 
-COMPOSER_PARMS="--no-ansi --no-dev --no-interaction --optimize-autoloader --no-progress"
+COMPOSER_PARMS="--no-ansi --no-dev --no-interaction --optimize-autoloader --no-progress --no-scripts"
 
 # Install Composer dependencies
-echo -e "\n${txtylw} Invoking: $FOUND install $COMPOSER_PARMS ${txtrst}"
+echo -e "\n${txtylw}Invoking: $FOUND install $COMPOSER_PARMS ${txtrst}"
 $FOUND install $COMPOSER_PARMS
+
+echo -e "\n${txtylw}Rsyncing Pantheon WordPress to public/ ${txtrst}"
+rsync -a vendor/pantheon-systems/wordpress/* public/
+
+echo -e "\n${txtylw}Creating public/wp-config.php ${txtrst}"
+rm public/wp-config.php
+cp wp-config.php public/wp-config.php
+PANTHEON_WP_CONFIG_CONTENT="$(tail -n +2 vendor/pantheon-systems/wordpress/wp-config.php)"
+echo $PANTHEON_WP_CONFIG_CONTENT >> public/wp-config.php
 
 EXE=gulp
 
@@ -50,6 +58,7 @@ then
 fi
 
 # Look for gulpfile.js occurrences NOT in node_modules
+echo -e "\n${txtylw}Looking for gulpfile.js occurrences NOT in node_modules.. ${txtrst}"
 FILE=gulpfile.*js
 for d in `find . \( -name node_modules -or -name components \) -prune -o -name "$FILE" | grep "$FILE"`
 do

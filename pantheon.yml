@@ -1,5 +1,8 @@
 api_version: 1
 
+environment:
+  DOCROOT: public
+
 workflows:
   sync_code:
     after:

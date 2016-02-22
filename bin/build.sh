@@ -34,7 +34,7 @@ then
 	exit 1
 fi
 
-COMPOSER_PARMS="--no-ansi --no-dev --no-interaction --optimize-autoloader --prefer-source"
+COMPOSER_PARMS="--no-ansi --no-dev --no-interaction --optimize-autoloader --no-progress"
 
 # Install Composer dependencies
 echo -e "\n${txtylw} Invoking: $FOUND install $COMPOSER_PARMS ${txtrst}"

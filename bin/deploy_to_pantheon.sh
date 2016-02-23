@@ -16,13 +16,6 @@ echo -e "\n${txtylw}Installing Terminus ${txtrst}"
 sudo curl https://github.com/pantheon-systems/cli/releases/download/0.10.4/terminus.phar -L -o /usr/local/bin/terminus
 sudo chmod +x /usr/local/bin/terminus
 
-# Log into terminus.
-echo -e "\n${txtylw}Logging into Terminus ${txtrst}"
-terminus auth login --machine-token=$PANTHEON_MACHINE_TOKEN
-
-echo -e "\n${txtylw}Creating a backup of the dev environment for site $PANTHEON_SITE_UUID ${txtrst}"
-terminus site backups create --element=all --site=$PANTHEON_SITE_UUID --env=dev
-
 COMMIT_MESSAGE="$(git show --name-only --decorate)"
 
 cd $HOME
@@ -30,6 +23,13 @@ echo -e "\n${txtylw}Cloning Pantheon repository into $HOME/pantheon  ${txtrst}"
 git clone $PANTHEON_GIT_URL pantheon
 
 cd pantheon
+
+# Log into terminus.
+echo -e "\n${txtylw}Logging into Terminus ${txtrst}"
+terminus auth login --machine-token=$PANTHEON_MACHINE_TOKEN
+
+echo -e "\n${txtylw}Creating a backup of the dev environment for site $PANTHEON_SITE_UUID ${txtrst}"
+terminus site backups create --element=all --site=$PANTHEON_SITE_UUID --env=dev
 
 mkdir -p public
 mkdir -p vendor

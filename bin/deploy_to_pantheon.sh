@@ -18,7 +18,7 @@ sudo chmod +x /usr/local/bin/terminus
 
 # Log into terminus.
 echo -e "\n${txtylw}Logging into Terminus ${txtrst}"
-terminus auth login --machine-token=$TERMINUS_MACHINE_TOKEN
+terminus auth login --machine-token=$PANTHEON_MACHINE_TOKEN
 
 echo -e "\n${txtylw}Creating a backup of the dev environment for site $PANTHEON_SITE_UUID ${txtrst}"
 terminus site backups create --element=all --site=$PANTHEON_SITE_UUID --env=dev

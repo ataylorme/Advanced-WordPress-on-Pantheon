@@ -53,6 +53,9 @@ sed -i -e '$a\' public/wp-config.php
 PANTHEON_WP_CONFIG_CONTENT="$(tail -n +2 public/wp/wp-config.php)"
 echo "$PANTHEON_WP_CONFIG_CONTENT" >> public/wp-config.php
 
+echo -e "\n${txtylw}Removing Pantheon wp-config.php (public/wp/wp-config.php) ${txtrst}"
+rm public/wp/wp-config.php
+
 EXE=gulp
 
 FOUND=`which $EXE`

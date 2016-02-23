@@ -16,7 +16,8 @@ require_once( $rootPath . '/vendor/autoload.php' );
 /**
  * Set URL
  */
-$server_url = rtrim( $_SERVER['HTTP_HOST'], '/\\' ) . '/';
+$server_url = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '')
+    .  '://' . rtrim( $_SERVER['HTTP_HOST'], '/\\' ) . '/';
 
 /**
  * Set custom paths.

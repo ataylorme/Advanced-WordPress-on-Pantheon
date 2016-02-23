@@ -78,12 +78,3 @@ define( 'WPLANG', '' );
  * Use something other than `wp_` for security
  */
 $table_prefix = getenv( 'DB_PREFIX' ) !== false ? getenv( 'DB_PREFIX' ) : 'wp_';
-
-/**
- * Absolute path to the WordPress directory
- */
-if ( ! defined( 'ABSPATH' ) ) {
-    define( 'ABSPATH', dirname( __FILE__ ) . '/' );
-}
-
-require_once( ABSPATH . 'wp-settings.php' );

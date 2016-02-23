@@ -39,14 +39,19 @@ COMPOSER_PARMS="--no-ansi --no-dev --no-interaction --optimize-autoloader --no-p
 echo -e "\n${txtylw}Invoking: $FOUND install $COMPOSER_PARMS ${txtrst}"
 $FOUND install $COMPOSER_PARMS
 
-echo -e "\n${txtylw}Rsyncing Pantheon WordPress to public/ ${txtrst}"
-rsync -a vendor/pantheon-systems/wordpress/* public/
+echo -e "\n${txtylw}Rsyncing Pantheon WordPress to public/wp/ ${txtrst}"
+rsync -a vendor/pantheon-systems/wordpress/* public/wp/
+
+echo -e "\n${txtylw}Rsyncing Pantheon WordPress mu-plugins ${txtrst}"
+rsync -a public/wp/wp-content/mu-plugins/* public/wp-content/mu-plugins/
 
 echo -e "\n${txtylw}Creating public/wp-config.php ${txtrst}"
-rm public/wp-config.php
+[ -f 'public/wp-config.php' ] && rm public/wp-config.php
 cp wp-config.php public/wp-config.php
-PANTHEON_WP_CONFIG_CONTENT="$(tail -n +2 vendor/pantheon-systems/wordpress/wp-config.php)"
-echo $PANTHEON_WP_CONFIG_CONTENT >> public/wp-config.php
+sed -i -e '$a\' public/wp-config.php
+# Strip the first line to avoid the opening php tag
+PANTHEON_WP_CONFIG_CONTENT="$(tail -n +2 public/wp/wp-config.php)"
+echo "$PANTHEON_WP_CONFIG_CONTENT" >> public/wp-config.php
 
 EXE=gulp
 
@@ -66,21 +71,22 @@ do
 	echo -e "\n${txtylw}gulpfile found, changing directories into: ${d%/*} ${txtrst}"
 	cd ${d%/*}
 
-	# Create symlink to ~/node_modules, which is cached
+	# ~/node_modules is cached on Circles CI
 	CURRENT_DIR=${PWD##*/}
-	echo -e "\n${txtylw}Creating symlink to $HOME/node_modules/$CURRENT_DIR ${txtrst}"
-	ln -s $HOME/node_modules/$CURRENT_DIR ./node_modules
+	echo -e "\n${txtylw}Moving $HOME/node_modules/$CURRENT_DIR to node_modules${txtrst}"
+	mkdir -p $HOME/node_modules/$CURRENT_DIR
+	mv $HOME/node_modules/$CURRENT_DIR ./node_modules
 
 	# Install any dependencies, if we find packages.json
-	echo -e "\n${txtylw}package.json found, running 'npm install' ${txtrst}"
+	[ -f 'package.json' ] && echo -e "\n${txtylw}package.json found, running 'npm install' ${txtrst}"
 	[ -f 'package.json' ] && npm install
 
 	# Run gulp
 	echo -e "\n${txtylw}Running 'gulp' ${txtrst}"
 	$FOUND
 
-	echo -e "\n${txtylw}Removing 'node_modules' ${txtrst}"
-	rm -rf node_modules
+	echo -e "\n${txtylw}Moving node_modules back to $HOME/node_modules/$CURRENT_DIR to cache it for next time${txtrst}"
+	mv ./node_modules $HOME/node_modules/$CURRENT_DIR
 
 	# Change back again
 	echo -e "\n${txtylw}changed directories back into: ${txtrst}"

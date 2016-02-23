@@ -37,6 +37,9 @@ mkdir -p vendor
 echo -e "\n${txtylw}Rsyncing $BUILD_DIR/public ${txtrst}"
 rsync -a $BUILD_DIR/public/* ./public/
 
+echo -e "\n${txtylw}Copying object-cache.php from Redis plugin to wp-content ${txtrst}"
+cp public/wp-content/plugins/wp-redis/object-cache.php public/wp-content/object-cache.php
+
 echo -e "\n${txtylw}Copying $BUILD_DIR/pantheon.yml ${txtrst}"
 cp $BUILD_DIR/pantheon.yml .
 

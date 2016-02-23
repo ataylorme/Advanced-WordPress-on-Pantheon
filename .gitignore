@@ -20,7 +20,6 @@ public/*
 !public/wp-content/
 public/wp-content/*
 !public/wp-config-local.php
-!public/index.php
 !public/wp-content/mu-plugins/
 public/wp-content/mu-plugins/*
 !public/wp-content/plugins/

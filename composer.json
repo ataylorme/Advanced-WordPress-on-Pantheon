@@ -21,15 +21,15 @@
       "type": "package",
       "package": {
         "name": "pantheon-systems/wordpress",
-        "version": "4.4.2",
+        "version": "4.5.2",
         "dist": {
-          "url": "https://github.com/pantheon-systems/WordPress/archive/4.4.2.zip",
+          "url": "https://github.com/pantheon-systems/WordPress/archive/master.zip",
           "type": "zip"
         },
         "source": {
           "url": "git@github.com:pantheon-systems/WordPress.git",
           "type": "git",
-          "reference": "tags/4.4.2"
+          "reference": "master"
         }
       }
     }
@@ -41,7 +41,7 @@
     "wpackagist-plugin/wp-redis": "~0.3.0",
     "wpackagist-plugin/wp-native-php-sessions": "~0.4",
     "wpackagist-plugin/wp-cfm": "~1.4.3",
-    "pantheon-systems/wordpress": "4.4.2"
+    "pantheon-systems/wordpress": "4.5.2"
   },
   "config": {
     "vendor-dir": "vendor",

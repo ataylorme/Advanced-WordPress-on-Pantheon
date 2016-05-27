@@ -41,7 +41,8 @@
     "wpackagist-plugin/wp-redis": "~0.3.0",
     "wpackagist-plugin/wp-native-php-sessions": "~0.4",
     "wpackagist-plugin/wp-cfm": "~1.4.3",
-    "pantheon-systems/wordpress": "4.5.2"
+    "pantheon-systems/wordpress": "4.5.2",
+    "roots/wp-password-bcrypt": "^1.0"
   },
   "config": {
     "vendor-dir": "vendor",
@@ -49,13 +50,13 @@
   },
   "extra": {
     "installer-paths": {
-      "public/wp-content/plugins/{$name}/": [
+      "web/wp-content/plugins/{$name}/": [
         "type:wordpress-plugin"
       ],
-      "public/wp-content/themes/{$name}/": [
+      "web/wp-content/themes/{$name}/": [
         "type:wordpress-theme"
       ],
-      "public/": [
+      "web/": [
         "pantheon-systems/wordpress"
       ]
     }

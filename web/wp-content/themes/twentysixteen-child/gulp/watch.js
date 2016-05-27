@@ -7,7 +7,7 @@ export default () => {
     gulp.watch([sassPaths.src + '**/*'], ['styles']);
 
     // Reload the page when a PHP file changes
-    gulp.watch('**/*.php').on('change', browserSync.reload);
+    gulp.watch('**/*.php').on('change', reload);
 
     // buildScript will run watchify since watch is set to true
     return buildScript(JSpaths.mainFile, true);

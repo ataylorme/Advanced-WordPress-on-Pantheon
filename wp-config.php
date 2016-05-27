@@ -3,15 +3,7 @@
  * Custom wp-config.php settings
  */
 
-/**
- * Set root path
- */
-$rootPath = realpath( __DIR__ . '/..' );
-
-/**
- * Include the Composer autoload
- */
-require_once( $rootPath . '/vendor/autoload.php' );
+require_once(dirname(__DIR__) . '/vendor/autoload.php');
 
 /**
  * Disallow on server file edits

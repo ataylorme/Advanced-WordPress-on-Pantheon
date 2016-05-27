@@ -39,16 +39,16 @@ COMPOSER_PARMS="--no-ansi --no-dev --no-interaction --optimize-autoloader --no-p
 echo -e "\n${txtylw}Invoking: $FOUND install $COMPOSER_PARMS ${txtrst}"
 $FOUND install $COMPOSER_PARMS
 
-echo -e "\n${txtylw}Rsyncing Pantheon WordPress to public/wp/ ${txtrst}"
-rsync -a vendor/pantheon-systems/wordpress/* public/
+echo -e "\n${txtylw}Rsyncing Pantheon WordPress to web/ ${txtrst}"
+rsync -a vendor/pantheon-systems/wordpress/* web/
 
-echo -e "\n${txtylw}Creating public/wp-config.php ${txtrst}"
-[ -f 'public/wp-config.php' ] && rm public/wp-config.php
-cp wp-config.php public/wp-config.php
-sed -i -e '$a\' public/wp-config.php
+echo -e "\n${txtylw}Creating web/wp-config.php ${txtrst}"
+[ -f 'web/wp-config.php' ] && rm web/wp-config.php
+cp wp-config.php web/wp-config.php
+sed -i -e '$a\' web/wp-config.php
 # Strip the first line to avoid the opening php tag
 PANTHEON_WP_CONFIG_CONTENT="$(tail -n +2 vendor/pantheon-systems/wordpress/wp-config.php)"
-echo "$PANTHEON_WP_CONFIG_CONTENT" >> public/wp-config.php
+echo "$PANTHEON_WP_CONFIG_CONTENT" >> web/wp-config.php
 
 EXE=gulp
 

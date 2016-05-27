@@ -15,19 +15,19 @@ node_modules/
 
 # Webroot #
 ###########
-!public/
-public/*
-!public/wp-content/
-public/wp-content/*
-!public/wp-config-local.php
-!public/wp-content/mu-plugins/
-public/wp-content/mu-plugins/*
-!public/wp-content/plugins/
-public/wp-content/plugins/*
-!public/wp-content/themes
-public/wp-content/themes/*
-!public/wp-content/themes/twentysixteen-child/
-!public/wp-content/config/
+!web/
+web/*
+!web/wp-content/
+web/wp-content/*
+!web/wp-config-local.php
+!web/wp-content/mu-plugins/
+web/wp-content/mu-plugins/*
+!web/wp-content/plugins/
+web/wp-content/plugins/*
+!web/wp-content/themes
+web/wp-content/themes/*
+!web/wp-content/themes/twentysixteen-child/
+!web/wp-content/config/
 
 # Packages #
 ############

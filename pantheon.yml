@@ -1,7 +1,7 @@
 api_version: 1
 
 environment:
-  DOCROOT: public
+  DOCROOT: web
 
 workflows:
   sync_code:

@@ -31,14 +31,14 @@ terminus auth login --machine-token=$PANTHEON_MACHINE_TOKEN
 echo -e "\n${txtylw}Creating a backup of the dev environment for site $PANTHEON_SITE_UUID ${txtrst}"
 terminus site backups create --element=all --site=$PANTHEON_SITE_UUID --env=dev
 
-mkdir -p public
+mkdir -p web
 mkdir -p vendor
 
-echo -e "\n${txtylw}Rsyncing $BUILD_DIR/public ${txtrst}"
-rsync -a $BUILD_DIR/public/* ./public/
+echo -e "\n${txtylw}Rsyncing $BUILD_DIR/web ${txtrst}"
+rsync -a $BUILD_DIR/web/* ./web/
 
 echo -e "\n${txtylw}Copying object-cache.php from Redis plugin to wp-content ${txtrst}"
-cp public/wp-content/plugins/wp-redis/object-cache.php public/wp-content/object-cache.php
+cp web/wp-content/plugins/wp-redis/object-cache.php web/wp-content/object-cache.php
 
 echo -e "\n${txtylw}Copying $BUILD_DIR/pantheon.yml ${txtrst}"
 cp $BUILD_DIR/pantheon.yml .

@@ -1,1 +1,1 @@
-console.log('TwentySixeteen Child Theme Initializing!');
+console.log('TwentySixteen Child Theme Initializing!');

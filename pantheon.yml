@@ -14,3 +14,4 @@ workflows:
       - type: webphp
         description: Pull WP-CFM "All Bundles" after deploying to test or live
         script: private/scripts/wp_cfm_pull.php
+

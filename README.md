@@ -43,7 +43,7 @@ These items are outstanding:
 * Example visual regression test
 * Example unit test
 * Add example for using Grunt instead of gulp to bin/build.sh
-* Add example of using a host besides Github for the source repository
+* Add example of using a git host besides Github for the source repository
 
 ## Circle CI Setup
 The following sensitive variables will need to be 
@@ -71,17 +71,17 @@ These steps only need to be performed once, unless noted.
 * Install Composer if not already installed
 * Run `composer update`
     * `composer update` will need to be ran after any changes to `composer.json`
-* Copy `sample.env` to `.env` and update the value accordingly
+* Copy `sample.env` to `.env` and update the values accordingly
 * Install Node JS and NPM if not already installed
 * Open a new terminal window
-* Run `npm install` from the `public/wp-content/themes/twentysixteen-child` directory
-    * `npm install` will need to be ran after any changes to `public/wp-content/themes/twentysixteen-child/package.json` 
+* Run `npm install` from the `web/wp-content/themes/twentysixteen-child` directory
+    * `npm install` will need to be ran after any changes to `web/wp-content/themes/twentysixteen-child/package.json` 
 
 ### Local Development
 The gulp _watch_ task initates a BrowserSync session and watches for:
-* Changes to `public/wp-content/themes/twentysixteen-child/source/css/twentysixteen-child.scss`, recompiling the CSS build files and injecting changes into the browser
-* Changes to `public/wp-content/themes/twentysixteen-child/source/js/twentysixteen-child.js`, recompiling the JavaScript build files and reloading the browser
-* Changes to and `.php` files in the `public/wp-content/themes/twentysixteen-child` directory, reloading the browser
+* Changes to `web/wp-content/themes/twentysixteen-child/source/css/twentysixteen-child.scss`, recompiling the CSS build files and injecting changes into the browser
+* Changes to `web/wp-content/themes/twentysixteen-child/source/js/twentysixteen-child.js`, recompiling the JavaScript build files and reloading the browser
+* Changes to and `.php` files in the `web/wp-content/themes/twentysixteen-child` directory, reloading the browser
 
-To start the watch task run `gulp watch` from the `public/wp-content/themes/twentysixteen-child` directory.
+To start the watch task run `gulp watch` from the `web/wp-content/themes/twentysixteen-child` directory.
 When you are done developing stop the task with `ctrl + c`.

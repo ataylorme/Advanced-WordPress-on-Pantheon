@@ -1,7 +1,5 @@
 api_version: 1
 
-web_docroot: true
-
 environment:
   DOCROOT: web
 

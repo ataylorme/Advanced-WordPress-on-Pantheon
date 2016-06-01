@@ -1,7 +1,6 @@
 api_version: 1
 
-environment:
-  web_docroot: true
+web_docroot: true
 
 workflows:
   sync_code:

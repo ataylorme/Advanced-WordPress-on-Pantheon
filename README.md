@@ -33,7 +33,7 @@
 
 ## Purpose
 This repository is an example of an advanced WordPress 
-deployment workflow on Pantheon integrating tool such as:
+deployment workflow on Pantheon integrating tools such as:
 * Asset compilation with gulp
 * Dependency management with Composer
 * Build process on Circle CI
@@ -44,6 +44,11 @@ These items are outstanding:
 * Example unit test
 * Add example for using Grunt instead of gulp to bin/build.sh
 * Add example of using a git host besides Github for the source repository
+* Add a Slack notification when Circle builds complete, linking to the Pantheon site dashboard
+
+## Warning!
+This repository uses an alternate docroot on Pantheon. This feature is pre-release and considered experimental. Do NOT use in production.
+If you would like to follow the public progress of the alternate docroot feature see [issue 1651 of the Pantheon documentation repository](https://github.com/pantheon-systems/documentation/issues/1651).
 
 ## Circle CI Setup
 The following sensitive variables will need to be 

@@ -86,7 +86,7 @@ These steps only need to be performed once, unless noted.
 The gulp _watch_ task initates a BrowserSync session and watches for:
 * Changes to `web/wp-content/themes/twentysixteen-child/source/css/twentysixteen-child.scss`, recompiling the CSS build files and injecting changes into the browser
 * Changes to `web/wp-content/themes/twentysixteen-child/source/js/twentysixteen-child.js`, recompiling the JavaScript build files and reloading the browser
-* Changes to and `.php` files in the `web/wp-content/themes/twentysixteen-child` directory, reloading the browser
+* Changes to `.php` files in the `web/wp-content/themes/twentysixteen-child` directory, reloading the browser
 
 To start the watch task run `gulp watch` from the `web/wp-content/themes/twentysixteen-child` directory.
 When you are done developing stop the task with `ctrl + c`.

@@ -19,6 +19,7 @@ dependencies:
     - ~/.terminus/tokens
     - /home/ubuntu/nvm/versions/node/4.3.1/bin
     - /home/ubuntu/nvm/versions/node/4.3.1/lib/node_modules
+    - /usr/local/bin/terminus
 
   pre:
     # Dynamic hosts through Pantheon mean constantly checking interactively
@@ -52,6 +53,6 @@ test:
 
 deployment:
   pantheon:
-    branch: master
+    branch: /.*/
     commands:
       - ./bin/deploy_to_pantheon.sh

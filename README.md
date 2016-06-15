@@ -65,6 +65,12 @@ stored in Circle CI as environment variables
     * Username of the account used to make Git commits to the Pantheon repository
 * GIT_TOKEN
     * A Github token with read access to the source repository
+* SLACK_CHANNEL
+	* The name of the Slack channel to post messages to
+* SLACK_USERNAME
+	* The username to post Slack messages with
+* SLACK_HOOK_URL
+	* The Slack hook URL in the format of `https://hooks.slack.com/services/XXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX`
 
 ## Local Setup
 In order to develop the site locally a few steps need to be completed. 

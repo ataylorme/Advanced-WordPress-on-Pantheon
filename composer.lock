@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "885d562eaa0356fb726b141f253e14ab",
-    "content-hash": "eff2cc07ac43a3f95a2e90aa05808b5b",
+    "hash": "baeaf6390a4c8f6f50945c2d2af908bc",
+    "content-hash": "4a9cc9906fff72a48f55833d40215236",
     "packages": [
         {
             "name": "composer/installers",
@@ -119,7 +119,7 @@
             "dist": {
                 "type": "zip",
                 "url": "https://github.com/pantheon-systems/WordPress/archive/master.zip",
-                "reference": null,
+                "reference": "master",
                 "shasum": null
             },
             "type": "library"
@@ -187,24 +187,24 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "11a353b704488944a7477b229d119fe1cfa56f68"
+                "reference": "8c9a0b50a1dbd69dc7c73a492d8825cccc147c7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/11a353b704488944a7477b229d119fe1cfa56f68",
-                "reference": "11a353b704488944a7477b229d119fe1cfa56f68",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/8c9a0b50a1dbd69dc7c73a492d8825cccc147c7f",
+                "reference": "8c9a0b50a1dbd69dc7c73a492d8825cccc147c7f",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.9"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8|^5.0"
+                "phpunit/phpunit": "^4.8 || ^5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -224,20 +224,19 @@
                 }
             ],
             "description": "Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.",
-            "homepage": "http://github.com/vlucas/phpdotenv",
             "keywords": [
                 "dotenv",
                 "env",
                 "environment"
             ],
-            "time": "2016-02-11 08:44:10"
+            "time": "2016-06-14 16:39:40"
         },
         {
             "name": "wpackagist-plugin/wp-cfm",
-            "version": "1.4.3",
+            "version": "1.4.4",
             "source": {
                 "type": "svn",
-                "url": "http://plugins.svn.wordpress.org/wp-cfm/",
+                "url": "https://plugins.svn.wordpress.org/wp-cfm/",
                 "reference": "trunk"
             },
             "dist": {
@@ -254,15 +253,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-native-php-sessions",
-            "version": "0.4",
+            "version": "0.5",
             "source": {
                 "type": "svn",
-                "url": "http://plugins.svn.wordpress.org/wp-native-php-sessions/",
-                "reference": "trunk"
+                "url": "https://plugins.svn.wordpress.org/wp-native-php-sessions/",
+                "reference": "tags/0.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-native-php-sessions.zip",
+                "url": "https://downloads.wordpress.org/plugin/wp-native-php-sessions.0.5.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -274,15 +273,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-redis",
-            "version": "0.3.0",
+            "version": "0.5.0",
             "source": {
                 "type": "svn",
-                "url": "http://plugins.svn.wordpress.org/wp-redis/",
-                "reference": "tags/0.3.0"
+                "url": "https://plugins.svn.wordpress.org/wp-redis/",
+                "reference": "tags/0.5.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-redis.0.3.0.zip",
+                "url": "https://downloads.wordpress.org/plugin/wp-redis.0.5.0.zip",
                 "reference": null,
                 "shasum": null
             },

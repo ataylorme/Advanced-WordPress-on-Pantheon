@@ -3,13 +3,35 @@ api_version: 1
 web_docroot: true
 
 workflows:
-  sync_code:
-    after:
-      - type: webphp
-        description: Pull WP-CFM "All Bundles" after pushing code
-        script: private/scripts/wp_cfm_pull.php
-  deploy:
-    after:
-      - type: webphp
-        description: Pull WP-CFM "All Bundles" after deploying to test or live
-        script: private/scripts/wp_cfm_pull.php
+    # Code Sync: Making Magic Happen With Each Commit
+    sync_code:
+      after:
+        - type: webphp
+          description: posting to Slack about the commit
+          script: private/scripts/slack_after_code_push.php
+
+    # Deploy: Making Magic Happen in the Test Environment
+    deploy:
+      before:
+        - type: webphp
+          description: posting to Slack about the deployment
+          script: private/scripts/slack_notification.php
+      after:
+        - type: webphp
+          description: importing the WP-CFM config into the site
+          script: private/scripts/import_config_wp.php
+        - type: webphp
+          description: running a cross browser test with Spotbot.qa
+          script: private/scripts/spotbot_visualregression.php
+        - type: webphp
+          description: running a visual regression test with Backtrac.io
+          script: private/scripts/backtrac_visualregression.php
+        - type: webphp
+          description: running a performance test with Loadimpact.com
+          script: private/scripts/loadimpact_performance.php
+
+    clone_database:
+      after:
+        - type: webphp
+          description: Pull environment specific config using wp-cfm after cloning db
+          script: private/scripts/import_config_wp.php

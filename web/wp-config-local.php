@@ -19,7 +19,6 @@ if ( file_exists( $rootPath . '/.env' ) ) {
     $dotenv->required( array(
         'DB_NAME',
         'DB_USER',
-        'DB_PASSWORD',
         'DB_HOST',
     ))->notEmpty();
 }
@@ -30,6 +29,7 @@ if ( file_exists( $rootPath . '/.env' ) ) {
 define( 'DB_NAME', getenv( 'DB_NAME' ) );
 define( 'DB_USER', getenv( 'DB_USER' ) );
 define( 'DB_PASSWORD', getenv( 'DB_PASSWORD' ) );
+define( 'DB_PASSWORD', getenv( 'DB_PASSWORD' ) !== false ? getenv( 'DB_PASSWORD' ) : '' );
 define( 'DB_HOST', getenv( 'DB_HOST' ) );
 
 /**

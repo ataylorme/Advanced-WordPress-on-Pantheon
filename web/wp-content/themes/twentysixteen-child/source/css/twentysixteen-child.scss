@@ -1,3 +1,8 @@
-#page{
-    background: mix(lightgrey, white);
+#secondary{
+    background: mix(lightblue, white);
+    padding: 1em;
+    section:first-of-type{
+        padding-top: 0;
+        border-top: none;
+    }
 }

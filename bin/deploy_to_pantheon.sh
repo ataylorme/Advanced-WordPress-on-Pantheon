@@ -20,10 +20,18 @@ COMMIT_MESSAGE="$(git show --name-only --decorate)"
 PANTHEON_ENV="dev"
 
 cd $HOME
-echo -e "\n${txtylw}Cloning Pantheon repository into $HOME/pantheon  ${txtrst}"
-git clone $PANTHEON_GIT_URL pantheon
+
+# If the Pantheon directory does not exist
+if [ ! -d "$HOME/pantheon" ]
+then
+	# Clone the Pantheon repo
+	echo -e "\n${txtylw}Cloning Pantheon repository into $HOME/pantheon  ${txtrst}"
+	git clone $PANTHEON_GIT_URL pantheon
+fi
 
 cd pantheon
+
+git fetch
 
 # Log into terminus.
 echo -e "\n${txtylw}Logging into Terminus ${txtrst}"
@@ -36,47 +44,56 @@ if [ $CIRCLE_BRANCH != "master" ]
 then
 
 	# Branch name can't be more than 11 characters
-	BRANCH_LENGTH=${#CIRCLE_BRANCH}
-	if (( $BRANCH_LENGTH > 11 ))
-	then
-		echo -e "\n${txtred}Error: The branch name ${CIRCLE_BRANCH} is longer than 11 characters. ${txtrst}"
-		echo -e "\n${txtylw}Pantheon multidev environments require a branch name of 11 characters or less. Please update your branch name and try again. ${txtrst}"
-	fi
-
-	# Checkout the correct branch
-	if [ `git branch --list $CIRCLE_BRANCH` ]
-	then
-	   git checkout $CIRCLE_BRANCH
-	else
-		git checkout -b $CIRCLE_BRANCH
+	# Normalize branch name to adhere with Multidev requirements
+	export normalize_branch="$CIRCLE_BRANCH"
+	export valid="^[-0-9a-z]" # allows digits 0-9, lower case a-z, and -
+  	if [[ $normalize_branch =~ $valid ]]; then
+		export normalize_branch="${normalize_branch:0:11}"
+		#Remove - to avoid failures
+		export normalize_branch="${normalize_branch//[-_]}"
+		echo "Success: "$normalize_branch" is a valid branch name."
+  	else
+		echo "Error: Multidev cannot be created due to invalid branch name: $normalize_branch"
+		exit 1
 	fi
 
 	# Update the environment variable
-	PANTHEON_ENV="${CIRCLE_BRANCH}"
+	PANTHEON_ENV="${normalize_branch}"
 
-	echo -e "\n${txtylw}Checking for the multidev branch ${CIRCLE_BRANCH} via Terminus ${txtrst}"
+	echo -e "\n${txtylw}Checking for the multidev environment ${normalize_branch} via Terminus ${txtrst}"
 
 	# Get a list of all environments
 	PANTHEON_ENVS="$(terminus site environments --site=$PANTHEON_SITE_UUID --format=bash)"
 	terminus site environments --site=$PANTHEON_SITE_UUID
 
 	# If the multidev for this branch is found
-	if [[ ${PANTHEON_ENVS} == *"${CIRCLE_BRANCH}"* ]]
+	if [[ ${PANTHEON_ENVS} == *"${normalize_branch}"* ]]
 	then
 		echo -e "\n${txtylw}Multidev found! ${txtrst}"
 	else
 		# otherwise, create it
-		echo -e "\n${txtylw}Multidev not found, creating the multidev branch ${CIRCLE_BRANCH} via Terminus ${txtrst}"
-		echo -e "Running terminus site create-env --site=$PANTHEON_SITE_UUID --to-env=$CIRCLE_BRANCH --from-env=dev"
-		terminus site create-env --site=$PANTHEON_SITE_UUID --to-env=$CIRCLE_BRANCH --from-env=dev
-
+		echo -e "\n${txtylw}Multidev not found, creating the multidev branch ${normalize_branch} via Terminus ${txtrst}"
+		echo -e "Running terminus site create-env --site=$PANTHEON_SITE_UUID --to-env=$normalize_branch --from-env=dev"
+		terminus site create-env --site=$PANTHEON_SITE_UUID --to-env=$normalize_branch --from-env=dev
+		git fetch
 	fi
+
+	# Checkout the correct branch
+	GIT_BRANCHES="git show-ref --verify refs/heads/$normalize_branch"
+	if [[ ${GIT_BRANCHES} == *"${normalize_branch}"* ]]
+	then
+		echo -e "\n${txtylw}Branch ${normalize_branch} found, checking it out ${txtrst}"
+    	git checkout $normalize_branch
+  	else
+  		echo -e "\n${txtylw}Branch ${normalize_branch} not found, creating it ${txtrst}"
+		git checkout -b $normalize_branch
+  	fi
 
 	SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#${PANTHEON_ENV}/code|the ${PANTHEON_ENV} environment>! \nTo merge to dev run "'`terminus site merge-to-dev '"--site=${PANTHEON_SITE_UUID} --env=${PANTHEON_ENV}"'`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/merge|the site dashboard>."
 fi
 
-echo -e "\n${txtylw}Creating a backup of the ${PANTHEON_ENV} environment for site ${PANTHEON_SITE_UUID} ${txtrst}"
-terminus site backups create --element=all --site=$PANTHEON_SITE_UUID --env=$PANTHEON_ENV
+#echo -e "\n${txtylw}Creating a backup of the ${PANTHEON_ENV} environment for site ${PANTHEON_SITE_UUID} ${txtrst}"
+#terminus site backups create --element=all --site=$PANTHEON_SITE_UUID --env=$PANTHEON_ENV
 
 mkdir -p web
 mkdir -p vendor
@@ -103,8 +120,8 @@ echo -e "\n${txtylw}Forcibly adding all files and committing${txtrst}"
 git add -A --force .
 git commit -m "Circle CI build $CIRCLE_BUILD_NUM by $CIRCLE_PROJECT_USERNAME" -m "$COMMIT_MESSAGE"
 
-echo -e "\n${txtgrn}Pushing the ${CIRCLE_BRANCH} branch to Pantheon ${txtrst}"
-git push -u origin $CIRCLE_BRANCH --force
+echo -e "\n${txtgrn}Pushing the ${normalize_branch} branch to Pantheon ${txtrst}"
+git push -u origin $normalize_branch --force
 
 #Send a message to Slack
 echo -e "\n${txtgrn}Sending a message to the ${SLACK_CHANNEL} Slack channel ${txtrst}"

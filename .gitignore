@@ -22,12 +22,17 @@ web/wp-content/*
 !web/wp-config-local.php
 !web/wp-content/mu-plugins/
 web/wp-content/mu-plugins/*
+!web/wp-content/mu-plugins/alter_wpcfm_config_path.php
 !web/wp-content/plugins/
 web/wp-content/plugins/*
 !web/wp-content/themes
 web/wp-content/themes/*
 !web/wp-content/themes/twentysixteen-child/
 !web/wp-content/config/
+!web/private/
+web/private/*
+!web/private/config/
+!web/private/scripts/
 
 # Packages #
 ############

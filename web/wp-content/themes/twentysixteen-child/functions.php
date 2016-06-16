@@ -17,7 +17,7 @@ add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts_styles' );
 
 function add_browser_sync_snippet_to_footer() {
 	echo '<script type=\'text/javascript\' id="__bs_script__">//<![CDATA[' . PHP_EOL;
-	echo "\t" . 'document.write("<script async src=\'http://HOST:3000/browser-sync/browser-sync-client.2.12.10.js\'><\/script>".replace("HOST", location.hostname));' . PHP_EOL;
+	echo "\t" . 'document.write("<script async src=\'http://HOST:3000/browser-sync/browser-sync-client.2.13.0.js\'><\/script>".replace("HOST", location.hostname));' . PHP_EOL;
 	echo '//]]></script>' . PHP_EOL;
 }
 

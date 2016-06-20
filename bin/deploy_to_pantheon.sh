@@ -31,6 +31,14 @@ fi
 
 cd pantheon
 
+# If the orphaned wp-content exists
+if [ -d "$HOME/pantheon/wp-content" ]
+then
+	# Remove it
+	echo -e "\n${txtylw}Removing $HOME/pantheon/wp-content ${txtrst}"
+	rm -rf $HOME/pantheon/wp-content
+fi
+
 git fetch
 
 # Log into terminus.
@@ -115,6 +123,9 @@ find . -name '.svn' -type d -exec rm -rf {} \;
 
 echo -e "\n${txtylw}Removing all 'node_modules' directories${txtrst}"
 find . -name 'node_modules' -type d -exec rm -rf {} \;
+
+echo -e "\n${txtylw}Removing 'web/wp-content/uploads' symlink${txtrst}"
+rm web/wp-content/uploads
 
 echo -e "\n${txtylw}Forcibly adding all files and committing${txtrst}"
 git add -A --force .

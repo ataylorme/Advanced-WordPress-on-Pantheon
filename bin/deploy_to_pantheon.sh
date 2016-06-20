@@ -131,8 +131,14 @@ echo -e "\n${txtylw}Forcibly adding all files and committing${txtrst}"
 git add -A --force .
 git commit -m "Circle CI build $CIRCLE_BUILD_NUM by $CIRCLE_PROJECT_USERNAME" -m "$COMMIT_MESSAGE"
 
-echo -e "\n${txtgrn}Pushing the ${normalize_branch} branch to Pantheon ${txtrst}"
-git push -u origin $normalize_branch --force
+if [ $CIRCLE_BRANCH != "master" ]
+then
+	echo -e "\n${txtgrn}Pushing the ${normalize_branch} branch to Pantheon ${txtrst}"
+	git push -u origin $normalize_branch --force
+else
+	echo -e "\n${txtgrn}Pushing the master branch to Pantheon ${txtrst}"
+	git push -u origin master --force
+fi
 
 #Send a message to Slack
 echo -e "\n${txtgrn}Sending a message to the ${SLACK_CHANNEL} Slack channel ${txtrst}"

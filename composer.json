@@ -23,7 +23,7 @@
         "name": "pantheon-systems/wordpress",
         "version": "4.5.2",
         "dist": {
-          "url": "https://github.com/pantheon-systems/WordPress/archive/master.zip",
+          "url": "https://github.com/pantheon-systems/WordPress/archive/4.5.2.zip",
           "type": "zip"
         },
         "source": {

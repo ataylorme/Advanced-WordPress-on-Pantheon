@@ -33,6 +33,13 @@ cd pantheon
 
 git fetch
 
+# If any directories besides web and vendor exist
+for d in `find . ! -name 'web' ! -name 'vendor' ! -name '.git' -type d -maxdepth 1`
+do
+	# Delete them
+	rm -rf ${d%/*}
+done
+
 # Log into terminus.
 echo -e "\n${txtylw}Logging into Terminus ${txtrst}"
 terminus auth login --machine-token=$PANTHEON_MACHINE_TOKEN

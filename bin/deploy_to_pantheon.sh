@@ -37,6 +37,7 @@ git fetch
 for d in `find . ! -name 'web' ! -name 'vendor' ! -name '.git' -type d -maxdepth 1`
 do
 	# Delete them
+	echo -e "\n${txtylw}Removing the directory: ${d%/*} ${txtrst}"
 	rm -rf ${d%/*}
 done
 

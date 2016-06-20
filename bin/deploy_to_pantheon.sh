@@ -45,7 +45,7 @@ git fetch
 echo -e "\n${txtylw}Logging into Terminus ${txtrst}"
 terminus auth login --machine-token=$PANTHEON_MACHINE_TOKEN
 
-SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#${PANTHEON_ENV}/code|the ${PANTHEON_ENV} environment>! \nTo merge to dev run "'`terminus site merge-to-dev --site='"${PANTHEON_SITE_UUID} --env=${PANTHEON_ENV}"'`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/merge|the site dashboard>."
+SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#${PANTHEON_ENV}/code|the ${PANTHEON_ENV} environment>! \nTo deploy to test run "'`terminus site deploy --site='"${PANTHEON_SITE_UUID} --env=test"'`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/merge|the site dashboard>."
 
 # Check if we are NOT on the master branch
 if [ $CIRCLE_BRANCH != "master" ]

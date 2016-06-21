@@ -37,6 +37,8 @@ deployment workflow on Pantheon integrating tools such as:
 * Asset compilation with gulp
 * Dependency management with Composer
 * Build process on Circle CI
+* Quicksilver platform hooks to fire off third party tests
+* Slack notification integration
 
 ## TODO List
 These items are outstanding:
@@ -44,7 +46,6 @@ These items are outstanding:
 * Example unit test
 * Add example for using Grunt instead of gulp to bin/build.sh
 * Add example of using a git host besides Github for the source repository
-* Add a Slack notification when Circle builds complete, linking to the Pantheon site dashboard
 
 ## Warning!
 This repository uses an alternate docroot on Pantheon. This feature is pre-release and considered experimental. Do NOT use in production.

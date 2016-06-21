@@ -10,7 +10,7 @@ require_once( dirname( __FILE__ ) . '/slack_helper.php' );
 // a random GitHub done by someone at Rackspace.
 
 // Provide the API Key and API Path provided by Load Impact
-$secrets    = _get_secrets( array( 'loadimpact_key', 'loadimpact_key_v3' ) );
+$secrets    = _get_secrets( array( 'loadimpact_key', 'loadimpact_key_v3', 'slack_channel', 'live_url' ) );
 $api_key    = $secrets['loadimpact_key'];
 $api_key_v3 = $secrets['loadimpact_key_v3'];
 
@@ -19,9 +19,9 @@ $api_key_v3 = $secrets['loadimpact_key_v3'];
 $test_config_id = 3420633;
 
 // Provide the Slack Details
-$slack_channel_name = '#advanced-wordpress';
+$slack_channel_name = $secrets['slack_channel'];
 $slack_user_name    = 'PerformanceTesting-with-LoadImpact';
-$slack_user_icon    = 'http://live-pantheon-wp-best-practices.pantheonsite.io/wp-content/uploads/icons/loadimpact.png';
+$slack_user_icon    = $secrets['live_url'] . '/wp-content/uploads/icons/loadimpact.png';
 
 // If we are deploying to test, run a performace test
 if ( defined( 'PANTHEON_ENVIRONMENT' ) && ( PANTHEON_ENVIRONMENT == 'test' ) ) {

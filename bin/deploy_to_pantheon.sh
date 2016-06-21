@@ -55,12 +55,15 @@ then
 	# Normalize branch name to adhere with Multidev requirements
 	export normalize_branch="$CIRCLE_BRANCH"
 	export valid="^[-0-9a-z]" # allows digits 0-9, lower case a-z, and -
-  	if [[ $normalize_branch =~ $valid ]]; then
+	# If the branch name is invalid
+  	if [[ $normalize_branch =~ $valid ]]
+  	then
 		export normalize_branch="${normalize_branch:0:11}"
-		#Remove - to avoid failures
+		# Attempt to normalize it
 		export normalize_branch="${normalize_branch//[-_]}"
 		echo "Success: "$normalize_branch" is a valid branch name."
   	else
+  		# Otherwise exit
 		echo "Error: Multidev cannot be created due to invalid branch name: $normalize_branch"
 		exit 1
 	fi
@@ -77,9 +80,10 @@ then
 	# If the multidev for this branch is found
 	if [[ ${PANTHEON_ENVS} == *"${normalize_branch}"* ]]
 	then
+		# Send a message
 		echo -e "\n${txtylw}Multidev found! ${txtrst}"
 	else
-		# otherwise, create it
+		# otherwise, create the multidev branch
 		echo -e "\n${txtylw}Multidev not found, creating the multidev branch ${normalize_branch} via Terminus ${txtrst}"
 		echo -e "Running terminus site create-env --site=$PANTHEON_SITE_UUID --to-env=$normalize_branch --from-env=dev"
 		terminus site create-env --site=$PANTHEON_SITE_UUID --to-env=$normalize_branch --from-env=dev
@@ -118,19 +122,27 @@ cp $BUILD_DIR/pantheon.yml .
 echo -e "\n${txtylw}Rsyncing $BUILD_DIR/vendor ${txtrst}"
 rsync -a $BUILD_DIR/vendor/* ./vendor/
 
+# Some plugins have .svn directories, nuke 'em
 echo -e "\n${txtylw}Removing all '.svn' directories${txtrst}"
 find . -name '.svn' -type d -exec rm -rf {} \;
 
+# Remove node_modules from gulp/grunt
 echo -e "\n${txtylw}Removing all 'node_modules' directories${txtrst}"
 find . -name 'node_modules' -type d -exec rm -rf {} \;
 
-echo -e "\n${txtylw}Removing 'web/wp-content/uploads' symlink${txtrst}"
-rm web/wp-content/uploads
+# Remove wp-content/uploads if it exists
+# Checking in Pantheon's files symlink is bad new
+if [ -d "$HOME/pantheon/web/wp-content/uploads" ]
+then
+	echo -e "\n${txtylw}Removing 'web/wp-content/uploads' symlink${txtrst}"
+	rm web/wp-content/uploads
+fi
 
 echo -e "\n${txtylw}Forcibly adding all files and committing${txtrst}"
 git add -A --force .
 git commit -m "Circle CI build $CIRCLE_BUILD_NUM by $CIRCLE_PROJECT_USERNAME" -m "$COMMIT_MESSAGE"
 
+# Force push to Pantheon
 if [ $CIRCLE_BRANCH != "master" ]
 then
 	echo -e "\n${txtgrn}Pushing the ${normalize_branch} branch to Pantheon ${txtrst}"

@@ -1,6 +1,13 @@
 <?php
+// Secrets helper function
+require_once( dirname( __FILE__ ) . '/secrets_helper.php' );
+
 // Load Slack helper functions
 require_once( dirname( __FILE__ ) . '/slack_helper.php' );
+
+$secrets = _get_secrets( array( 'slack_channel', 'live_url' ) );
+
+$slack_user_icon = $secrets['live_url'] . 'wp-content/uploads/icons/git.png';
 
 if ( isset( $_POST['wf_type'] ) && $_POST['wf_type'] == 'sync_code' ) {
 	// Get the committer, hash, and message for the most recent commit.
@@ -38,5 +45,5 @@ if ( isset( $_POST['wf_type'] ) && $_POST['wf_type'] == 'sync_code' ) {
 		'color'    => '#EFD01B', // Can either be one of 'good', 'warning', 'danger', or any hex color code
 		'fields'   => $fields,
 	);
-	_slack_tell( $text, '#advanced-wordpress', 'Git-on-Pantheon', 'http://live-pantheon-wp-best-practices.pantheonsite.io/wp-content/uploads/icons/git.png', false, $attachment );
+	_slack_tell( $text, $secrets['slack_channel'], 'Git-on-Pantheon', $slack_user_icon, false, $attachment );
 }

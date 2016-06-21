@@ -71,6 +71,33 @@ stored in Circle CI as environment variables
 	* The username to post Slack messages with
 * SLACK_HOOK_URL
 	* The Slack hook URL in the format of `https://hooks.slack.com/services/XXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX`
+	
+## Quicksilver Integration
+This repository makes use of Pantheon's [Quicksilver Platform hooks](https://pantheon.io/docs/quicksilver/).
+In order to use the Quicksilver integration you need to create a `secrets.json` file, based on the example below, with you API keys and place it in the private directory for each Pantheon environment (dev/test/live).
+The private path is located at `wp-content/uploads/private` and can be created/accessed via SFTP. See [this doc](https://pantheon.io/docs/private-paths/) for details.
+The Quicksilver integrations included are:
+* Slack notifications for code deployment and test/live deployment
+* Spotbot visual regression testing
+* Backtrac visual regression testing
+* WP-CFM import on deployment to test/live
+* Loadimpact performance testing
+
+The `icons` directory must also be copied to `wp-content/uploads` on the live environment to provide icons in the Slack notifications.
+
+### Example `secrets.json`
+```
+{
+  "slack_url": "https://hooks.slack.com/services/xxxxxxxxx/xxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxx",
+  "spotbot_key": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "loadimpact_key": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "loadimpact_key_v3": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "backtrac_key": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "slack_channel" : "#my-slack-channel",
+  "test_url" : "http://test-pantheon-wp-best-practices.pantheonsite.io",
+  "live_url" : "http://live-pantheon-wp-best-practices.pantheonsite.io"
+}
+```
 
 ## Local Setup
 In order to develop the site locally a few steps need to be completed. 

@@ -1,15 +1,20 @@
 <?php
+// Secrets helper function
+require_once( dirname( __FILE__ ) . '/secrets_helper.php' );
+
 // Load Slack helper functions
 require_once( dirname( __FILE__ ) . '/slack_helper.php' );
+
+$secrets = _get_secrets( array( 'slack_channel', 'live_url' ) );
 
 // Important constants :)
 $pantheon_yellow = '#EFD01B';
 
 // Default values for parameters
 $defaults = array(
-	'slack_channel'    => '#advanced-wordpress',
-	'slack_username'   => 'Deploy-on-Pantheon',
-	'slack_icon' => 'http://live-pantheon-wp-best-practices.pantheonsite.io/wp-content/uploads/icons/pantheon.png',
+	'slack_channel'  => $secrets['slack_channel'],
+	'slack_username' => 'Deploy-on-Pantheon',
+	'slack_icon'     => $slack_user_icon = $secrets['live_url'] . '/wp-content/uploads/icons/pantheon.png',
 );
 
 // Load our hidden credentials.

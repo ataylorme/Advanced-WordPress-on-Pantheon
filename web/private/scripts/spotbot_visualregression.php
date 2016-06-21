@@ -9,16 +9,16 @@ require_once( dirname( __FILE__ ) . '/slack_helper.php' );
 // automatic visual regression testing using Spotbot.qa
 
 // Provide the API Key provided by Spotbot.qa
-$secrets = _get_secrets( array( 'spotbot_key' ) );
+$secrets = _get_secrets( array( 'spotbot_key', 'slack_channel', 'live_url', 'test_url' ) );
 $api_key = $secrets['spotbot_key'];
 
 // Provide the Project URL for the project on Spotbot.qa
-$project_url = 'http://test-pantheon-wp-best-practices.pantheonsite.io/';
+$project_url = $secrets['test_url'];
 
 // Provide the Slack Details
-$slack_channel_name = '#advanced-wordpress';
+$slack_channel_name = $secrets['slack_channel'];
 $slack_user_name    = 'CrossBrowserTesting-with-Spotbot';
-$slack_user_icon    = 'http://live-pantheon-wp-best-practices.pantheonsite.io/wp-content/uploads/icons/spotbot.png';
+$slack_user_icon    = $secrets['live_url'] . '/wp-content/uploads/icons/spotbot.png';
 
 // If we are deploying to test, run a visual regression test
 // between the production environment and the testing environment.

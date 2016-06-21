@@ -9,16 +9,16 @@ require_once( dirname( __FILE__ ) . '/slack_helper.php' );
 // automatic visual regression testing using Backtrac.io
 
 // Provide the API Key provided by Backtrac.io
-$secrets = _get_secrets( array( 'spotbot_key' ) );
+$secrets = _get_secrets( array( 'spotbot_key', 'slack_channel', 'live_url' ) );
 $api_key = $secrets['backtrac_key'];
 
 // Provide the Project ID for the project on Backtrac.io
 $project_id = '22200';
 
 // Provide the Slack Details
-$slack_channel_name = '#advanced-wordpress';
+$slack_channel_name = $secrets['slack_channel'];
 $slack_user_name    = 'VisualRegressionTesting-with-Backtrac';
-$slack_user_icon    = 'http://live-pantheon-wp-best-practices.pantheonsite.io/wp-content/uploads/icons/backtrac.png';
+$slack_user_icon    = $secrets['live_url'] . '/wp-content/uploads/icons/backtrac.png';
 
 // If we are deploying to test, run a visual regression test 
 // between the production environment and the testing environment.

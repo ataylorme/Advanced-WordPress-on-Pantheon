@@ -21,9 +21,9 @@
       "type": "package",
       "package": {
         "name": "pantheon-systems/wordpress",
-        "version": "4.5.2",
+        "version": "4.5.3",
         "dist": {
-          "url": "https://github.com/pantheon-systems/WordPress/archive/4.5.2.zip",
+          "url": "https://github.com/pantheon-systems/WordPress/archive/4.5.3.zip",
           "type": "zip"
         },
         "source": {
@@ -41,8 +41,8 @@
     "wpackagist-plugin/wp-redis": "^0.5.0",
     "wpackagist-plugin/wp-native-php-sessions": "^0.5",
     "wpackagist-plugin/wp-cfm": "^1.4.4",
-    "pantheon-systems/wordpress": "^4.5.2",
-    "roots/wp-password-bcrypt": "^1.0"
+    "pantheon-systems/wordpress": "^4.5.3",
+    "roots/wp-password-bcrypt": "^1.0.0"
   },
   "config": {
     "vendor-dir": "vendor",

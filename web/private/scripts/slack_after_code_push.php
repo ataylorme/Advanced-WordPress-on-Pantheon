@@ -26,7 +26,7 @@ if ( isset( $_POST['wf_type'] ) && $_POST['wf_type'] == 'sync_code' ) {
 		),
 		array(
 			'title' => 'Environment',
-			'value' => '<http://' . $_ENV['PANTHEON_ENVIRONMENT'] . '-' . $_ENV['PANTHEON_SITE_NAME'] . '.pantheon.io|' . $_ENV['PANTHEON_ENVIRONMENT'] . '>',
+			'value' => '<http://' . $_ENV['PANTHEON_ENVIRONMENT'] . '-' . $_ENV['PANTHEON_SITE_NAME'] . '.pantheonsite.io|' . $_ENV['PANTHEON_ENVIRONMENT'] . '>',
 			'short' => 'true',
 		),
 		array(

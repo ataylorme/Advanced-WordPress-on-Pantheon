@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9fc4795b149c75d6bd1996fc8d4715e7",
-    "content-hash": "54c66260354c0b10e6de3f0b169cb103",
+    "hash": "e948792775661d3654c45f55da7dd750",
+    "content-hash": "f40012007b731667701f73755790633c",
     "packages": [
         {
             "name": "composer/installers",
-            "version": "dev-master",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "3c90d491bafa3d0a1bd57a7d001da839a08d2f88"
+                "reference": "a3595c5272a6f247228abb20076ed27321e4aae9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/3c90d491bafa3d0a1bd57a7d001da839a08d2f88",
-                "reference": "3c90d491bafa3d0a1bd57a7d001da839a08d2f88",
+                "url": "https://api.github.com/repos/composer/installers/zipball/a3595c5272a6f247228abb20076ed27321e4aae9",
+                "reference": "a3595c5272a6f247228abb20076ed27321e4aae9",
                 "shasum": ""
             },
             "require": {
@@ -107,7 +107,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2016-06-24 07:03:15"
+            "time": "2016-07-05 06:18:20"
         },
         {
             "name": "pantheon-systems/wordpress",
@@ -115,12 +115,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:pantheon-systems/WordPress.git",
-                "reference": "master"
+                "reference": "4.5.3"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://github.com/pantheon-systems/WordPress/archive/4.5.3.zip",
-                "reference": "master",
+                "reference": "4.5.3",
                 "shasum": null
             },
             "type": "library"

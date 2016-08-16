@@ -47,10 +47,6 @@ These items are outstanding:
 * Add example for using Grunt instead of gulp to bin/build.sh
 * Add example of using a git host besides Github for the source repository
 
-## Warning!
-This repository uses an alternate docroot on Pantheon. This feature is pre-release and considered experimental. Do NOT use in production.
-If you would like to follow the public progress of the alternate docroot feature see [issue 1651 of the Pantheon documentation repository](https://github.com/pantheon-systems/documentation/issues/1651).
-
 ## Circle CI Setup
 The following sensitive variables will need to be 
 stored in Circle CI as environment variables

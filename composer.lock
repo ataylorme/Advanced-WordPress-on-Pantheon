@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e948792775661d3654c45f55da7dd750",
-    "content-hash": "f40012007b731667701f73755790633c",
+    "hash": "dadfb62af0018c400e7c2ad4c96496d9",
+    "content-hash": "eb1f052efe2f3cbfe7ae7e796286a80a",
     "packages": [
         {
             "name": "composer/installers",
@@ -111,16 +111,16 @@
         },
         {
             "name": "pantheon-systems/wordpress",
-            "version": "4.5.3",
+            "version": "4.6",
             "source": {
                 "type": "git",
                 "url": "git@github.com:pantheon-systems/WordPress.git",
-                "reference": "4.5.3"
+                "reference": "4.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/pantheon-systems/WordPress/archive/4.5.3.zip",
-                "reference": "4.5.3",
+                "url": "https://github.com/pantheon-systems/WordPress/archive/4.6.zip",
+                "reference": "4.6",
                 "shasum": null
             },
             "type": "library"
@@ -234,7 +234,7 @@
         },
         {
             "name": "wpackagist-plugin/wp-cfm",
-            "version": "1.4.4",
+            "version": "1.4.5",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-cfm/",

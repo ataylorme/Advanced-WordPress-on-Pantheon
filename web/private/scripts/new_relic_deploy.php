@@ -1,0 +1,68 @@
+<?php
+// Fetch metadata from Pantheon's internal API.
+$req = pantheon_curl('https://api.live.getpantheon.com/sites/self/bindings?type=newrelic', NULL, 8443);
+$meta = json_decode($req['body'], true);
+
+// Get the right binding for the current ENV.
+// It should be possible to just fetch the one for the current env.
+$nr = FALSE;
+foreach($meta as $data) {
+  if ($data['environment'] === PANTHEON_ENVIRONMENT) {
+    $nr = $data;
+    break;
+  }
+}
+// Fail fast if we're not going to be able to call New Relic.
+if ($nr == FALSE) {
+  echo "\n\nALERT! No New Relic metadata could be found.\n\n";
+  exit();
+}
+
+// This is one example that handles code pushes, dashboard 
+// commits, and deploys between environments. To make sure we 
+// have good deploy markers, we gather data differently depending
+// on the context.
+
+if ($_POST['wf_type'] == 'sync_code') {
+  // commit 'subject'
+  $description = trim(`git log --pretty=format:"%s" -1`);
+  $revision = trim(`git log --pretty=format:"%h" -1`);
+  if ($_POST['user_role'] == 'super') {
+    // This indicates an in-dashboard SFTP commit.
+    $user = trim(`git log --pretty=format:"%ae" -1`);
+    $changelog = trim(`git log --pretty=format:"%b" -1`);
+    $changelog .= "\n\n" . '(Commit made via Pantheon dashbaord.)';
+  }
+  else {
+    $user = $_POST['user_email'];
+    $changelog = trim(`git log --pretty=format:"%b" -1`);
+    $changelog .= "\n\n" . '(Triggered by remote git push.)';
+  }
+}
+elseif ($_POST['wf_type'] == 'deploy') {
+  // Topline description:
+  $description = 'Deploy to environment triggered via Pantheon';
+  // Find out if there's a deploy tag:
+  $revision = `git describe --tags`;
+  // Get the annotation:
+  $changelog = `git tag -l -n99 $deploy_tag`;
+  $user = $_POST['user_email'];
+}
+
+
+// Use New Relic's v1 curl command-line example.
+// TODO: update to use v2 API with JSON, plus curl() in PHP.
+// Blocked by needing the app_id to use v2 API
+$curl = 'curl -H "x-api-key:'. $data['api_key'] .'"';
+$curl .= ' -d "deployment[application_id]=' . $data['app_name'] .'"';
+$curl .= ' -d "deployment[description]= '. $description .'"';
+$curl .= ' -d "deployment[revision]='. $revision .'"';
+$curl .= ' -d "deployment[changelog]='. $changelog .'"';
+$curl .= ' -d "deployment[user]='. $user .'"';
+$curl .= ' https://api.newrelic.com/deployments.xml';
+// The below can be helpful debugging.
+// echo "\n\nCURLing... \n\n$curl\n\n";
+
+echo "Logging deployment in New Relic...\n";
+passthru($curl);
+echo "Done!";

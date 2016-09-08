@@ -31,6 +31,9 @@ workflows:
         - type: webphp
           description: running a performance test with Loadimpact.com
           script: private/scripts/loadimpact_performance.php
+        - type: webphp
+          description: Log to New Relic
+          script: private/scripts/new_relic_deploy.php
 
     clone_database:
       after:

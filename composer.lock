@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "abe14664770a2f262c4204ad76f838a7",
-    "content-hash": "2ba788b08f2db88d7a1768144c0378c4",
+    "hash": "26557d1136011f8cb777252997cc9b9f",
+    "content-hash": "294055b06542632fe3f3f5b511a12fab",
     "packages": [
         {
             "name": "composer/installers",
@@ -258,6 +258,26 @@
             "homepage": "https://wordpress.org/plugins/wp-cfm/"
         },
         {
+            "name": "wpackagist-plugin/wp-lcache",
+            "version": "0.1.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/wp-lcache/",
+                "reference": "tags/0.1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/wp-lcache.0.1.0.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/wp-lcache/"
+        },
+        {
             "name": "wpackagist-plugin/wp-native-php-sessions",
             "version": "0.5",
             "source": {
@@ -276,26 +296,6 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/wp-native-php-sessions/"
-        },
-        {
-            "name": "wpackagist-plugin/wp-redis",
-            "version": "0.5.0",
-            "source": {
-                "type": "svn",
-                "url": "https://plugins.svn.wordpress.org/wp-redis/",
-                "reference": "tags/0.5.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-redis.0.5.0.zip",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "composer/installers": "~1.0"
-            },
-            "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/wp-redis/"
         }
     ],
     "packages-dev": [],

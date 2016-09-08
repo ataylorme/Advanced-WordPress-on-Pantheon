@@ -15,21 +15,21 @@
   "repositories": [
     {
       "type": "composer",
-      "url": "http://wpackagist.org"
+      "url": "https://wpackagist.org"
     },
     {
       "type": "package",
       "package": {
         "name": "pantheon-systems/wordpress",
-        "version": "4.6",
+        "version": "4.6.1",
         "dist": {
-          "url": "https://github.com/pantheon-systems/WordPress/archive/4.6.zip",
+          "url": "https://github.com/pantheon-systems/WordPress/archive/4.6.1.zip",
           "type": "zip"
         },
         "source": {
           "url": "git@github.com:pantheon-systems/WordPress.git",
           "type": "git",
-          "reference": "4.6"
+          "reference": "4.6.1"
         }
       }
     }
@@ -37,11 +37,11 @@
   "require": {
     "php": ">=5.2",
     "composer/installers": "~1.0",
-    "vlucas/phpdotenv": "^2.2.0",
+    "vlucas/phpdotenv": "^2.4.0",
     "wpackagist-plugin/wp-redis": "^0.5.0",
     "wpackagist-plugin/wp-native-php-sessions": "^0.5",
-    "wpackagist-plugin/wp-cfm": "^1.4.4",
-    "pantheon-systems/wordpress": "^4.6",
+    "wpackagist-plugin/wp-cfm": "^1.4.5",
+    "pantheon-systems/wordpress": "^4.6.1",
     "roots/wp-password-bcrypt": "^1.0.0"
   },
   "config": {

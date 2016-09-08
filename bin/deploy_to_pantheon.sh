@@ -107,14 +107,25 @@ fi
 #echo -e "\n${txtylw}Creating a backup of the ${PANTHEON_ENV} environment for site ${PANTHEON_SITE_UUID} ${txtrst}"
 #terminus site backups create --element=all --site=$PANTHEON_SITE_UUID --env=$PANTHEON_ENV
 
+# Delete the web and vendor subdirectories if they exist
+if [ -d "$HOME/pantheon/web" ]
+then
+	# Remove it
+	echo -e "\n${txtylw}Removing $HOME/pantheon/web ${txtrst}"
+	rm -rf $HOME/pantheon/web
+fi
+if [ -d "$HOME/pantheon/vendor" ]
+then
+	# Remove it
+	echo -e "\n${txtylw}Removing $HOME/pantheon/vendor ${txtrst}"
+	rm -rf $HOME/pantheon/vendor
+fi
+
 mkdir -p web
 mkdir -p vendor
 
 echo -e "\n${txtylw}Rsyncing $BUILD_DIR/web ${txtrst}"
 rsync -a $BUILD_DIR/web/* ./web/
-
-echo -e "\n${txtylw}Copying object-cache.php from Redis plugin to wp-content ${txtrst}"
-cp web/wp-content/plugins/wp-redis/object-cache.php web/wp-content/object-cache.php
 
 echo -e "\n${txtylw}Copying $BUILD_DIR/pantheon.yml ${txtrst}"
 cp $BUILD_DIR/pantheon.yml .

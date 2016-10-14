@@ -18,7 +18,7 @@ node_modules/
 !web/
 web/*
 !web/index.php
-!web/wp-content.php
+!web/wp-config.php
 !web/wp-content/
 web/wp-content/*
 !web/wp-content/mu-plugins/

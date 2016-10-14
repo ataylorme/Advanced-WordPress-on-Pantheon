@@ -39,14 +39,6 @@ COMPOSER_PARMS="--no-ansi --no-dev --no-interaction --optimize-autoloader --no-p
 echo -e "\n${txtylw}Invoking: $FOUND install $COMPOSER_PARMS ${txtrst}"
 $FOUND install $COMPOSER_PARMS
 
-echo -e "\n${txtylw}Creating web/wp-config.php ${txtrst}"
-[ -f 'web/wp-config.php' ] && rm web/wp-config.php
-cp wp-config.php web/wp-config.php
-sed -i -e '$a\' web/wp-config.php
-# Strip the first line to avoid the opening php tag
-PANTHEON_WP_CONFIG_CONTENT="$(tail -n +2 web/wp/wp-config.php)"
-echo "$PANTHEON_WP_CONFIG_CONTENT" >> web/wp-config.php
-
 EXE=gulp
 
 FOUND=`which $EXE`

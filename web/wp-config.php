@@ -13,7 +13,7 @@ require_once( $rootPath . '/vendor/autoload.php' );
 /*
  * Fetch .env
  */
-if ( file_exists( $rootPath . '/.env' ) ) {
+if ( ! isset( $_ENV['PANTHEON_ENVIRONMENT'] ) && file_exists( $rootPath . '/.env' ) ) {
 	$dotenv = new Dotenv\Dotenv( $rootPath );
 	$dotenv->load();
 	$dotenv->required( array(
@@ -23,25 +23,29 @@ if ( file_exists( $rootPath . '/.env' ) ) {
 	) )->notEmpty();
 }
 
-if ( isset( $_SERVER['HTTP_HOST'] ) ) {
-	// HTTP is still the default scheme for now.
-	$scheme = 'http';
+// HTTP is still the default scheme for now.
+$scheme = 'http';
 
-	/**
-	 * If we have detected that the end use is HTTPS, make sure we pass that
-	 * through here, so <img> tags and the like don't generate mixed-mode
-	 * content warnings.
-	 */
-	if ( isset( $_SERVER['HTTP_USER_AGENT_HTTPS'] ) && $_SERVER['HTTP_USER_AGENT_HTTPS'] == 'ON' ) {
-		$scheme = 'https';
-	}
-
-	/**
-	 * Define site and home URLs
-	 */
-	define( 'WP_HOME', getenv( 'WP_HOME' ) !== false ? getenv( 'WP_HOME' ) : $scheme . '://' . $_SERVER['HTTP_HOST'] );
-	define( 'WP_SITEURL', getenv( 'WP_SITEURL' ) !== false ? getenv( 'WP_SITEURL' ) : $scheme . '://' . $_SERVER['HTTP_HOST'] . '/wp' );
+/**
+ * If we have detected that the end use is HTTPS, make sure we pass that
+ * through here, so <img> tags and the like don't generate mixed-mode
+ * content warnings.
+ */
+if ( isset( $_SERVER['HTTP_USER_AGENT_HTTPS'] ) && $_SERVER['HTTP_USER_AGENT_HTTPS'] == 'ON' ) {
+	$scheme = 'https';
 }
+
+if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
+	$site_url = $scheme . '://' . $_ENV['PANTHEON_ENVIRONMENT'] . '-' . $_ENV['PANTHEON_SITE_NAME'] . '.pantheonsite.io/';
+} else {
+	$site_url = getenv( 'WP_HOME' ) !== false ? getenv( 'WP_HOME' ) : $scheme . '://' . $_SERVER['HTTP_HOST'] . '/';
+}
+
+/**
+ * Define site and home URLs
+ */
+define( 'WP_HOME', $site_url );
+define( 'WP_SITEURL', $site_url . 'wp/' );
 
 /**
  * Limit post revisions to 3
@@ -194,8 +198,9 @@ define( 'WP_CONTENT_URL', getenv( 'WP_CONTENT_URL' ) !== false ? getenv( 'WP_CON
 /* That's all, stop editing! Happy Pressing. */
 
 /** Absolute path to the WordPress directory. */
-if ( !defined('ABSPATH') )
-	define('ABSPATH', dirname(__FILE__) . '/');
+if ( ! defined( 'ABSPATH' ) ) {
+	define( 'ABSPATH', dirname( __FILE__ ) . '/' );
+}
 
 /** Sets up WordPress vars and included files. */
-require_once(ABSPATH . 'wp-settings.php');
+require_once( ABSPATH . 'wp-settings.php' );

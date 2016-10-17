@@ -23,30 +23,6 @@ if ( ! isset( $_ENV['PANTHEON_ENVIRONMENT'] ) && file_exists( $rootPath . '/.env
 	) )->notEmpty();
 }
 
-// HTTP is still the default scheme for now.
-$scheme = 'http';
-
-/**
- * If we have detected that the end use is HTTPS, make sure we pass that
- * through here, so <img> tags and the like don't generate mixed-mode
- * content warnings.
- */
-if ( isset( $_SERVER['HTTP_USER_AGENT_HTTPS'] ) && $_SERVER['HTTP_USER_AGENT_HTTPS'] == 'ON' ) {
-	$scheme = 'https';
-}
-
-if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ) {
-	$site_url = $scheme . '://' . $_ENV['PANTHEON_ENVIRONMENT'] . '-' . $_ENV['PANTHEON_SITE_NAME'] . '.pantheonsite.io/';
-} else {
-	$site_url = getenv( 'WP_HOME' ) !== false ? getenv( 'WP_HOME' ) : $scheme . '://' . $_SERVER['HTTP_HOST'] . '/';
-}
-
-/**
- * Define site and home URLs
- */
-define( 'WP_HOME', $site_url );
-define( 'WP_SITEURL', $site_url . 'wp/' );
-
 /**
  * Limit post revisions to 3
  */
@@ -105,6 +81,13 @@ if ( ! isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ):
 	define( 'SECURE_AUTH_SALT', 'pi-EA,AOXk*U[VZ|t]R;@K<WMcbD)>k* ;8+hKX:A|$.Z@HL@0`SE?W0:-?-IRd!' );
 	define( 'LOGGED_IN_SALT', 'e+6%u)u@RZn-$}_Q[N;Na<|A-[Am_$#nhD~}ci:%R&B*oiq<sPF$v)d1r<-V-5W|' );
 	define( 'NONCE_SALT', 'r%oyx_`[A-~<LB)]I.,^//}/&]a)H|fzk3IUWrZn[L4qf#Pp#lsB-B}+/ai&u,/|' );
+
+	/**
+	 * Define site and home URLs
+	 */
+	$site_url = getenv( 'WP_HOME' ) !== false ? getenv( 'WP_HOME' ) : $scheme . '://' . $_SERVER['HTTP_HOST'] . '/';
+	define( 'WP_HOME', $site_url );
+	define( 'WP_SITEURL', $site_url . 'wp/' );
 
 endif;
 
@@ -182,6 +165,20 @@ if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ):
 	define( 'LOGGED_IN_SALT', $_ENV['LOGGED_IN_SALT'] );
 	define( 'NONCE_SALT', $_ENV['NONCE_SALT'] );
 	/**#@-*/
+
+	/** A couple extra tweaks to help things run well on Pantheon. **/
+	if (isset($_SERVER['HTTP_HOST'])) {
+		// HTTP is still the default scheme for now.
+		$scheme = 'http';
+		// If we have detected that the end use is HTTPS, make sure we pass that
+		// through here, so <img> tags and the like don't generate mixed-mode
+		// content warnings.
+		if (isset($_SERVER['HTTP_USER_AGENT_HTTPS']) && $_SERVER['HTTP_USER_AGENT_HTTPS'] == 'ON') {
+			$scheme = 'https';
+		}
+		define('WP_HOME', $scheme . '://' . $_SERVER['HTTP_HOST']);
+		define('WP_SITEURL', $scheme . '://' . $_SERVER['HTTP_HOST'] . '/wp');
+	}
 
 	// Force the use of a safe temp directory when in a container
 	if ( defined( 'PANTHEON_BINDING' ) ):

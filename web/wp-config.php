@@ -167,17 +167,17 @@ if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ):
 	/**#@-*/
 
 	/** A couple extra tweaks to help things run well on Pantheon. **/
-	if (isset($_SERVER['HTTP_HOST'])) {
+	if ( isset( $_SERVER['HTTP_HOST'] ) ) {
 		// HTTP is still the default scheme for now.
 		$scheme = 'http';
 		// If we have detected that the end use is HTTPS, make sure we pass that
 		// through here, so <img> tags and the like don't generate mixed-mode
 		// content warnings.
-		if (isset($_SERVER['HTTP_USER_AGENT_HTTPS']) && $_SERVER['HTTP_USER_AGENT_HTTPS'] == 'ON') {
+		if ( isset( $_SERVER['HTTP_USER_AGENT_HTTPS'] ) && $_SERVER['HTTP_USER_AGENT_HTTPS'] == 'ON' ) {
 			$scheme = 'https';
 		}
-		define('WP_HOME', $scheme . '://' . $_SERVER['HTTP_HOST']);
-		define('WP_SITEURL', $scheme . '://' . $_SERVER['HTTP_HOST'] . '/wp');
+		define( 'WP_HOME', $scheme . '://' . $_SERVER['HTTP_HOST'] );
+		define( 'WP_SITEURL', $scheme . '://' . $_SERVER['HTTP_HOST'] . '/wp' );
 	}
 
 	// Force the use of a safe temp directory when in a container

@@ -43,6 +43,14 @@ define( 'WP_POST_REVISIONS', 3 );
 define( 'DISALLOW_FILE_EDIT', true );
 define( 'DISALLOW_FILE_MODS', true );
 
+if( false !== getenv( 'WP_HOME' ) ){
+    define( 'WP_HOME', getenv( 'WP_HOME' ) );
+}
+
+if( false !== getenv( 'WP_SITEURL' ) ){
+    define( 'WP_SITEURL', getenv( 'WP_SITEURL' ) );
+}
+
 
 /**#@+
  * Authentication Unique Keys and Salts.

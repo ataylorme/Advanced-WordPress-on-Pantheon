@@ -56,9 +56,6 @@
       ],
       "web/wp-content/themes/{$name}/": [
         "type:wordpress-theme"
-      ],
-      "web/": [
-        "pantheon-systems/wordpress"
       ]
     }
   }

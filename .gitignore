@@ -18,6 +18,7 @@ node_modules/
 !web/
 web/*
 !web/index.php
+!web/wp-cli.yml
 !web/wp-config.php
 !web/wp-content/
 web/wp-content/*

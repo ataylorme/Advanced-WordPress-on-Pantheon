@@ -1,4 +1,8 @@
 <?php
+/*
+ * Don't show deprecations
+ */
+error_reporting( E_ALL ^ E_DEPRECATED );
 
 /**
  * Set root path
@@ -24,31 +28,39 @@ if ( ! isset( $_ENV['PANTHEON_ENVIRONMENT'] ) && file_exists( $rootPath . '/.env
 }
 
 /**
- * Limit post revisions to 3
- */
-define( 'WP_POST_REVISIONS', 3 );
-
-/**
  * Disallow on server file edits
  */
 define( 'DISALLOW_FILE_EDIT', true );
 define( 'DISALLOW_FILE_MODS', true );
 
 /**
- * Don't show deprecations
+ * Force SSL
  */
-error_reporting( E_ALL ^ E_DEPRECATED );
+define( 'FORCE_SSL_ADMIN', true );
 
 /**
- * WordPress Database Table prefix
- * Use something other than `wp_` for security
+ * Limit post revisions
  */
-$table_prefix = getenv( 'DB_PREFIX' ) !== false ? getenv( 'DB_PREFIX' ) : 'wp_';
+define( 'WP_POST_REVISIONS', 3 );
 
-/**
- * Only include if not on a Pantheon environment
+/*
+ * If NOT on Pantheon
  */
 if ( ! isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ):
+	/**
+	 * Define site and home URLs
+	 */
+	// HTTP is still the default scheme for now.
+	$scheme = 'http';
+	// If we have detected that the end use is HTTPS, make sure we pass that
+	// through here, so <img> tags and the like don't generate mixed-mode
+	// content warnings.
+	if ( isset( $_SERVER['HTTP_USER_AGENT_HTTPS'] ) && $_SERVER['HTTP_USER_AGENT_HTTPS'] == 'ON' ) {
+		$scheme = 'https';
+	}
+	$site_url = getenv( 'WP_HOME' ) !== false ? getenv( 'WP_HOME' ) : $scheme . '://' . $_SERVER['HTTP_HOST'] . '/';
+	define( 'WP_HOME', $site_url );
+	define( 'WP_SITEURL', $site_url . 'wp/' );
 
 	/**
 	 * Set Database Details
@@ -63,6 +75,12 @@ if ( ! isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ):
 	 */
 	define( 'WP_DEBUG', getenv( 'WP_DEBUG' ) === 'true' ? true : false );
 	define( 'IS_LOCAL', getenv( 'IS_LOCAL' ) !== false ? true : false );
+
+	/*
+	 * Define wp-content directory outside of WordPress directory
+	 */
+	define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/wp-content' );
+	define( 'WP_CONTENT_URL', getenv( 'WP_CONTENT_URL' ) !== false ? getenv( 'WP_CONTENT_URL' ) : 'https://backend.hazelsheritage.com/wp-content' );
 
 	/**#@+
 	 * Authentication Unique Keys and Salts.
@@ -82,49 +100,13 @@ if ( ! isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ):
 	define( 'LOGGED_IN_SALT', 'e+6%u)u@RZn-$}_Q[N;Na<|A-[Am_$#nhD~}ci:%R&B*oiq<sPF$v)d1r<-V-5W|' );
 	define( 'NONCE_SALT', 'r%oyx_`[A-~<LB)]I.,^//}/&]a)H|fzk3IUWrZn[L4qf#Pp#lsB-B}+/ai&u,/|' );
 
-	/**
-	 * Define site and home URLs
-	 */
-	$site_url = getenv( 'WP_HOME' ) !== false ? getenv( 'WP_HOME' ) : $scheme . '://' . $_SERVER['HTTP_HOST'] . '/';
-	define( 'WP_HOME', $site_url );
-	define( 'WP_SITEURL', $site_url . 'wp/' );
-
 endif;
 
-/**
- * Begin Pantheon wp-config.php settings
- *
- *         .+?:
- *          .+??.
- *            ??? .
- *            +???.
- *       +?????????=.
- *       .???????????.
- *       .????????????.
- *
- *      ########### ########
- *      ############.#######.
- *      ####### ####  .......
- *      ######## #### #######
- *      #########.####.######
- *      ######  ...
- *      #######.??.##########
- *      #######~+??.#########
- *      ########.??..
- *      #########.??.#######.
- *      #########.+?? ######.
- *                .+?.
- *          .????????????.
- *            +??????????,
- *             .????++++++.
- *               ????.
- *               .???,
- *                .~??.
- *                  .??
- *                   .?,.
+/*
+ * If on Pantheon
  */
-
 if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ):
+
 	// ** MySQL settings - included in the Pantheon Environment ** //
 	/** The name of the database for WordPress */
 	define( 'DB_NAME', $_ENV['DB_NAME'] );
@@ -178,26 +160,41 @@ if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ):
 		}
 		define( 'WP_HOME', $scheme . '://' . $_SERVER['HTTP_HOST'] );
 		define( 'WP_SITEURL', $scheme . '://' . $_SERVER['HTTP_HOST'] . '/wp' );
-	}
 
+		/*
+		* Define wp-content directory outside of WordPress directory
+		*/
+		define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/wp-content' );
+		define( 'WP_CONTENT_URL', WP_HOME . '/wp-content' );
+
+	}
+	// Don't show deprecations; useful under PHP 5.5
+	error_reporting( E_ALL ^ E_DEPRECATED );
 	// Force the use of a safe temp directory when in a container
 	if ( defined( 'PANTHEON_BINDING' ) ):
 		define( 'WP_TEMP_DIR', sprintf( '/srv/bindings/%s/tmp', PANTHEON_BINDING ) );
 	endif;
+
+	// FS writes aren't permitted in test or live, so we should let WordPress know to disable relevant UI
+	if ( in_array( $_ENV['PANTHEON_ENVIRONMENT'], array( 'test', 'live' ) ) && ! defined( 'DISALLOW_FILE_MODS' ) ) :
+		define( 'DISALLOW_FILE_MODS', true );
+	endif;
+
 endif;
 
-/*
- * Define wp-content directory outside of WordPress directory
+/**
+ * WordPress Database Table prefix.
+ *
+ * You can have multiple installations in one database if you give each
+ * a unique prefix. Only numbers, letters, and underscores please!
  */
-define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/wp-content' );
-define( 'WP_CONTENT_URL', getenv( 'WP_CONTENT_URL' ) !== false ? getenv( 'WP_CONTENT_URL' ) : WP_HOME . '/wp-content' );
+$table_prefix = getenv( 'DB_PREFIX' ) !== false ? getenv( 'DB_PREFIX' ) : 'wp_';
 
-/* That's all, stop editing! Happy Pressing. */
+/* That's all, stop editing! Happy blogging. */
 
 /** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', dirname( __FILE__ ) . '/' );
 }
-
 /** Sets up WordPress vars and included files. */
 require_once( ABSPATH . 'wp-settings.php' );

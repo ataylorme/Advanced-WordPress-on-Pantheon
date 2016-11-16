@@ -76,12 +76,6 @@ if ( ! isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ):
 	define( 'WP_DEBUG', getenv( 'WP_DEBUG' ) === 'true' ? true : false );
 	define( 'IS_LOCAL', getenv( 'IS_LOCAL' ) !== false ? true : false );
 
-	/*
-	 * Define wp-content directory outside of WordPress directory
-	 */
-	define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/wp-content' );
-	define( 'WP_CONTENT_URL', getenv( 'WP_CONTENT_URL' ) !== false ? getenv( 'WP_CONTENT_URL' ) : 'https://backend.hazelsheritage.com/wp-content' );
-
 	/**#@+
 	 * Authentication Unique Keys and Salts.
 	 *
@@ -161,12 +155,6 @@ if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ):
 		define( 'WP_HOME', $scheme . '://' . $_SERVER['HTTP_HOST'] );
 		define( 'WP_SITEURL', $scheme . '://' . $_SERVER['HTTP_HOST'] . '/wp' );
 
-		/*
-		* Define wp-content directory outside of WordPress directory
-		*/
-		define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/wp-content' );
-		define( 'WP_CONTENT_URL', WP_HOME . '/wp-content' );
-
 	}
 	// Don't show deprecations; useful under PHP 5.5
 	error_reporting( E_ALL ^ E_DEPRECATED );
@@ -181,6 +169,12 @@ if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ):
 	endif;
 
 endif;
+
+/*
+* Define wp-content directory outside of WordPress core directory
+*/
+define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/wp-content' );
+define( 'WP_CONTENT_URL', WP_HOME . '/wp-content' );
 
 /**
  * WordPress Database Table prefix.

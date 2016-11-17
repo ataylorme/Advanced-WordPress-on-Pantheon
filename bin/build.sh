@@ -39,6 +39,14 @@ COMPOSER_PARMS="--no-ansi --no-dev --no-interaction --optimize-autoloader --no-p
 echo -e "\n${txtylw}Invoking: $FOUND install $COMPOSER_PARMS ${txtrst}"
 $FOUND install $COMPOSER_PARMS
 
+# Copy Pantheon mu-plugins
+echo -e "\n${txtylw}Copying Pantheon mu-plugins ${txtrst}"
+rsync -a ./web/wp/wp-content/mu-plugins/* ./web/wp-content/mu-plugins/
+
+# Remove wp-content and wp-config from wp subdirectory
+echo -e "\n${txtylw}Removing wp-content and wp-config from wp subdirectory ${txtrst}"
+rm -rf ./web/wp/wp-config.php ./web/wp/wp-content
+
 EXE=gulp
 
 FOUND=`which $EXE`

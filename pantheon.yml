@@ -40,3 +40,4 @@ workflows:
         - type: webphp
           description: Pull environment specific config using wp-cfm after cloning db
           script: private/scripts/import_config_wp.php
+

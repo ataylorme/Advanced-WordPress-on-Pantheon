@@ -130,6 +130,10 @@ rsync -a $BUILD_DIR/web/* ./web/
 echo -e "\n${txtylw}Copying $BUILD_DIR/pantheon.yml ${txtrst}"
 cp $BUILD_DIR/pantheon.yml .
 
+
+echo -e "\n${txtylw}Copying $BUILD_DIR/wp-cli.yml ${txtrst}"
+cp $BUILD_DIR/wp-cli.yml .
+
 echo -e "\n${txtylw}Rsyncing $BUILD_DIR/vendor ${txtrst}"
 rsync -a $BUILD_DIR/vendor/* ./vendor/
 

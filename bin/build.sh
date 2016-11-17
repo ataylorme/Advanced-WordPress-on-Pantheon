@@ -39,16 +39,13 @@ COMPOSER_PARMS="--no-ansi --no-dev --no-interaction --optimize-autoloader --no-p
 echo -e "\n${txtylw}Invoking: $FOUND install $COMPOSER_PARMS ${txtrst}"
 $FOUND install $COMPOSER_PARMS
 
-echo -e "\n${txtylw}Rsyncing Pantheon WordPress to web/ ${txtrst}"
-rsync -a vendor/pantheon-systems/wordpress/* web/
+# Copy Pantheon mu-plugins
+echo -e "\n${txtylw}Copying Pantheon mu-plugins ${txtrst}"
+rsync -a ./web/wp/wp-content/mu-plugins/* ./web/wp-content/mu-plugins/
 
-echo -e "\n${txtylw}Creating web/wp-config.php ${txtrst}"
-[ -f 'web/wp-config.php' ] && rm web/wp-config.php
-cp wp-config.php web/wp-config.php
-sed -i -e '$a\' web/wp-config.php
-# Strip the first line to avoid the opening php tag
-PANTHEON_WP_CONFIG_CONTENT="$(tail -n +2 vendor/pantheon-systems/wordpress/wp-config.php)"
-echo "$PANTHEON_WP_CONFIG_CONTENT" >> web/wp-config.php
+# Remove wp-content and wp-config from wp subdirectory
+echo -e "\n${txtylw}Removing wp-content and wp-config from wp subdirectory ${txtrst}"
+rm -rf ./web/wp/wp-config.php ./web/wp/wp-content
 
 EXE=gulp
 

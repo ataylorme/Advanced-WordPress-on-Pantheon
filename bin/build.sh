@@ -45,7 +45,8 @@ rsync -a ./web/wp/wp-content/mu-plugins/* ./web/wp-content/mu-plugins/
 
 # Remove wp-content and wp-config from wp subdirectory
 echo -e "\n${txtylw}Removing wp-content and wp-config from wp subdirectory ${txtrst}"
-rm -rf ./web/wp/wp-config.php ./web/wp/wp-content
+[ -f 'web/wp/wp-config.php' ] && rm -rf ./web/wp/wp-config.php
+[ -d 'web/wp/wp-content' ] && rm -rf ./web/wp/wp-content
 
 EXE=gulp
 

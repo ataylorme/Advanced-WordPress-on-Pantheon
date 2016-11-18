@@ -41,7 +41,7 @@ $FOUND install $COMPOSER_PARMS
 
 # Copy Pantheon mu-plugins
 echo -e "\n${txtylw}Copying Pantheon mu-plugins ${txtrst}"
-rsync -a ./web/wp/wp-content/mu-plugins/* ./web/wp-content/mu-plugins/
+rsync -a web/wp/wp-content/mu-plugins/* web/wp-content/mu-plugins/
 
 # Remove wp-content and wp-config from wp subdirectory
 echo -e "\n${txtylw}Removing wp-content and wp-config from wp subdirectory ${txtrst}"

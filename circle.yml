@@ -20,6 +20,8 @@ dependencies:
     - /home/ubuntu/nvm/versions/node/4.3.1/bin
     - /home/ubuntu/nvm/versions/node/4.3.1/lib/node_modules
     - /usr/local/bin/terminus
+    - ~/.yarn
+    - ~/.cache/yarn
 
   pre:
     # Dynamic hosts through Pantheon mean constantly checking interactively
@@ -41,7 +43,7 @@ dependencies:
 
     # Install gulp
     - echo Installing gulp globally
-    - npm install -g gulp
+    - yarn install -g gulp
 
   override:
     - ./bin/build.sh

@@ -67,8 +67,8 @@ do
 	cd ${d%/*}
 
 	# Install any dependencies, if we find packages.json
-	[ -f 'package.json' ] && echo -e "\n${txtylw}package.json found, running 'npm install' ${txtrst}"
-	[ -f 'package.json' ] && npm install
+	[ -f 'package.json' ] && echo -e "\n${txtylw}package.json found, running 'yarn install' ${txtrst}"
+	[ -f 'package.json' ] && yarn install
 
 	# Run gulp
 	echo -e "\n${txtylw}Running 'gulp' ${txtrst}"

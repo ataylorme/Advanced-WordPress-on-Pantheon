@@ -5,13 +5,13 @@ export const dirs = {
 
 export const sassPaths = {
     src: `${dirs.src}/css/`,
-    mainFile: `${dirs.src}/css/twentysixteen-child.scss`,
+    mainFile: `${dirs.src}/css/twentyseventeen-child.scss`,
     dest: `${dirs.dest}/css/`
 };
 
 export const JSpaths = {
     src: `${dirs.src}/js/`,
-    mainFile: `${dirs.src}/js/twentysixteen-child.js`,
+    mainFile: `${dirs.src}/js/twentyseventeen-child.js`,
     dest: `${dirs.dest}/js/`
 };
 

@@ -29,7 +29,7 @@ web/wp-content/mu-plugins/*
 web/wp-content/plugins/*
 !web/wp-content/themes
 web/wp-content/themes/*
-!web/wp-content/themes/twentysixteen-child/
+!web/wp-content/themes/twentyseventeen-child/
 !web/wp-content/config/
 !web/private/
 web/private/*

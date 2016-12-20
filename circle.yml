@@ -55,7 +55,7 @@ dependencies:
 
     # Install gulp
     - echo Installing gulp globally
-    - yarn global add -g gulp
+    - yarn global add gulp
 
   override:
     - ./bin/build.sh

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "abe4c96d559741662e8938019a431114",
-    "content-hash": "7e2c54c73654bd607f318b5bdafdf25f",
+    "hash": "796cc8ab31bc00d4ad96339bc270116c",
+    "content-hash": "e043bc0add7ed44a4d5c1b831abadc92",
     "packages": [
         {
             "name": "composer/installers",
@@ -290,6 +290,26 @@
                 "environment"
             ],
             "time": "2016-12-14 21:01:27"
+        },
+        {
+            "name": "wpackagist-plugin/pantheon-advanced-page-cache",
+            "version": "0.1.2",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/pantheon-advanced-page-cache/",
+                "reference": "trunk"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/pantheon-advanced-page-cache.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/pantheon-advanced-page-cache/"
         },
         {
             "name": "wpackagist-plugin/wp-cfm",

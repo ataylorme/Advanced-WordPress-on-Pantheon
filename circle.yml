@@ -15,7 +15,6 @@ machine:
 dependencies:
   cache_directories:
     - ~/.composer/cache
-    - ~/node_modules
     - ~/.terminus/tokens
     - /home/ubuntu/nvm/versions/node/4.3.1/bin
     - /home/ubuntu/nvm/versions/node/4.3.1/lib/node_modules

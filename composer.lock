@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "84d4bb618d14312ec212c0bd3c22703d",
-    "content-hash": "18227137a7710ec626690ce70411f64d",
+    "hash": "56d059d50488435932fe3203f4fd22c5",
+    "content-hash": "b46b5b6dc4a5b17e26b4b2113f21aeeb",
     "packages": [
         {
             "name": "composer/installers",
@@ -164,16 +164,16 @@
         },
         {
             "name": "pantheon-systems/wordpress",
-            "version": "4.6.1",
+            "version": "4.7",
             "source": {
                 "type": "git",
                 "url": "git@github.com:pantheon-systems/WordPress.git",
-                "reference": "4.6.1"
+                "reference": "4.7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/pantheon-systems/WordPress/archive/4.6.1.zip",
-                "reference": "4.6.1",
+                "url": "https://github.com/pantheon-systems/WordPress/archive/4.7.zip",
+                "reference": "4.7",
                 "shasum": null
             },
             "require": {
@@ -247,12 +247,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c"
+                "reference": "08b7fbc3cc7cf6fc63b18f35ea442d7885b8e910"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
-                "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/08b7fbc3cc7cf6fc63b18f35ea442d7885b8e910",
+                "reference": "08b7fbc3cc7cf6fc63b18f35ea442d7885b8e910",
                 "shasum": ""
             },
             "require": {
@@ -289,7 +289,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2016-09-01 10:05:43"
+            "time": "2016-12-14 21:01:27"
         },
         {
             "name": "wpackagist-plugin/wp-cfm",

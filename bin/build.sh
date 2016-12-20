@@ -66,22 +66,13 @@ do
 	echo -e "\n${txtylw}gulpfile found, changing directories into: ${d%/*} ${txtrst}"
 	cd ${d%/*}
 
-	# ~/node_modules is cached on Circles CI
-	CURRENT_DIR=${PWD##*/}
-	echo -e "\n${txtylw}Moving $HOME/node_modules/$CURRENT_DIR to node_modules${txtrst}"
-	mkdir -p $HOME/node_modules/$CURRENT_DIR
-	mv $HOME/node_modules/$CURRENT_DIR ./node_modules
-
 	# Install any dependencies, if we find packages.json
-	[ -f 'package.json' ] && echo -e "\n${txtylw}package.json found, running 'npm install' ${txtrst}"
-	[ -f 'package.json' ] && npm install
+	[ -f 'package.json' ] && echo -e "\n${txtylw}package.json found, running 'yarn install' ${txtrst}"
+	[ -f 'package.json' ] && yarn install
 
 	# Run gulp
 	echo -e "\n${txtylw}Running 'gulp' ${txtrst}"
 	$FOUND
-
-	echo -e "\n${txtylw}Moving node_modules back to $HOME/node_modules/$CURRENT_DIR to cache it for next time${txtrst}"
-	mv ./node_modules $HOME/node_modules/$CURRENT_DIR
 
 	# Change back again
 	echo -e "\n${txtylw}changed directories back into: ${txtrst}"

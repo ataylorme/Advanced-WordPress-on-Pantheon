@@ -3,10 +3,14 @@ machine:
     America/Chicago
 
   node:
-    version: 4.3.1
+    version: 5.5.0
 
   php:
     version: 5.6.14
+
+  environment:
+      YARN_VERSION: 0.18.1
+      PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
 
   # This will be added to the `/etc/hosts` file
   hosts:
@@ -15,17 +19,27 @@ machine:
 dependencies:
   cache_directories:
     - ~/.composer/cache
-    - ~/node_modules
     - ~/.terminus/tokens
     - /home/ubuntu/nvm/versions/node/4.3.1/bin
     - /home/ubuntu/nvm/versions/node/4.3.1/lib/node_modules
     - /usr/local/bin/terminus
+    - ~/.yarn
+    - ~/.cache/yarn
 
   pre:
     # Dynamic hosts through Pantheon mean constantly checking interactively
     # that we mean to connect to an unknown host. We ignore those here.
     - echo Disabling strict host checking
     - echo "StrictHostKeyChecking no" > ~/.ssh/config
+
+    # Install Yarn
+    - |
+      if [[ ! -e ~/.yarn/bin/yarn || $(yarn --version) != "${YARN_VERSION}" ]]; then
+        echo "Download and install Yarn."
+        curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
+      else
+        echo "The correct version of Yarn is already installed."
+      fi
 
     # Use cURL to fetch WP-CLI
     # - curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
@@ -41,7 +55,7 @@ dependencies:
 
     # Install gulp
     - echo Installing gulp globally
-    - npm install -g gulp
+    - yarn global add gulp
 
   override:
     - ./bin/build.sh

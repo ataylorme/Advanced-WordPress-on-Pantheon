@@ -10,7 +10,7 @@ machine:
 
   environment:
       YARN_VERSION: 0.18.1
-      PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+      PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin:${HOME}/terminus/bin"
 
   # This will be added to the `/etc/hosts` file
   hosts:
@@ -25,6 +25,7 @@ dependencies:
     - /usr/local/bin/terminus
     - ~/.yarn
     - ~/.cache/yarn
+    - ~/terminus
 
   pre:
     # Dynamic hosts through Pantheon mean constantly checking interactively
@@ -56,6 +57,9 @@ dependencies:
     # Install gulp
     - echo Installing gulp globally
     - yarn global add gulp
+
+    # Install Terminus
+    - ./bin/install_terminus.sh
 
   override:
     - ./bin/build.sh

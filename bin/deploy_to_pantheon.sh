@@ -69,8 +69,8 @@ then
 	echo -e "\n${txtylw}Checking for the multidev environment ${normalize_branch} via Terminus ${txtrst}"
 
 	# Get a list of all environments
-	PANTHEON_ENVS="$(terminus multidev:list $PANTHEON_SITE_UUID --format=list)"
-	terminus multidev:list $PANTHEON_SITE_UUID
+	PANTHEON_ENVS="$(terminus multidev:list $PANTHEON_SITE_UUID --format=list --field=Name)"
+	terminus multidev:list $PANTHEON_SITE_UUID --fields=Name
 
 	MULTIDEV_FOUND=0
 

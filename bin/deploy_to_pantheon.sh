@@ -69,11 +69,20 @@ then
 	echo -e "\n${txtylw}Checking for the multidev environment ${normalize_branch} via Terminus ${txtrst}"
 
 	# Get a list of all environments
-	PANTHEON_ENVS="$(terminus multidev:list $PANTHEON_SITE_UUID --format=bash)"
+	PANTHEON_ENVS="$(terminus multidev:list $PANTHEON_SITE_UUID --format=list)"
 	terminus multidev:list $PANTHEON_SITE_UUID
 
+	MULTIDEV_FOUND=0
+
+	while read -r line; do
+    	if [[ "${line}" == "${normalize_branch}" ]]
+    	then
+    		MULTIDEV_FOUND=1
+    	fi
+	done <<< "$PANTHEON_ENVS"
+
 	# If the multidev for this branch is found
-	if [[ ${PANTHEON_ENVS} == *"${normalize_branch}"* ]]
+	if [[ "$MULTIDEV_FOUND" -eq 1 ]]
 	then
 		# Send a message
 		echo -e "\n${txtylw}Multidev found! ${txtrst}"

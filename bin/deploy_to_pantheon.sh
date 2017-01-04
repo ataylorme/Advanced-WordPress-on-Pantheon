@@ -13,7 +13,6 @@ txtrst=$(tput sgr0) # Text reset.
 
 COMMIT_MESSAGE="$(git show --name-only --decorate)"
 PANTHEON_ENV="dev"
-SITE_ENV="$PANTHEON_SITE_UUID.dev"
 
 cd $HOME
 
@@ -41,7 +40,7 @@ git fetch
 echo -e "\n${txtylw}Logging into Terminus ${txtrst}"
 terminus auth:login --machine-token=$PANTHEON_MACHINE_TOKEN
 
-SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/code|the dev environment>! \nTo deploy to test run "'`terminus env:deploy test --site='"${SITE_ENV}"'`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/merge|the site dashboard>."
+SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/code|the dev environment>! \nTo deploy to test run "'`terminus env:deploy '"${PANTHEON_SITE_UUID}"'.test`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/merge|the site dashboard>."
 
 # Check if we are NOT on the master branch
 if [ $CIRCLE_BRANCH != "master" ]
@@ -70,8 +69,8 @@ then
 	echo -e "\n${txtylw}Checking for the multidev environment ${normalize_branch} via Terminus ${txtrst}"
 
 	# Get a list of all environments
-	PANTHEON_ENVS="$(terminus multidev:list --site=$SITE_ENV --format=bash)"
-	terminus multidev:list --site=$SITE_ENV
+	PANTHEON_ENVS="$(terminus multidev:list $PANTHEON_SITE_UUID --format=bash)"
+	terminus multidev:list $PANTHEON_SITE_UUID
 
 	# If the multidev for this branch is found
 	if [[ ${PANTHEON_ENVS} == *"${normalize_branch}"* ]]
@@ -81,7 +80,7 @@ then
 	else
 		# otherwise, create the multidev branch
 		echo -e "\n${txtylw}Multidev not found, creating the multidev branch ${normalize_branch} via Terminus ${txtrst}"
-		terminus multidev:create --site=$SITE_ENV dev $normalize_branch
+		terminus multidev:create $PANTHEON_SITE_UUID.dev $normalize_branch
 		git fetch
 	fi
 
@@ -96,11 +95,11 @@ then
 		git checkout -b $normalize_branch
   	fi
 
-	SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#${normalize_branch}/code|the ${normalize_branch} environment>! \nTo merge to dev run "'`terminus multidev:merge-to-dev '"${normalize_branch} --site=${SITE_ENV}"'`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/merge|the site dashboard>."
+	SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#${normalize_branch}/code|the ${normalize_branch} environment>! \nTo merge to dev run "'`terminus multidev:merge-to-dev '"${PANTHEON_SITE_UUID}"'.'"${normalize_branch}"'`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/merge|the site dashboard>."
 fi
 
 #echo -e "\n${txtylw}Creating a backup of the ${PANTHEON_ENV} environment for site ${PANTHEON_SITE_UUID} ${txtrst}"
-#terminus site backups create --element=all --site=$SITE_ENV --env=$PANTHEON_ENV
+#terminus site backups create --element=all --site=$PANTHEON_SITE_UUID --env=$PANTHEON_ENV
 
 # Delete the web and vendor subdirectories if they exist
 if [ -d "$HOME/pantheon/web" ]

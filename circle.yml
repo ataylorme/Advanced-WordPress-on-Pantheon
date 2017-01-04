@@ -27,11 +27,6 @@ dependencies:
     - ~/.cache/yarn
 
   pre:
-    # Dynamic hosts through Pantheon mean constantly checking interactively
-    # that we mean to connect to an unknown host. We ignore those here.
-    - echo Disabling strict host checking
-    - echo "StrictHostKeyChecking no" > ~/.ssh/config
-
     # Install Yarn
     - |
       if [[ ! -e ~/.yarn/bin/yarn || $(yarn --version) != "${YARN_VERSION}" ]]; then

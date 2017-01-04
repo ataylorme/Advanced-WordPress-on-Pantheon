@@ -13,6 +13,3 @@ else
 	git pull
 	cd -
 fi
-
-# Add terminus to path
-export PATH="$PATH:/install/location/terminus/bin"

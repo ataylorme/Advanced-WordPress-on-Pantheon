@@ -11,6 +11,7 @@ machine:
   environment:
       YARN_VERSION: 0.18.1
       PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+      PATH: "${PATH}:{$HOME}/terminus/bin"
 
   # This will be added to the `/etc/hosts` file
   hosts:

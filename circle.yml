@@ -25,6 +25,7 @@ dependencies:
     - /usr/local/bin/terminus
     - ~/.yarn
     - ~/.cache/yarn
+    - ~/terminus
 
   pre:
     # Dynamic hosts through Pantheon mean constantly checking interactively
@@ -58,9 +59,7 @@ dependencies:
     - yarn global add gulp
 
     # Install Terminus
-    - git clone --branch master https://github.com/pantheon-systems/terminus.git ~/terminus
-    - cd ~/terminus && composer install
-    - export PATH="$PATH:/install/location/terminus/bin"
+    - ./bin/install_terminus.sh
 
   override:
     - ./bin/build.sh

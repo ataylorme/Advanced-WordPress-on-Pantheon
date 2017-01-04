@@ -57,6 +57,11 @@ dependencies:
     - echo Installing gulp globally
     - yarn global add gulp
 
+    # Install Terminus
+    - git clone --branch master https://github.com/pantheon-systems/terminus.git ~/terminus
+    - cd ~/terminus && composer install
+    - export PATH="$PATH:/install/location/terminus/bin"
+
   override:
     - ./bin/build.sh
 

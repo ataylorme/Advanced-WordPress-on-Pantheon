@@ -11,12 +11,6 @@ txtcyn=$(tput setaf 6) # Cyan
 txtwht=$(tput setaf 7) # White
 txtrst=$(tput sgr0) # Text reset.
 
-# Install Terminus
-echo -e "\n${txtylw}Installing Terminus ${txtrst}"
-git clone --branch master https://github.com/pantheon-systems/terminus.git ~/terminus
-cd ~/terminus && composer install
-cd -
-
 COMMIT_MESSAGE="$(git show --name-only --decorate)"
 PANTHEON_ENV="dev"
 SITE_ENV="$PANTHEON_SITE_UUID.dev"

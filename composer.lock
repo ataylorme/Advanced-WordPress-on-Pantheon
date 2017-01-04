@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "796cc8ab31bc00d4ad96339bc270116c",
-    "content-hash": "e043bc0add7ed44a4d5c1b831abadc92",
+    "hash": "a1fe0280ed4ef53f7e983b90b37dedea",
+    "content-hash": "36ab5ba04610770f910105d2a639d39a",
     "packages": [
         {
             "name": "composer/installers",
@@ -330,26 +330,6 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/wp-cfm/"
-        },
-        {
-            "name": "wpackagist-plugin/wp-lcache",
-            "version": "0.1.0",
-            "source": {
-                "type": "svn",
-                "url": "https://plugins.svn.wordpress.org/wp-lcache/",
-                "reference": "tags/0.1.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-lcache.0.1.0.zip",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "composer/installers": "~1.0"
-            },
-            "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/wp-lcache/"
         },
         {
             "name": "wpackagist-plugin/wp-native-php-sessions",

@@ -45,7 +45,6 @@
     "php": ">=5.2",
     "composer/installers": "~1.0",
     "vlucas/phpdotenv": "^2.4.0",
-    "wpackagist-plugin/wp-lcache": "^0.1.0",
     "wpackagist-plugin/wp-native-php-sessions": "^0.6.0",
     "wpackagist-plugin/pantheon-advanced-page-cache": "^0.1.2",
     "wpackagist-plugin/wp-cfm": "^1.4.5",

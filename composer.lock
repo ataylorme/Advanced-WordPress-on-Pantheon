@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a1fe0280ed4ef53f7e983b90b37dedea",
-    "content-hash": "36ab5ba04610770f910105d2a639d39a",
+    "hash": "53cff0ea0d2600f5124df8e81be67744",
+    "content-hash": "9add1b871d58abb103314aa68bcd71a0",
     "packages": [
         {
             "name": "composer/installers",
@@ -164,16 +164,16 @@
         },
         {
             "name": "pantheon-systems/wordpress",
-            "version": "4.7",
+            "version": "4.7.1",
             "source": {
                 "type": "git",
                 "url": "git@github.com:pantheon-systems/WordPress.git",
-                "reference": "4.7"
+                "reference": "4.7.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/pantheon-systems/WordPress/archive/4.7.zip",
-                "reference": "4.7",
+                "url": "https://github.com/pantheon-systems/WordPress/archive/4.7.1.zip",
+                "reference": "4.7.1",
                 "shasum": null
             },
             "require": {
@@ -353,15 +353,15 @@
         },
         {
             "name": "wpackagist-theme/twentyseventeen",
-            "version": "1.0",
+            "version": "1.1",
             "source": {
                 "type": "svn",
                 "url": "https://themes.svn.wordpress.org/twentyseventeen/",
-                "reference": "1.0"
+                "reference": "1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/theme/twentyseventeen.1.0.zip",
+                "url": "https://downloads.wordpress.org/theme/twentyseventeen.1.1.zip",
                 "reference": null,
                 "shasum": null
             },

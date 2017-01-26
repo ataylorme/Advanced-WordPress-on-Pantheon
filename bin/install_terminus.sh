@@ -11,5 +11,6 @@ else
 	# Otherwise make sure terminus is up to date
 	cd "$HOME/terminus"
 	git pull
+	composer install
 	cd -
 fi

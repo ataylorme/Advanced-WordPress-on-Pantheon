@@ -21,15 +21,15 @@
       "type": "package",
       "package": {
         "name": "pantheon-systems/wordpress",
-        "version": "4.7.2",
+        "version": "4.7.3",
         "dist": {
-          "url": "https://github.com/pantheon-systems/WordPress/archive/4.7.2.zip",
+          "url": "https://github.com/pantheon-systems/WordPress/archive/4.7.3.zip",
           "type": "zip"
         },
         "source": {
           "url": "git@github.com:pantheon-systems/WordPress.git",
           "type": "git",
-          "reference": "4.7.2"
+          "reference": "4.7.3"
         },
         "type": "wordpress-core",
         "require": {
@@ -49,7 +49,7 @@
     "wpackagist-plugin/pantheon-advanced-page-cache": "^0.1.2",
     "wpackagist-plugin/wp-cfm": "^1.4.5",
     "wpackagist-theme/twentyseventeen": "^1.1",
-    "pantheon-systems/wordpress": "^4.7.2",
+    "pantheon-systems/wordpress": "^4.7.3",
     "roots/wp-password-bcrypt": "^1.0.0"
   },
   "config": {

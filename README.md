@@ -112,6 +112,19 @@ These steps only need to be performed once, unless noted.
 * Run `npm install` from the `web/wp-content/themes/twentysixteen-child` directory
     * `npm install` will need to be ran after any changes to `web/wp-content/themes/twentysixteen-child/package.json` 
 
+### [Kalabox](http://www.kalabox.io/) Setup
+Replace `project-name` with you Pantheon site slug.
+
+1. Create a new Pantheon site in Kalabox, selecting the Pantheon site associated with the fully built project.
+1. Change directories to `~/Kalabox/project-name`
+1. Stop the site with `kbox stop`
+1. Remove the `~/Kalabox/project-name/code` directory
+1. Git clone this (the external) repository to `~/Kalabox/project-name/code`
+1. Edit the `~/Kalabox/project-name/config/nginx/wordpress.conf` Nginx configuration file to serve from `~/Kalabox/project-name/code/web` rather than `~/Kalabox/project-name/code` by changing the line `root /code;` to `root /code/web;`
+1. Edit the `~/Kalabox/project-name/kalabox.yml` file changing `php: 56` to `php: 70` and the upstream URL to the external repository, instead of the Pantheon repository
+1. Run `kbox rebuild`
+1. Run `kbox restart`
+
 ### Local Development
 The gulp _watch_ task initates a BrowserSync session and watches for:
 * Changes to `web/wp-content/themes/twentysixteen-child/source/css/twentysixteen-child.scss`, recompiling the CSS build files and injecting changes into the browser

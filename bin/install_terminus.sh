@@ -3,7 +3,7 @@ if [ ! -d "$HOME/terminus" ]
 then
 	# Clone terminus if it doesn't exist
 	echo -e "Installing Terminus...\n"
-	git clone --branch master https://github.com/pantheon-systems/terminus.git ~/terminus
+	git clone --branch master git://github.com/pantheon-systems/terminus.git ~/terminus
 	cd "$HOME/terminus"
 	composer install
 	cd -

@@ -28,10 +28,17 @@ if ( ! isset( $_ENV['PANTHEON_ENVIRONMENT'] ) && file_exists( $rootPath . '/.env
 }
 
 /**
- * Disallow on server file edits
+ * Are we working locally?
  */
-define( 'DISALLOW_FILE_EDIT', true );
-define( 'DISALLOW_FILE_MODS', true );
+define( 'IS_LOCAL', getenv( 'IS_LOCAL' ) !== false ? true : false );
+
+/**
+ * Disallow on server file edits unless working locally
+ */
+if( ! IS_LOCAL ){
+	define( 'DISALLOW_FILE_EDIT', true );
+	define( 'DISALLOW_FILE_MODS', true );
+}
 
 /**
  * Force SSL
@@ -74,7 +81,6 @@ if ( ! isset( $_ENV['PANTHEON_ENVIRONMENT'] ) ):
 	 * Set debug modes
 	 */
 	define( 'WP_DEBUG', getenv( 'WP_DEBUG' ) === 'true' ? true : false );
-	define( 'IS_LOCAL', getenv( 'IS_LOCAL' ) !== false ? true : false );
 
 	/**#@+
 	 * Authentication Unique Keys and Salts.

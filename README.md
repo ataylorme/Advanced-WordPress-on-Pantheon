@@ -122,6 +122,7 @@ Replace `project-name` with you Pantheon site slug.
 1. Git clone this (the external) repository to `~/Kalabox/project-name/code`
 1. Edit the `~/Kalabox/project-name/config/nginx/wordpress.conf` Nginx configuration file to serve from `~/Kalabox/project-name/code/web` rather than `~/Kalabox/project-name/code` by changing the line `root /code;` to `root /code/web;`
 1. Edit the `~/Kalabox/project-name/kalabox.yml` file changing `php: 56` to `php: 70` and the upstream URL to the external repository, instead of the Pantheon repository
+1. Edit the `~/Kalabox/project-name/code/web/wp-content/themes/twentyseventeen-child/gulp/browserSyncServe.js` file and replace `https://pantheon-wp-best-practices.kbox.site/` with your Kalabox site URL in the `proxy` option
 1. Run `kbox rebuild`
 1. Run `kbox restart`
 

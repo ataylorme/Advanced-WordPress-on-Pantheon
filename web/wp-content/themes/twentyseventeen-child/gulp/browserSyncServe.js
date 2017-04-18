@@ -6,7 +6,6 @@ export default () => {
         open: false,
         https: true,
         proxy: 'https://advanced-wp.dev/',
-		files: ['assets/css/*.min.css', 'assets/js/*.min.js', '**/*.php'],
-		reloadDelay: 2000
+	files: ['assets/css/*.min.css', 'assets/js/*.min.js', '**/*.php']
     });
 }

@@ -5,7 +5,7 @@ export default () => {
         // see http://www.browsersync.io/docs/options/
         open: false,
         https: true,
-        proxy: 'https://pantheon-wp-best-practices.kbox.site/',
+        proxy: 'https://advanced-wp.dev/',
 		files: ['assets/css/*.min.css', 'assets/js/*.min.js', '**/*.php'],
 		reloadDelay: 2000
     });

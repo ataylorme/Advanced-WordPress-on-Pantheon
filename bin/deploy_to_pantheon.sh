@@ -47,8 +47,10 @@ PANTHEON_SITE_NAME="$(terminus site:info $PANTHEON_SITE_UUID --fields=name --for
 SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/code|the dev environment>! \nTo deploy to test run "'`terminus env:deploy '"${PANTHEON_SITE_UUID}"'.test`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#test/deploys|the site dashboard>."
 
 # Check if we are NOT on the master branch and this is a PR
-if [[ $CIRCLE_BRANCH != "master" && -n "${CIRCLE_PR_NUMBER}" ]]
+if [[ $CIRCLE_BRANCH != "master" && ! -z "$CIRCLE_PULL_REQUEST" ]]
 then
+	# Stash PR number
+	PR_NUMBER=${CIRCLE_PULL_REQUEST##*/}
 
 	# Branch name can't be more than 11 characters
 	# Normalize branch name to adhere with Multidev requirements
@@ -96,9 +98,9 @@ then
 		terminus multidev:create $PANTHEON_SITE_UUID.dev $normalize_branch
 
 		# put a link to the multidev back on GitHub
-		echo -e "\n${txtylw}Linking multidev back to PR #$CIRCLE_PR_NUMBER ${txtrst}"
+		echo -e "\n${txtylw}Linking multidev back to PR #$PR_NUMBER ${txtrst}"
 		MULTDEV_LINK="http://$normalize_branch-$PANTHEON_SITE_NAME.pantheonsite.io/"
-		curl -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"Multidev `$normalize_branch` created successfully! [$MULTDEV_LINK]($MULTDEV_LINK)\"}" $GITHUB_API_URL/issues/$CIRCLE_PR_NUMBER/comments
+		curl -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"Multidev `$normalize_branch` created successfully! [$MULTDEV_LINK]($MULTDEV_LINK)\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments
 
 		git fetch
 	fi

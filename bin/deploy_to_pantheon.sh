@@ -54,7 +54,7 @@ then
 
 
 	# Multidev name is the PR
-	PR_BRANCH="PR-$PR_NUMBER"
+	PR_BRANCH="pr-$PR_NUMBER"
 
 	# Update the environment variable
 	PANTHEON_ENV="${PR_BRANCH}"

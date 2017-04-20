@@ -24,4 +24,4 @@ set -ex
 ###
 # Delete the environment used for this test run.
 ###
-terminus multidev:delete $PANTHEON_SITE_UUID.$BEHAT_ENV --remove-branch --yes
+terminus multidev:delete $PANTHEON_SITE_UUID.$BEHAT_ENV --delete-branch --yes

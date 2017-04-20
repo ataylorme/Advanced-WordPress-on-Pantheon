@@ -31,40 +31,13 @@ set -ex
 ###
 # Create a new environment for this particular test run.
 ###
+echo "Creating multidev $BEHAT_ENV"
 terminus multidev:create $PANTHEON_SITE_UUID.dev $BEHAT_ENV
-terminus env:wipe $PANTHEON_SITE_UUID.$BEHAT_ENV
+
 
 ###
-# Get all necessary environment details.
-###
-PANTHEON_GIT_URL="$(terminus connection:info $PANTHEON_SITE_UUID.$BEHAT_ENV --field=git_url)"
-PANTHEON_SITE_URL="$BEHAT_ENV-$PANTHEON_SITE_UUID.pantheonsite.io"
-PREPARE_DIR="/tmp/$BEHAT_ENV-$PANTHEON_SITE_UUID"
-BASH_DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-###
-# Switch to git mode for pushing the files up
-###
-terminus connection:info $PANTHEON_SITE_UUID.$BEHAT_ENV git
-rm -rf $PREPARE_DIR
-git clone -b $BEHAT_ENV $PANTHEON_GIT_URL $PREPARE_DIR
-
-###
-# Push files to the environment
-###
-cd $PREPARE_DIR
-git add -A wp-content
-git config user.email "solr-power@getpantheon.com"
-git config user.name "Pantheon"
-git commit -m "Include Solr Power"
-git push
-
-# Sometimes Pantheon takes a little time to refresh the filesystem
-sleep 10
-
-###
-# Set up WordPress, theme, and plugins for the test run
+# Set up WordPress admin user
 ###
 {
-  terminus wp $PANTHEON_SITE_UUID.$BEHAT_ENV -- core install --title="Pantheon WP Best Practices" --url=$PANTHEON_SITE_URL --admin_user=$WORDPRESS_ADMIN_USERNAME --admin_email=no-reply@getpantheon.com --admin_password=$WORDPRESS_ADMIN_PASSWORD
+  terminus wp $PANTHEON_SITE_UUID.$BEHAT_ENV -- user create $WORDPRESS_ADMIN_USERNAME no-reply@getpantheon.com --user_pass=$WORDPRESS_ADMIN_PASSWORD --role=administrator
 } &> /dev/null

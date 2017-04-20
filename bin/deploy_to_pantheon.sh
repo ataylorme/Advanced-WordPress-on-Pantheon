@@ -13,6 +13,7 @@ txtrst=$(tput sgr0) # Text reset.
 
 COMMIT_MESSAGE="$(git show --name-only --decorate)"
 PANTHEON_ENV="dev"
+PANTHEON_ENVS="$(terminus multidev:list $PANTHEON_SITE_UUID --format=list --field=Name)"
 
 cd $HOME
 
@@ -69,7 +70,6 @@ then
 	echo -e "\n${txtylw}Checking for the multidev environment ${normalize_branch} via Terminus ${txtrst}"
 
 	# Get a list of all environments
-	PANTHEON_ENVS="$(terminus multidev:list $PANTHEON_SITE_UUID --format=list --field=Name)"
 	terminus multidev:list $PANTHEON_SITE_UUID --fields=Name
 
 	MULTIDEV_FOUND=0
@@ -169,6 +169,20 @@ else
 	echo -e "\n${txtgrn}Pushing the master branch to Pantheon ${txtrst}"
 	git push -u origin master --force
 fi
+
+# Cleanup old multidevs
+cd $BUILD_DIR
+while read -r b; do
+	REMOTE_BRANCH="$(git branch -a | grep 'remotes/origin/$b')"
+	if [[ "${b}" != "${REMOTE_BRANCH##*/}" ]]
+	then
+		echo -e "\n${txtred}Deleting the unused multidev: $b ${txtrst}"
+		terminus multidev:delete $b --delete-branch --yes
+	else
+		echo -e "\n${txtylw}NOT deleting the multidev 'multidev-pr-link' since it still exists on the remote...${txtrst}"
+	fi
+done <<< "$PANTHEON_ENVS"
+cd -
 
 #Send a message to Slack
 echo -e "\n${txtgrn}Sending a message to the ${SLACK_CHANNEL} Slack channel ${txtrst}"

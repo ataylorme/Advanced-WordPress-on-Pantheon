@@ -189,7 +189,7 @@ while read -r b; do
 			echo -e "\n${txtylw}NOT deleting the multidev '$b' since the pull request is still open ${txtrst}"
 		else
 			echo -e "\n${txtred}Deleting the multidev for closed pull request #$PR_NUMBER...${txtrst}"
-			#terminus multidev:delete $PANTHEON_SITE_UUID.$b --delete-branch --yes
+			terminus multidev:delete $PANTHEON_SITE_UUID.$b --delete-branch --yes
 		fi
 	else
 		echo -e "\n${txtred}Invalid pull request number: $PR_NUMBER...${txtrst}"

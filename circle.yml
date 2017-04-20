@@ -62,7 +62,11 @@ dependencies:
     # - chmod +x wp-cli.phar
 
     # Set github token to avoid rate limit
-    - composer config --global github-oauth.github.com $GIT_TOKEN
+    - |
+      echo "Setting GitHub OAuth token with suppressed ouput"
+      {
+        composer config --global github-oauth.github.com $GIT_TOKEN
+      } &> /dev/null
 
     - git config --global user.email $GIT_EMAIL
     - git config --global user.name $GIT_USERNAME

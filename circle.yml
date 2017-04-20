@@ -11,6 +11,13 @@ machine:
   environment:
       YARN_VERSION: 0.18.1
       PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin:${HOME}/terminus/bin"
+      BEHAT_ENV: ci-$CIRCLE_BUILD_NUM
+      WORDPRESS_ADMIN_USERNAME: pantheon
+      # A random password is set in the dependencies:pre stage as a text file.
+      # This line reads the same file repeatedly. If the openssl call were used
+      # in this step, it would result in a different password being used in each
+      # line of other steps. Each CircleCI command runs in a separate shell.
+      WORDPRESS_ADMIN_PASSWORD: $(cat ~/WORDPRESS_ADMIN_PASSWORD)
 
   # This will be added to the `/etc/hosts` file
   hosts:
@@ -32,6 +39,9 @@ dependencies:
     # that we mean to connect to an unknown host. We ignore those here.
     - echo Disabling strict host checking
     - echo "StrictHostKeyChecking no" > ~/.ssh/config
+
+    # Set the PHP timezone so that Behat script does not fail.
+    - echo "date.timezone = 'US/Central'"  >  /opt/circleci/php/5.6.22/etc/conf.d/xdebug.ini
 
     # Install Yarn
     - |
@@ -66,8 +76,12 @@ dependencies:
 
 
 test:
+  pre:
+    - ./bin/behat-prepare.sh
   override:
-    - ls
+    - ./bin/behat-test.sh --strict
+  post:
+    - ./bin/behat-cleanup.sh
 
 deployment:
   pantheon:

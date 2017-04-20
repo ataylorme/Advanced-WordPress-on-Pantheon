@@ -11,6 +11,10 @@ txtcyn=$(tput setaf 6) # Cyan
 txtwht=$(tput setaf 7) # White
 txtrst=$(tput sgr0) # Text reset.
 
+# Log into terminus.
+echo -e "\n${txtylw}Logging into Terminus ${txtrst}"
+terminus auth:login --machine-token=$PANTHEON_MACHINE_TOKEN
+
 COMMIT_MESSAGE="$(git show --name-only --decorate)"
 PANTHEON_ENV="dev"
 PANTHEON_ENVS="$(terminus multidev:list $PANTHEON_SITE_UUID --format=list --field=Name)"
@@ -36,10 +40,6 @@ then
 fi
 
 git fetch
-
-# Log into terminus.
-echo -e "\n${txtylw}Logging into Terminus ${txtrst}"
-terminus auth:login --machine-token=$PANTHEON_MACHINE_TOKEN
 
 SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/code|the dev environment>! \nTo deploy to test run "'`terminus env:deploy '"${PANTHEON_SITE_UUID}"'.test`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#test/deploys|the site dashboard>."
 
@@ -179,7 +179,7 @@ while read -r b; do
 		echo -e "\n${txtred}Deleting the unused multidev: $b ${txtrst}"
 		terminus multidev:delete $b --delete-branch --yes
 	else
-		echo -e "\n${txtylw}NOT deleting the multidev 'multidev-pr-link' since it still exists on the remote...${txtrst}"
+		echo -e "\n${txtylw}NOT deleting the multidev '$b' since it still exists on the remote...${txtrst}"
 	fi
 done <<< "$PANTHEON_ENVS"
 cd -

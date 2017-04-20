@@ -46,8 +46,17 @@ PANTHEON_SITE_NAME="$(terminus site:info $PANTHEON_SITE_UUID --fields=name --for
 
 SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/code|the dev environment>! \nTo deploy to test run "'`terminus env:deploy '"${PANTHEON_SITE_UUID}"'.test`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#test/deploys|the site dashboard>."
 
+if [ -n "$CIRCLE_PULL_REQUEST" ]
+then
+	echo -e "CIRCLE_PULL_REQUEST is: $CIRCLE_PULL_REQUEST"
+else
+	echo -e "CIRCLE_PULL_REQUEST is NOT set or is empty"
+fi
+
+exit 1
+
 # Check if we are NOT on the master branch and this is a PR
-if [[ $CIRCLE_BRANCH != "master" && ! -z "$CIRCLE_PULL_REQUEST" ]]
+if [[ $CIRCLE_BRANCH != "master" && -n "$CIRCLE_PULL_REQUEST" ]]
 then
 	# Stash PR number
 	PR_NUMBER=${CIRCLE_PULL_REQUEST##*/}

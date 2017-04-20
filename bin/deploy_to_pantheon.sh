@@ -180,8 +180,9 @@ while read -r b; do
 		continue
 	fi
 	echo -e "\n${txtylw}Analyzing the multidev: $b...${txtrst}"
-	PR_OPEN="$(curl --write-out %{http_code} --silent --output /dev/null $GITHUB_API_URL/pulls/$PR_NUMBER)"
-	if [ $PR_OPEN -eq 200 ]
+	PR_RESPONSE="$(curl --write-out %{http_code} --silent --output /dev/null $GITHUB_API_URL/pulls/$PR_NUMBER)"
+	echo $PR_RESPONSE
+	if [ $PR_RESPONSE -eq 200 ]
 	then
 		PR_STATE="$(curl $GITHUB_API_URL/pulls/$PR_NUMBER | jq -r '.state')"
 		if [ "open" == "$PR_STATE"  ]

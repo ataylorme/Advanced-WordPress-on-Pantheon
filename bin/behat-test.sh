@@ -28,4 +28,4 @@ set -ex
 
 export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "http://'$BEHAT_ENV'-'$PANTHEON_SITE_UUID'.pantheonsite.io"} }}'
 
-./vendor/bin/behat "$@"
+bin/behat "$@"

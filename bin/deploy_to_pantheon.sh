@@ -158,7 +158,7 @@ fi
 
 echo -e "\n${txtylw}Forcibly adding all files and committing${txtrst}"
 git add -A --force .
-git commit -m "Circle CI build $CIRCLE_BUILD_NUM by $CIRCLE_PROJECT_USERNAME" -m "$COMMIT_MESSAGE"
+git commit -m "Circle CI build $CIRCLE_BUILD_NUM by $CIRCLE_PROJECT_USERNAME: $COMMIT_MESSAGE"
 
 # Force push to Pantheon
 if [ $CIRCLE_BRANCH != "master" ]

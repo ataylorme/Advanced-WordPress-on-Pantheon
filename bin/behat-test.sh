@@ -4,6 +4,10 @@
 # Execute the Behat test suite against a prepared Pantheon site environment.
 ###
 
+# Log into terminus.
+echo -e "\nLogging into Terminus"
+terminus auth:login --machine-token=$PANTHEON_MACHINE_TOKEN
+
 terminus auth:whoami > /dev/null
 if [ $? -ne 0 ]; then
 	echo "Terminus unauthenticated; assuming unauthenticated build"

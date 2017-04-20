@@ -19,9 +19,9 @@ terminus auth:login --machine-token=$PANTHEON_MACHINE_TOKEN
 COMMIT_MESSAGE="$(git show --name-only --decorate)"
 PANTHEON_ENV="dev"
 PANTHEON_ENVS="$(terminus multidev:list $PANTHEON_SITE_UUID --format=list --field=Name)"
-GITHUB_API_URL="https://api.github.com/repos/$CIRCLE_pull requestOJECT_USERNAME/$CIRCLE_pull requestOJECT_REPONAME"
+GITHUB_API_URL="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
 PANTHEON_SITE_NAME="$(terminus site:info $PANTHEON_SITE_UUID --fields=name --format=string)"
-SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_pull requestOJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/code|the dev environment>! \nTo deploy to test run "'`terminus env:deploy '"${PANTHEON_SITE_UUID}"'.test`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#test/deploys|the site dashboard>."
+SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/code|the dev environment>! \nTo deploy to test run "'`terminus env:deploy '"${PANTHEON_SITE_UUID}"'.test`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#test/deploys|the site dashboard>."
 
 cd $HOME
 
@@ -102,7 +102,7 @@ then
 		git checkout -b $PR_BRANCH
   	fi
 
-	SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_pull requestOJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#${PR_BRANCH}/code|the ${PR_BRANCH} environment>! \nTo merge to dev run "'`terminus multidev:merge-to-dev '"${PANTHEON_SITE_UUID}"'.'"${PR_BRANCH}"'`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/merge|the site dashboard>."
+	SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#${PR_BRANCH}/code|the ${PR_BRANCH} environment>! \nTo merge to dev run "'`terminus multidev:merge-to-dev '"${PANTHEON_SITE_UUID}"'.'"${PR_BRANCH}"'`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/merge|the site dashboard>."
 fi
 
 #echo -e "\n${txtylw}Creating a backup of the ${PANTHEON_ENV} environment for site ${PANTHEON_SITE_UUID} ${txtrst}"
@@ -156,7 +156,7 @@ fi
 
 echo -e "\n${txtylw}Forcibly adding all files and committing${txtrst}"
 git add -A --force .
-git commit -m "Circle CI build $CIRCLE_BUILD_NUM by $CIRCLE_pull requestOJECT_USERNAME" -m "$COMMIT_MESSAGE"
+git commit -m "Circle CI build $CIRCLE_BUILD_NUM by $CIRCLE_PROJECT_USERNAME" -m "$COMMIT_MESSAGE"
 
 # Force push to Pantheon
 if [ $CIRCLE_BRANCH != "master" ]

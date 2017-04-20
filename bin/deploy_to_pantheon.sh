@@ -45,6 +45,7 @@ terminus auth:login --machine-token=$PANTHEON_MACHINE_TOKEN
 PANTHEON_SITE_NAME="$(terminus site:info $PANTHEON_SITE_UUID --fields=name --format=string)"
 
 SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/code|the dev environment>! \nTo deploy to test run "'`terminus env:deploy '"${PANTHEON_SITE_UUID}"'.test`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#test/deploys|the site dashboard>."
+echo -e "\nCircleCI PR number is: $CIRCLE_PR_NUMBER"
 
 # Check if we are NOT on the master branch and this is a PR
 if [ $CIRCLE_BRANCH != "master" ] && [ -n "${CIRCLE_PR_NUMBER}" ]

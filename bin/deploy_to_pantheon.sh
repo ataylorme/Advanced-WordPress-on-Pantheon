@@ -176,13 +176,11 @@ while read -r b; do
 	then
 		PR_NUMBER=${b#pr-}
 	else
-		echo -e "\n${txtylw}Skipping the multidev: $b since it wasn't made from a pull request...${txtrst}"
+		echo -e "\n${txtylw}NOT deleting the multidev '$b' since it was created manually ${txtrst}"
 		continue
 	fi
 	echo -e "\n${txtylw}Analyzing the multidev: $b...${txtrst}"
 	PR_RESPONSE="$(curl --write-out %{http_code} --silent --output /dev/null $GITHUB_API_URL/pulls/$PR_NUMBER)"
-	echo -e "\nRunning curl --write-out %{http_code} --silent --output /dev/null $GITHUB_API_URL/pulls/$PR_NUMBER"
-	curl --write-out %{http_code} --silent --output /dev/null $GITHUB_API_URL/pulls/$PR_NUMBER
 	if [ $PR_RESPONSE -eq 200 ]
 	then
 		PR_STATE="$(curl $GITHUB_API_URL/pulls/$PR_NUMBER | jq -r '.state')"

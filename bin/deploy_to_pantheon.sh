@@ -53,27 +53,13 @@ then
 	echo -e "\n${txtylw}Processing pull request #$PR_NUMBER ${txtrst}"
 
 
-	# Branch name can't be more than 11 characters
-	# Normalize branch name to adhere with Multidev requirements
-	export normalize_branch="$CIRCLE_BRANCH"
-	export valid="^[-0-9a-z]" # allows digits 0-9, lower case a-z, and -
-	# If the branch name is invalid
-  	if [[ $normalize_branch =~ $valid ]]
-  	then
-		export normalize_branch="${normalize_branch:0:11}"
-		# Attempt to normalize it
-		export normalize_branch="${normalize_branch//[-_]}"
-		echo "Success: "$normalize_branch" is a valid branch name."
-  	else
-  		# Otherwise exit
-		echo "Error: Multidev cannot be created due to invalid branch name: $normalize_branch"
-		exit 1
-	fi
+	# Multidev name is the PR
+	PR_BRANCH="PR-$PR_NUMBER"
 
 	# Update the environment variable
-	PANTHEON_ENV="${normalize_branch}"
+	PANTHEON_ENV="${PR_BRANCH}"
 
-	echo -e "\n${txtylw}Checking for the multidev environment ${normalize_branch} via Terminus ${txtrst}"
+	echo -e "\n${txtylw}Checking for the multidev environment ${PR_BRANCH} via Terminus ${txtrst}"
 
 	# Get a list of all environments
 	terminus multidev:list $PANTHEON_SITE_UUID --fields=Name
@@ -81,7 +67,7 @@ then
 	MULTIDEV_FOUND=0
 
 	while read -r line; do
-    	if [[ "${line}" == "${normalize_branch}" ]]
+    	if [[ "${line}" == "${PR_BRANCH}" ]]
     	then
     		MULTIDEV_FOUND=1
     	fi
@@ -94,29 +80,29 @@ then
 		echo -e "\n${txtylw}Multidev found! ${txtrst}"
 	else
 		# otherwise, create the multidev branch
-		echo -e "\n${txtylw}Multidev not found, creating the multidev branch ${normalize_branch} via Terminus ${txtrst}"
-		terminus multidev:create $PANTHEON_SITE_UUID.dev $normalize_branch
+		echo -e "\n${txtylw}Multidev not found, creating the multidev branch ${PR_BRANCH} via Terminus ${txtrst}"
+		terminus multidev:create $PANTHEON_SITE_UUID.dev $PR_BRANCH
 
 		# put a link to the multidev back on GitHub
 		echo -e "\n${txtylw}Linking multidev back to PR #$PR_NUMBER ${txtrst}"
-		MULTDEV_LINK="http://$normalize_branch-$PANTHEON_SITE_NAME.pantheonsite.io/"
-		curl -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"Multidev `$normalize_branch` created successfully! [$MULTDEV_LINK]($MULTDEV_LINK)\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments
+		MULTDEV_LINK="http://$PR_BRANCH-$PANTHEON_SITE_NAME.pantheonsite.io/"
+		curl -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"Multidev `$PR_BRANCH` created successfully! [$MULTDEV_LINK]($MULTDEV_LINK)\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments
 
 		git fetch
 	fi
 
 	# Checkout the correct branch
-	GIT_BRANCHES="git show-ref --verify refs/heads/$normalize_branch"
-	if [[ ${GIT_BRANCHES} == *"${normalize_branch}"* ]]
+	GIT_BRANCHES="git show-ref --verify refs/heads/$PR_BRANCH"
+	if [[ ${GIT_BRANCHES} == *"${PR_BRANCH}"* ]]
 	then
-		echo -e "\n${txtylw}Branch ${normalize_branch} found, checking it out ${txtrst}"
-    	git checkout $normalize_branch
+		echo -e "\n${txtylw}Branch ${PR_BRANCH} found, checking it out ${txtrst}"
+    	git checkout $PR_BRANCH
   	else
-  		echo -e "\n${txtylw}Branch ${normalize_branch} not found, creating it ${txtrst}"
-		git checkout -b $normalize_branch
+  		echo -e "\n${txtylw}Branch ${PR_BRANCH} not found, creating it ${txtrst}"
+		git checkout -b $PR_BRANCH
   	fi
 
-	SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#${normalize_branch}/code|the ${normalize_branch} environment>! \nTo merge to dev run "'`terminus multidev:merge-to-dev '"${PANTHEON_SITE_UUID}"'.'"${normalize_branch}"'`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/merge|the site dashboard>."
+	SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#${PR_BRANCH}/code|the ${PR_BRANCH} environment>! \nTo merge to dev run "'`terminus multidev:merge-to-dev '"${PANTHEON_SITE_UUID}"'.'"${PR_BRANCH}"'`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/merge|the site dashboard>."
 fi
 
 #echo -e "\n${txtylw}Creating a backup of the ${PANTHEON_ENV} environment for site ${PANTHEON_SITE_UUID} ${txtrst}"
@@ -175,8 +161,8 @@ git commit -m "Circle CI build $CIRCLE_BUILD_NUM by $CIRCLE_PROJECT_USERNAME" -m
 # Force push to Pantheon
 if [ $CIRCLE_BRANCH != "master" ]
 then
-	echo -e "\n${txtgrn}Pushing the ${normalize_branch} branch to Pantheon ${txtrst}"
-	git push -u origin $normalize_branch --force
+	echo -e "\n${txtgrn}Pushing the ${PR_BRANCH} branch to Pantheon ${txtrst}"
+	git push -u origin $PR_BRANCH --force
 else
 	echo -e "\n${txtgrn}Pushing the master branch to Pantheon ${txtrst}"
 	git push -u origin master --force

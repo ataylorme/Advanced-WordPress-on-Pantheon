@@ -85,7 +85,7 @@ then
 
 		# put a link to the multidev back on GitHub
 		echo -e "\n${txtylw}Linking multidev back to pull request #$PR_NUMBER ${txtrst}"
-		MULTDEV_LINK="http://$PR_BRANCH-$PANTHEON_SITE_NAME.pantheonsite.io/"
+		MULTDEV_LINK="https://$PR_BRANCH-$PANTHEON_SITE_NAME.pantheonsite.io/"
 		curl -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"Multidev `$PR_BRANCH` created successfully! [$MULTDEV_LINK]($MULTDEV_LINK)\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments
 
 		git fetch

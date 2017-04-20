@@ -80,6 +80,7 @@ dependencies:
 
   override:
     - ./bin/build.sh
+    - composer install --dev
 
 
 test:

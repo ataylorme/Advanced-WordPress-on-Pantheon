@@ -26,6 +26,8 @@ fi
 
 set -ex
 
-export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "http://'$BEHAT_ENV'-'$PANTHEON_SITE_UUID'.pantheonsite.io"} }}'
+PANTHEON_SITE_NAME="$(terminus site:info $PANTHEON_SITE_UUID --fields=name --format=string)"
 
-vendor/bin/behat "$@"
+export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "https://'$BEHAT_ENV'-'$PANTHEON_SITE_NAME'.pantheonsite.io"} }}'
+
+./vendor/bin/behat "$@"

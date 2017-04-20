@@ -39,11 +39,6 @@
           "wordpress-install-dir": "web/wp"
         }
       }
-    },
-    {
-      "name": "pantheon-wordpress-upstream-tests",
-      "type": "vcs",
-      "url": "git@github.com:pantheon-systems/pantheon-wordpress-upstream-tests.git"
     }
   ],
   "require": {
@@ -61,7 +56,8 @@
     "behat/behat": "^3.1",
     "behat/mink-extension": "^2.2",
     "behat/mink-goutte-driver": "^1.2",
-    "pantheon-systems/pantheon-wordpress-upstream-tests": "dev-master"
+    "pantheon-systems/pantheon-wordpress-upstream-tests": "dev-master",
+    "paulgibbs/behat-wordpress-extension": "dev-master"
   },
   "config": {
     "vendor-dir": "vendor",

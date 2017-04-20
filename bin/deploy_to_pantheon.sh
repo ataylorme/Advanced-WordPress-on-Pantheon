@@ -35,7 +35,7 @@ then
 	rm -rf $HOME/pantheon/wp-content
 fi
 
-git fetch
+git fetch --all
 
 # Log into terminus.
 echo -e "\n${txtylw}Logging into Terminus ${txtrst}"

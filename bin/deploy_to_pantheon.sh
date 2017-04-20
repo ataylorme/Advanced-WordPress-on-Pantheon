@@ -19,9 +19,9 @@ terminus auth:login --machine-token=$PANTHEON_MACHINE_TOKEN
 COMMIT_MESSAGE="$(git show --name-only --decorate)"
 PANTHEON_ENV="dev"
 PANTHEON_ENVS="$(terminus multidev:list $PANTHEON_SITE_UUID --format=list --field=Name)"
-GITHUB_API_URL="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
+GITHUB_API_URL="https://api.github.com/repos/$CIRCLE_pull requestOJECT_USERNAME/$CIRCLE_pull requestOJECT_REPONAME"
 PANTHEON_SITE_NAME="$(terminus site:info $PANTHEON_SITE_UUID --fields=name --format=string)"
-SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/code|the dev environment>! \nTo deploy to test run "'`terminus env:deploy '"${PANTHEON_SITE_UUID}"'.test`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#test/deploys|the site dashboard>."
+SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_pull requestOJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/code|the dev environment>! \nTo deploy to test run "'`terminus env:deploy '"${PANTHEON_SITE_UUID}"'.test`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#test/deploys|the site dashboard>."
 
 cd $HOME
 
@@ -45,15 +45,15 @@ fi
 
 git fetch --all
 
-# Check if we are NOT on the master branch and this is a PR
+# Check if we are NOT on the master branch and this is a pull request
 if [[ $CIRCLE_BRANCH != "master" && -n "$CI_PULL_REQUEST" ]]
 then
-	# Stash PR number
+	# Stash pull request number
 	PR_NUMBER=${CI_PULL_REQUEST##*/}
 	echo -e "\n${txtylw}Processing pull request #$PR_NUMBER ${txtrst}"
 
 
-	# Multidev name is the PR
+	# Multidev name is the pull request
 	PR_BRANCH="pr-$PR_NUMBER"
 
 	# Update the environment variable
@@ -84,7 +84,7 @@ then
 		terminus multidev:create $PANTHEON_SITE_UUID.dev $PR_BRANCH
 
 		# put a link to the multidev back on GitHub
-		echo -e "\n${txtylw}Linking multidev back to PR #$PR_NUMBER ${txtrst}"
+		echo -e "\n${txtylw}Linking multidev back to pull request #$PR_NUMBER ${txtrst}"
 		MULTDEV_LINK="http://$PR_BRANCH-$PANTHEON_SITE_NAME.pantheonsite.io/"
 		curl -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"Multidev `$PR_BRANCH` created successfully! [$MULTDEV_LINK]($MULTDEV_LINK)\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments
 
@@ -102,7 +102,7 @@ then
 		git checkout -b $PR_BRANCH
   	fi
 
-	SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#${PR_BRANCH}/code|the ${PR_BRANCH} environment>! \nTo merge to dev run "'`terminus multidev:merge-to-dev '"${PANTHEON_SITE_UUID}"'.'"${PR_BRANCH}"'`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/merge|the site dashboard>."
+	SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_pull requestOJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#${PR_BRANCH}/code|the ${PR_BRANCH} environment>! \nTo merge to dev run "'`terminus multidev:merge-to-dev '"${PANTHEON_SITE_UUID}"'.'"${PR_BRANCH}"'`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/merge|the site dashboard>."
 fi
 
 #echo -e "\n${txtylw}Creating a backup of the ${PANTHEON_ENV} environment for site ${PANTHEON_SITE_UUID} ${txtrst}"
@@ -156,7 +156,7 @@ fi
 
 echo -e "\n${txtylw}Forcibly adding all files and committing${txtrst}"
 git add -A --force .
-git commit -m "Circle CI build $CIRCLE_BUILD_NUM by $CIRCLE_PROJECT_USERNAME" -m "$COMMIT_MESSAGE"
+git commit -m "Circle CI build $CIRCLE_BUILD_NUM by $CIRCLE_pull requestOJECT_USERNAME" -m "$COMMIT_MESSAGE"
 
 # Force push to Pantheon
 if [ $CIRCLE_BRANCH != "master" ]
@@ -169,15 +169,30 @@ else
 fi
 
 # Cleanup old multidevs
+echo -e "\n${txtylw}Cleaning up multidevs from closed pull requests...${txtrst}"
 cd $BUILD_DIR
 while read -r b; do
-	REMOTE_BRANCH="$(git branch -a | grep 'remotes/origin/$b')"
-	if [[ "remotes/origin/${b}" != "${REMOTE_BRANCH}" ]]
+	if [[ $b =~ ^pr-[0-9]+ ]]
 	then
-		echo -e "\n${txtred}Deleting the unused multidev: $b ${txtrst}"
-		#terminus multidev:delete $PANTHEON_SITE_UUID.$b --delete-branch --yes
+		PR_NUMBER=${b#pr-}
 	else
-		echo -e "\n${txtylw}NOT deleting the multidev '$b' since it still exists on the remote...${txtrst}"
+		echo -e "\n${txtylw}Skipping the multidev: $b since it wasn't made from a pull request...${txtrst}"
+		continue
+	fi
+	echo -e "\n${txtylw}Analyzing the multidev: $b...${txtrst}"
+	PR_OPEN="$(curl --write-out %{http_code} --silent --output /dev/null $GITHUB_API_URL/pulls/$PR_NUMBER)"
+	if [ $PR_OPEN -eq 200 ]
+	then
+		PR_STATE="$(curl $GITHUB_API_URL/pulls/$PR_NUMBER | jq -r '.state')"
+		if [ "open" == "$PR_STATE"  ]
+		then
+			echo -e "\n${txtylw}NOT deleting the multidev '$b' since the pull request is still open ${txtrst}"
+		else
+			echo -e "\n${txtred}Deleting the multidev for closed pull request #$PR_NUMBER...${txtrst}"
+			#terminus multidev:delete $PANTHEON_SITE_UUID.$b --delete-branch --yes
+		fi
+	else
+		echo -e "\n${txtred}Invalid pull request number: $PR_NUMBER...${txtrst}"
 	fi
 done <<< "$PANTHEON_ENVS"
 cd -

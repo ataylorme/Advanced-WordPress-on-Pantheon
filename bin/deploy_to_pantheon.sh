@@ -172,10 +172,10 @@ fi
 cd $BUILD_DIR
 while read -r b; do
 	REMOTE_BRANCH="$(git branch -a | grep 'remotes/origin/$b')"
-	if [[ "${b}" != "${REMOTE_BRANCH##*/}" ]]
+	if [[ "remotes/origin/${b}" != "${REMOTE_BRANCH}" ]]
 	then
 		echo -e "\n${txtred}Deleting the unused multidev: $b ${txtrst}"
-		terminus multidev:delete $b --delete-branch --yes
+		#terminus multidev:delete $PANTHEON_SITE_UUID.$b --delete-branch --yes
 	else
 		echo -e "\n${txtylw}NOT deleting the multidev '$b' since it still exists on the remote...${txtrst}"
 	fi

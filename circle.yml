@@ -41,7 +41,7 @@ dependencies:
     - echo "StrictHostKeyChecking no" > ~/.ssh/config
 
     # Set the PHP timezone so that Behat script does not fail.
-    - echo "date.timezone = 'US/Central'"  >  /opt/circleci/php/5.6.14/etc/conf.d/xdebug.ini
+    #- echo "date.timezone = 'US/Central'"  >  /opt/circleci/php/5.6.14/etc/conf.d/xdebug.ini
 
     # The environment step uses this file to set a global variable.
     - echo $(openssl rand -hex 8) > ~/WORDPRESS_ADMIN_PASSWORD

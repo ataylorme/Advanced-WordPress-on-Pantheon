@@ -85,23 +85,22 @@ dependencies:
     - ./bin/build.sh
     - composer install --dev
 
-
 test:
   pre:
     - >
       if [ -n "${RUN_BEHAT_BUILD}" ]; then
-        ./bin/behat-prepare.sh
+        ./bin/behat-prepare.sh;
       fi
   override:
     - >
       if [ -n "${RUN_BEHAT_BUILD}" ]; then
-        ./bin/behat-test.sh --strict
+        ./bin/behat-test.sh --strict;
       fi
   post:
     - >
-    if [ -n "${RUN_BEHAT_BUILD}" ]; then
-      ./bin/behat-cleanup.sh
-    fi
+      if [ -n "${RUN_BEHAT_BUILD}" ]; then
+        ./bin/behat-cleanup.sh;
+      fi
 
 deployment:
   pantheon:

@@ -39,6 +39,11 @@ set -ex
 terminus backup:create $PANTHEON_SITE_UUID.$BEHAT_ENV
 
 ###
+# Clear site cache
+###
+terminus env:clear-cache $PANTHEON_SITE_UUID.$BEHAT_ENV
+
+###
 # Set up WordPress admin user
 ###
 {

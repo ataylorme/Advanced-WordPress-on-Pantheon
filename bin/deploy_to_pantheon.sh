@@ -17,7 +17,6 @@ terminus auth:login --machine-token=$PANTHEON_MACHINE_TOKEN
 
 # Set variables
 COMMIT_MESSAGE="$(git show --name-only --decorate)"
-PANTHEON_ENV="dev"
 PANTHEON_ENVS="$(terminus multidev:list $PANTHEON_SITE_UUID --format=list --field=Name)"
 GITHUB_API_URL="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
 PANTHEON_SITE_NAME="$(terminus site:info $PANTHEON_SITE_UUID --fields=name --format=string)"
@@ -64,9 +63,6 @@ then
 	# Multidev name is the pull request
 	PR_BRANCH="pr-$PR_NUMBER"
 
-	# Update the environment variable
-	PANTHEON_ENV="${PR_BRANCH}"
-
 	echo -e "\n${txtylw}Checking for the multidev environment ${PR_BRANCH} via Terminus ${txtrst}"
 
 	# Get a list of all environments
@@ -89,13 +85,13 @@ then
 	else
 		# otherwise, create the multidev branch
 
-		echo -e "\n${txtylw}Multidev not found, creating the multidev branch ${normalize_branch} via Terminus ${txtrst}"
-		terminus multidev:create $PANTHEON_SITE_UUID.dev $normalize_branch
+		echo -e "\n${txtylw}Multidev not found, creating the multidev branch ${PR_BRANCH} via Terminus ${txtrst}"
+		terminus multidev:create $PANTHEON_SITE_UUID.dev $PR_BRANCH
 
 		# put a link to the multidev back on GitHub
 		echo -e "\n${txtylw}Linking multidev back to PR #$PR_NUMBER ${txtrst}"
-		MULTDEV_LINK="http://$normalize_branch-$PANTHEON_SITE_NAME.pantheonsite.io/"
-		curl -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"Multidev `$normalize_branch` created successfully! [$MULTDEV_LINK]($MULTDEV_LINK)\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments
+		MULTDEV_LINK="http://$PR_BRANCH-$PANTHEON_SITE_NAME.pantheonsite.io/"
+		curl -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"Multidev `$PR_BRANCH` created successfully! [$MULTDEV_LINK]($MULTDEV_LINK)\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments
 
 		git fetch
 	fi

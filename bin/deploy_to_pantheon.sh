@@ -18,10 +18,14 @@ terminus auth:login --machine-token=$PANTHEON_MACHINE_TOKEN
 # Set variables
 COMMIT_MESSAGE="$(git show --name-only --decorate)"
 PANTHEON_ENV="dev"
+<<<<<<< HEAD
 PANTHEON_ENVS="$(terminus multidev:list $PANTHEON_SITE_UUID --format=list --field=Name)"
 GITHUB_API_URL="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
 PANTHEON_SITE_NAME="$(terminus site:info $PANTHEON_SITE_UUID --fields=name --format=string)"
 SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/code|the dev environment>! \nTo deploy to test run "'`terminus env:deploy '"${PANTHEON_SITE_UUID}"'.test`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#test/deploys|the site dashboard>."
+=======
+GITHUB_API_URL="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
+>>>>>>> master
 
 cd $HOME
 
@@ -44,11 +48,19 @@ then
 fi
 
 git fetch --all
+# Log into terminus.
+echo -e "\n${txtylw}Logging into Terminus ${txtrst}"
+terminus auth:login --machine-token=$PANTHEON_MACHINE_TOKEN
 
-# Check if we are NOT on the master branch and this is a pull request
+# Stash site name
+PANTHEON_SITE_NAME="$(terminus site:info $PANTHEON_SITE_UUID --fields=name --format=string)"
+
+SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/code|the dev environment>! \nTo deploy to test run "'`terminus env:deploy '"${PANTHEON_SITE_UUID}"'.test`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#test/deploys|the site dashboard>."
+
+# Check if we are NOT on the master branch and this is a PR
 if [[ $CIRCLE_BRANCH != "master" && -n "$CI_PULL_REQUEST" ]]
 then
-	# Stash pull request number
+	# Stash PR number
 	PR_NUMBER=${CI_PULL_REQUEST##*/}
 	echo -e "\n${txtylw}Processing pull request #$PR_NUMBER ${txtrst}"
 
@@ -80,13 +92,14 @@ then
 		echo -e "\n${txtylw}Multidev found! ${txtrst}"
 	else
 		# otherwise, create the multidev branch
-		echo -e "\n${txtylw}Multidev not found, creating the multidev branch ${PR_BRANCH} via Terminus ${txtrst}"
-		terminus multidev:create $PANTHEON_SITE_UUID.dev $PR_BRANCH
+
+		echo -e "\n${txtylw}Multidev not found, creating the multidev branch ${normalize_branch} via Terminus ${txtrst}"
+		terminus multidev:create $PANTHEON_SITE_UUID.dev $normalize_branch
 
 		# put a link to the multidev back on GitHub
-		echo -e "\n${txtylw}Linking multidev back to pull request #$PR_NUMBER ${txtrst}"
-		MULTDEV_LINK="https://$PR_BRANCH-$PANTHEON_SITE_NAME.pantheonsite.io/"
-		curl -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"Multidev `$PR_BRANCH` created successfully! [$MULTDEV_LINK]($MULTDEV_LINK)\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments
+		echo -e "\n${txtylw}Linking multidev back to PR #$PR_NUMBER ${txtrst}"
+		MULTDEV_LINK="http://$normalize_branch-$PANTHEON_SITE_NAME.pantheonsite.io/"
+		curl -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"Multidev `$normalize_branch` created successfully! [$MULTDEV_LINK]($MULTDEV_LINK)\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments
 
 		git fetch
 	fi

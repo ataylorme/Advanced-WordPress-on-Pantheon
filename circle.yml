@@ -82,7 +82,7 @@ dependencies:
 
   override:
     - >
-      if [ -b "${RUN_BEHAT_BUILD}" ]; then
+      if [ -n "${RUN_BEHAT_BUILD}" ]; then
         composer install --dev;
       else
         ./bin/build.sh;

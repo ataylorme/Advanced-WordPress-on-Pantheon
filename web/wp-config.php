@@ -183,6 +183,13 @@ define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/wp-content' );
 define( 'WP_CONTENT_URL', WP_HOME . '/wp-content' );
 
 /**
+ *
+ */
+if ( ! defined( 'DOCROOT' ) ) {
+	define( 'DOCROOT', dirname( __FILE__ ) . '/' );
+}
+
+/**
  * WordPress Database Table prefix.
  *
  * You can have multiple installations in one database if you give each

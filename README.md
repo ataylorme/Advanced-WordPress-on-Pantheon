@@ -73,12 +73,14 @@ stored in Circle CI as environment variables
 This repository makes use of Pantheon's [Quicksilver Platform hooks](https://pantheon.io/docs/quicksilver/).
 In order to use the Quicksilver integration you need to create a `secrets.json` file, based on the example below, with you API keys and place it in the private directory for each Pantheon environment (dev/test/live).
 The private path is located at `wp-content/uploads/private` and can be created/accessed via SFTP. See [this doc](https://pantheon.io/docs/private-paths/) for details.
+
 The Quicksilver integrations included are:
 * Slack notifications for code deployment and test/live deployment
 * Spotbot visual regression testing
 * Backtrac visual regression testing
 * WP-CFM import on deployment to test/live
 * Loadimpact performance testing
+
 
 The `icons` directory must also be copied to `wp-content/uploads` on the live environment to provide icons in the Slack notifications.
 
@@ -92,9 +94,22 @@ The `icons` directory must also be copied to `wp-content/uploads` on the live en
   "backtrac_key": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "slack_channel" : "#my-slack-channel",
   "test_url" : "http://test-pantheon-wp-best-practices.pantheonsite.io",
-  "live_url" : "http://live-pantheon-wp-best-practices.pantheonsite.io"
+  "live_url" : "http://live-pantheon-wp-best-practices.pantheonsite.io",
+  "circle_ci_project" : "username/repo-name",
+  "circle_ci_branch" : "master",
+  "circle_ci_project" : "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
 }
 ```
+
+## Behat Integration
+Behat is installed with tests located in `tests/behat`. [WordHat](https://wordhat.info/) is also installed for your convenience.
+Behat tests will only run when code is deployed to the _test_ environment on Pantheon.
+
+## Pantheon integration
+Any code pushed to the `master` branch will be built and deployed to the `dev` environment on Pantheon.
+When a pull request is created code in the branch will be built and deployed to a multidev environmnent on Pantheon with the name`pr-#` where `#` is the pull request issue number.
+Any subsequent code pushed to the branch for an already open pull request will be built and deployed to the existing multidev environment.
+Multidev environments for closed pull requests will be deleted on subsequent Circle CI runs.
 
 ## Local Setup
 In order to develop the site locally a few steps need to be completed. 

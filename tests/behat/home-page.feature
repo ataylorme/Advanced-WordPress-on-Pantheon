@@ -6,4 +6,4 @@ Feature: Home Page
 
   Scenario: Description
 	When I go to "/"
-	When I should see "Just another WordPress site" in the ".site-description" element
+	When I should see "GitHub + Composer + CircleCi + Pantheon = Win!" in the ".site-description" element

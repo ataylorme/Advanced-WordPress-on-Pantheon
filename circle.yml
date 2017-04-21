@@ -81,8 +81,12 @@ dependencies:
     - sudo apt-get update; sudo apt-get install jq
 
   override:
-    - ./bin/build.sh
-    - composer install --dev
+    - >
+      if [ -b "${RUN_BEHAT_BUILD}" ]; then
+        composer install --dev;
+      else
+        ./bin/build.sh;
+      fi
 
 test:
   pre:
@@ -105,4 +109,7 @@ deployment:
   pantheon:
     branch: /.*/
     commands:
-      - ./bin/deploy_to_pantheon.sh
+      - >
+        if [ -z "${RUN_BEHAT_BUILD}" ]; then
+          ./bin/deploy_to_pantheon.sh;
+        fi

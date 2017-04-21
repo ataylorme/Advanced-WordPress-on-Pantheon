@@ -39,6 +39,11 @@
           "wordpress-install-dir": "web/wp"
         }
       }
+    },
+    {
+      "name": "pantheon-wordpress-upstream-tests",
+      "type": "vcs",
+      "url": "git@github.com:pantheon-systems/pantheon-wordpress-upstream-tests.git"
     }
   ],
   "require": {

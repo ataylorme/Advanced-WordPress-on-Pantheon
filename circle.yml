@@ -88,11 +88,20 @@ dependencies:
 
 test:
   pre:
-    - ./bin/behat-prepare.sh
+    - >
+      if [ -n "${RUN_BEHAT_BUILD}" ]; then
+        ./bin/behat-prepare.sh
+      fi
   override:
-    - ./bin/behat-test.sh --strict
+    - >
+      if [ -n "${RUN_BEHAT_BUILD}" ]; then
+        ./bin/behat-test.sh --strict
+      fi
   post:
-    - ./bin/behat-cleanup.sh
+    - >
+    if [ -n "${RUN_BEHAT_BUILD}" ]; then
+      ./bin/behat-cleanup.sh
+    fi
 
 deployment:
   pantheon:

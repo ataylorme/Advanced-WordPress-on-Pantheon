@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ###
-# Delete the Pantheon site environment after the Behat test suite has run.
+# Restore the Pantheon site environment to the previous state after the Behat test suite has run.
 ###
 
 # Log into terminus.
@@ -14,14 +14,19 @@ if [ $? -ne 0 ]; then
 	exit 0
 fi
 
+if [ -z "$BEHAT_TEST_URL" ] || [ -z "$RUN_BEHAT_BUILD" ]; then
+	echo "BEHAT_TEST_URL and RUN_BEHAT_BUILD environment variables must be set"
+	exit 1
+fi
+
 if [ -z "$PANTHEON_SITE_UUID" ] || [ -z "$BEHAT_ENV" ]; then
-	echo "TERMINUS_SITE and TERMINUS_ENV environment variables must be set"
+	echo "PANTHEON_SITE_UUID and BEHAT_ENV environment variables must be set"
 	exit 1
 fi
 
 set -ex
 
 ###
-# Delete the environment used for this test run.
+# Restore the backup of the environment from before Behat ran
 ###
-terminus multidev:delete $PANTHEON_SITE_UUID.$BEHAT_ENV --delete-branch --yes
+terminus backup:restore $PANTHEON_SITE_UUID.$BEHAT_ENV

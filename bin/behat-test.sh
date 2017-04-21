@@ -4,14 +4,9 @@
 # Execute the Behat test suite against a prepared Pantheon site environment.
 ###
 
-# Log into terminus.
-echo -e "\nLogging into Terminus"
-terminus auth:login --machine-token=$PANTHEON_MACHINE_TOKEN
-
-terminus auth:whoami > /dev/null
-if [ $? -ne 0 ]; then
-	echo "Terminus unauthenticated; assuming unauthenticated build"
-	exit 0
+if [ -z "$BEHAT_TEST_URL" ] || [ -z "$RUN_BEHAT_BUILD" ]; then
+	echo "BEHAT_TEST_URL and RUN_BEHAT_BUILD environment variables must be set"
+	exit 1
 fi
 
 if [ -z "$PANTHEON_SITE_UUID" ] || [ -z "$BEHAT_ENV" ]; then
@@ -26,8 +21,6 @@ fi
 
 set -ex
 
-PANTHEON_SITE_NAME="$(terminus site:info $PANTHEON_SITE_UUID --fields=name --format=string)"
-
-export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "https://'$BEHAT_ENV'-'$PANTHEON_SITE_NAME'.pantheonsite.io"} }}'
+export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "'$BEHAT_TEST_URL'"} }}'
 
 ./vendor/bin/behat "$@"

@@ -39,21 +39,6 @@
           "wordpress-install-dir": "web/wp"
         }
       }
-    },
-    {
-      "name": "pantheon-wordpress-upstream-tests",
-      "type": "vcs",
-      "url": "git@github.com:pantheon-systems/pantheon-wordpress-upstream-tests.git"
-    },
-    {
-      "name": "behat/mink-goutte-driver",
-      "type": "vcs",
-      "url": "git@github.com:behat/mink-goutte-driver.git"
-    },
-    {
-      "name": "paulgibbs/behat-wordpress-extension",
-      "type": "vcs",
-      "url": "git@github.com:paulgibbs/behat-wordpress-extension.git"
     }
   ],
   "require": {

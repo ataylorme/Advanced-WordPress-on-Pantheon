@@ -5,9 +5,9 @@ if ( 'test' === $_ENV['PANTHEON_ENVIRONMENT'] ) {
 
 	$secrets = _get_secrets( array( 'circle_ci_token', 'circle_ci_project', 'circle_ci_branch' ) );
 
-	$circle_ci_project = $secrets[ circle_ci_project ];
-	$circle_ci_branch  = $secrets[ circle_ci_branch ];
-	$circle_ci_token   = $secrets[ circle_ci_token ];
+	$circle_ci_project = $secrets[ 'circle_ci_project' ];
+	$circle_ci_branch  = $secrets[ 'circle_ci_branch' ];
+	$circle_ci_token   = $secrets[ 'circle_ci_token' ];
 
 	$trigger_build_url = 'https://circleci.com/api/v1.1/project/github/' . $circle_ci_project . '/tree/' . $circle_ci_branch . '?circle-token=' . $circle_ci_token;
 

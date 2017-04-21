@@ -11,7 +11,6 @@ machine:
   environment:
       YARN_VERSION: 0.18.1
       PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin:${HOME}/terminus/bin"
-      BEHAT_ENV: ci-$CIRCLE_BUILD_NUM
       WORDPRESS_ADMIN_USERNAME: pantheon
       # A random password is set in the dependencies:pre stage as a text file.
       # This line reads the same file repeatedly. If the openssl call were used

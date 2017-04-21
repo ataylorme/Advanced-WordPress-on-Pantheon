@@ -29,4 +29,4 @@ set -ex
 ###
 # Restore the backup of the environment from before Behat ran
 ###
-terminus backup:restore $PANTHEON_SITE_UUID.$BEHAT_ENV
+terminus backup:restore $PANTHEON_SITE_UUID.$BEHAT_ENV --yes

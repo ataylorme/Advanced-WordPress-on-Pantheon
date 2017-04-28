@@ -40,13 +40,6 @@ deployment workflow on Pantheon integrating tools such as:
 * Quicksilver platform hooks to fire off third party tests
 * Slack notification integration
 
-## TODO List
-These items are outstanding:
-* Example visual regression test
-* Example unit test
-* Add example for using Grunt instead of gulp to bin/build.sh
-* Add example of using a git host besides Github for the source repository
-
 ## Circle CI Setup
 The following sensitive variables will need to be 
 stored in Circle CI as environment variables

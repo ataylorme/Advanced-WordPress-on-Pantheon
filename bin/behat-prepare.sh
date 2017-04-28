@@ -44,6 +44,13 @@ terminus backup:create $PANTHEON_SITE_UUID.$BEHAT_ENV
 terminus env:clear-cache $PANTHEON_SITE_UUID.$BEHAT_ENV
 
 ###
+# Delete existing WordPress admin user
+###
+{
+  terminus wp $PANTHEON_SITE_UUID.$BEHAT_ENV -- user delete $WORDPRESS_ADMIN_USERNAME no-reply@getpantheon.com
+} &> /dev/null
+
+###
 # Set up WordPress admin user
 ###
 {

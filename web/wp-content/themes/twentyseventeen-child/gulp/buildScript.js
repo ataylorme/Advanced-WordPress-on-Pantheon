@@ -4,7 +4,7 @@ import browserify from 'browserify';
 import babelify from 'babelify';
 import watchify from 'watchify';
 import buffer from 'vinyl-buffer';
-import {JSpaths, $, reload} from './constants';
+import {JSpaths, $} from './constants';
 
 /**
  *
@@ -72,9 +72,7 @@ export default (file, watch) => {
             // save source map
             .pipe($.sourcemaps.write('./'))
             // save the minified file
-            .pipe(gulp.dest(JSpaths.dest))
-            // pass changes to browser sync
-            .pipe(reload({stream: true}));
+            .pipe(gulp.dest(JSpaths.dest));
     }
 
     // listen for an update and run rebundle

@@ -6,11 +6,17 @@ machine:
     version: 5.5.0
 
   php:
-    version: 5.6.14
+    version: 7.1.3
 
   environment:
       YARN_VERSION: 0.18.1
-      PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+      PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin:${HOME}/terminus/bin"
+      WORDPRESS_ADMIN_USERNAME: pantheon
+      # A random password is set in the dependencies:pre stage as a text file.
+      # This line reads the same file repeatedly. If the openssl call were used
+      # in this step, it would result in a different password being used in each
+      # line of other steps. Each CircleCI command runs in a separate shell.
+      WORDPRESS_ADMIN_PASSWORD: $(cat ~/WORDPRESS_ADMIN_PASSWORD)
 
   # This will be added to the `/etc/hosts` file
   hosts:
@@ -25,8 +31,15 @@ dependencies:
     - /usr/local/bin/terminus
     - ~/.yarn
     - ~/.cache/yarn
+    - ~/terminus
 
   pre:
+    # Set the PHP timezone so that Behat script does not fail.
+    #- echo "date.timezone = 'US/Central'"  >  /opt/circleci/php/5.6.14/etc/conf.d/xdebug.ini
+
+    # The environment step uses this file to set a global variable.
+    - echo $(openssl rand -hex 8) > ~/WORDPRESS_ADMIN_PASSWORD
+
     # Install Yarn
     - |
       if [[ ! -e ~/.yarn/bin/yarn || $(yarn --version) != "${YARN_VERSION}" ]]; then
@@ -43,7 +56,11 @@ dependencies:
     # - chmod +x wp-cli.phar
 
     # Set github token to avoid rate limit
-    - composer config --global github-oauth.github.com $GIT_TOKEN
+    - |
+      echo "Setting GitHub OAuth token with suppressed ouput"
+      {
+        composer config --global github-oauth.github.com $GIT_TOKEN
+      } &> /dev/null
 
     - git config --global user.email $GIT_EMAIL
     - git config --global user.name $GIT_USERNAME
@@ -52,16 +69,42 @@ dependencies:
     - echo Installing gulp globally
     - yarn global add gulp
 
-  override:
-    - ./bin/build.sh
+    # Install Terminus
+    - ./bin/install_terminus.sh
 
+    # Install jq
+    - sudo apt-get update; sudo apt-get install jq
+
+  override:
+    - >
+      if [ -n "${RUN_BEHAT_BUILD}" ]; then
+        composer install --dev;
+      else
+        ./bin/build.sh;
+      fi
 
 test:
+  pre:
+    - >
+      if [ -n "${RUN_BEHAT_BUILD}" ]; then
+        ./bin/behat-prepare.sh;
+      fi
   override:
-    - ls
+    - >
+      if [ -n "${RUN_BEHAT_BUILD}" ]; then
+        ./bin/behat-test.sh --strict;
+      fi
+  post:
+    - >
+      if [ -n "${RUN_BEHAT_BUILD}" ]; then
+        ./bin/behat-cleanup.sh;
+      fi
 
 deployment:
   pantheon:
     branch: /.*/
     commands:
-      - ./bin/deploy_to_pantheon.sh
+      - >
+        if [ -z "${RUN_BEHAT_BUILD}" ]; then
+          ./bin/deploy_to_pantheon.sh;
+        fi

@@ -14,13 +14,3 @@ function enqueue_scripts_styles() {
 }
 
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts_styles' );
-
-function add_browser_sync_snippet_to_footer() {
-	echo '<script type=\'text/javascript\' id="__bs_script__">//<![CDATA[' . PHP_EOL;
-	echo "\t" . 'document.write("<script async src=\'http://HOST:3000/browser-sync/browser-sync-client.js?v=2.18.5\'><\/script>".replace("HOST", location.hostname));' . PHP_EOL;
-	echo '//]]></script>' . PHP_EOL;
-}
-
-if ( IS_LOCAL ) {
-	add_action( 'wp_footer', __NAMESPACE__ . '\add_browser_sync_snippet_to_footer' );
-}

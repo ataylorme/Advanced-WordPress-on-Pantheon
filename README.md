@@ -73,12 +73,14 @@ stored in Circle CI as environment variables
 This repository makes use of Pantheon's [Quicksilver Platform hooks](https://pantheon.io/docs/quicksilver/).
 In order to use the Quicksilver integration you need to create a `secrets.json` file, based on the example below, with you API keys and place it in the private directory for each Pantheon environment (dev/test/live).
 The private path is located at `wp-content/uploads/private` and can be created/accessed via SFTP. See [this doc](https://pantheon.io/docs/private-paths/) for details.
+
 The Quicksilver integrations included are:
 * Slack notifications for code deployment and test/live deployment
 * Spotbot visual regression testing
 * Backtrac visual regression testing
 * WP-CFM import on deployment to test/live
 * Loadimpact performance testing
+
 
 The `icons` directory must also be copied to `wp-content/uploads` on the live environment to provide icons in the Slack notifications.
 
@@ -92,9 +94,22 @@ The `icons` directory must also be copied to `wp-content/uploads` on the live en
   "backtrac_key": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "slack_channel" : "#my-slack-channel",
   "test_url" : "http://test-pantheon-wp-best-practices.pantheonsite.io",
-  "live_url" : "http://live-pantheon-wp-best-practices.pantheonsite.io"
+  "live_url" : "http://live-pantheon-wp-best-practices.pantheonsite.io",
+  "circle_ci_project" : "username/repo-name",
+  "circle_ci_branch" : "master",
+  "circle_ci_project" : "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
 }
 ```
+
+## Behat Integration
+Behat is installed with tests located in `tests/behat`. [WordHat](https://wordhat.info/) is also installed for your convenience.
+Behat tests will only run when code is deployed to the _test_ environment on Pantheon.
+
+## Pantheon integration
+Any code pushed to the `master` branch will be built and deployed to the `dev` environment on Pantheon.
+When a pull request is created code in the branch will be built and deployed to a multidev environmnent on Pantheon with the name`pr-#` where `#` is the pull request issue number.
+Any subsequent code pushed to the branch for an already open pull request will be built and deployed to the existing multidev environment.
+Multidev environments for closed pull requests will be deleted on subsequent Circle CI runs.
 
 ## Local Setup
 In order to develop the site locally a few steps need to be completed. 
@@ -111,6 +126,20 @@ These steps only need to be performed once, unless noted.
 * Open a new terminal window
 * Run `npm install` from the `web/wp-content/themes/twentysixteen-child` directory
     * `npm install` will need to be ran after any changes to `web/wp-content/themes/twentysixteen-child/package.json` 
+
+### [Kalabox](http://www.kalabox.io/) Setup
+Replace `project-name` with you Pantheon site slug.
+
+1. Create a new Pantheon site in Kalabox, selecting the Pantheon site associated with the fully built project.
+1. Change directories to `~/Kalabox/project-name`
+1. Stop the site with `kbox stop`
+1. Remove the `~/Kalabox/project-name/code` directory
+1. Git clone this (the external) repository to `~/Kalabox/project-name/code`
+1. Edit the `~/Kalabox/project-name/config/nginx/wordpress.conf` Nginx configuration file to serve from `~/Kalabox/project-name/code/web` rather than `~/Kalabox/project-name/code` by changing the line `root /code;` to `root /code/web;`
+1. Edit the `~/Kalabox/project-name/kalabox.yml` file changing `php: 56` to `php: 70` and the upstream URL to the external repository, instead of the Pantheon repository
+1. Edit the `~/Kalabox/project-name/code/web/wp-content/themes/twentyseventeen-child/gulp/browserSyncServe.js` file and replace `https://pantheon-wp-best-practices.kbox.site/` with your Kalabox site URL in the `proxy` option
+1. Run `kbox rebuild`
+1. Run `kbox restart`
 
 ### Local Development
 The gulp _watch_ task initates a BrowserSync session and watches for:

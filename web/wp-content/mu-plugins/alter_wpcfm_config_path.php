@@ -9,5 +9,5 @@
 */
 
 // Tell wp-cfm where our config files live
-add_filter('wpcfm_config_dir', function($var) { return ABSPATH . 'private/config'; });
+add_filter('wpcfm_config_dir', function($var) { return DOCROOT . 'private/config'; });
 add_filter('wpcfm_config_url', function($var) { return WP_HOME . '/private/config'; });

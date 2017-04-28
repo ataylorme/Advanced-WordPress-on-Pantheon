@@ -1,5 +1,5 @@
 import gulp from 'gulp';
-import {sassPaths, $, reload} from './constants';
+import {sassPaths, $} from './constants';
 
 /**
  * @desc Compiles the main Sass file into an expanded,
@@ -35,8 +35,6 @@ export default () => {
         }))
         // save human readable file
         .pipe(gulp.dest(sassPaths.dest))
-        // send changes to Browser-sync
-        .pipe(reload({stream: true}))
         // minify css
         .pipe($.cssnano())
         // rename to min

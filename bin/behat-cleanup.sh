@@ -30,3 +30,11 @@ set -ex
 # Restore the backup of the environment from before Behat ran
 ###
 terminus backup:restore $PANTHEON_SITE_UUID.$BEHAT_ENV --yes
+
+###
+# Delete existing WordPress admin user
+###
+{
+  terminus wp $PANTHEON_SITE_UUID.$BEHAT_ENV -- user delete $WORDPRESS_ADMIN_USERNAME
+} &> /dev/null
+

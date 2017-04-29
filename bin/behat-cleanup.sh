@@ -34,7 +34,5 @@ terminus backup:restore $PANTHEON_SITE_UUID.$BEHAT_ENV --yes
 ###
 # Delete existing WordPress admin user
 ###
-{
-  terminus wp $PANTHEON_SITE_UUID.$BEHAT_ENV -- user delete $WORDPRESS_ADMIN_USERNAME
-} &> /dev/null
-
+echo "Deleting the WordPress user $WORDPRESS_ADMIN_USERNAME"
+terminus wp $PANTHEON_SITE_UUID.$BEHAT_ENV -- user delete $WORDPRESS_ADMIN_USERNAME --yes

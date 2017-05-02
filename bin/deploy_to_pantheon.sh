@@ -11,10 +11,6 @@ txtcyn=$(tput setaf 6) # Cyan
 txtwht=$(tput setaf 7) # White
 txtrst=$(tput sgr0) # Text reset.
 
-# Log into terminus.
-echo -e "\n${txtylw}Logging into Terminus ${txtrst}"
-terminus auth:login --machine-token=$PANTHEON_MACHINE_TOKEN
-
 # Set variables
 COMMIT_MESSAGE="$(git show --name-only --decorate)"
 PANTHEON_ENVS="$(terminus multidev:list $PANTHEON_SITE_UUID --format=list --field=Name)"

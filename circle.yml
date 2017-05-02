@@ -34,6 +34,11 @@ dependencies:
     - ~/terminus
 
   pre:
+    # Dynamic hosts through Pantheon mean constantly checking interactively
+    # that we mean to connect to an unknown host. We ignore those here.
+    - echo Disabling strict host checking
+    - echo "StrictHostKeyChecking no" > ~/.ssh/config
+
     # Set the PHP timezone so that Behat script does not fail.
     #- echo "date.timezone = 'US/Central'"  >  /opt/circleci/php/5.6.14/etc/conf.d/xdebug.ini
 
@@ -66,14 +71,19 @@ dependencies:
     - git config --global user.name $GIT_USERNAME
 
     # Install gulp
-    - echo Installing gulp globally
-    - yarn global add gulp
+    - >
+      if [ -z "${RUN_BEHAT_BUILD}" ]; then
+        echo Installing gulp globally; yarn global add gulp
+      fi
 
     # Install Terminus
     - ./bin/install_terminus.sh
 
     # Install jq
-    - sudo apt-get update; sudo apt-get install jq
+    - >
+      if [ -n "${RUN_BEHAT_BUILD}" ]; then
+        sudo apt-get update; sudo apt-get install jq
+      fi
 
   override:
     - >

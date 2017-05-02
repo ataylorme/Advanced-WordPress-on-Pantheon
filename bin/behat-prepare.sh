@@ -34,6 +34,12 @@ fi
 set -ex
 
 ###
+# Delete existing WordPress admin user
+###
+echo "Deleting the WordPress user $WORDPRESS_ADMIN_USERNAME"
+terminus wp $PANTHEON_SITE_UUID.$BEHAT_ENV -- user delete $WORDPRESS_ADMIN_USERNAME --yes
+
+###
 # Create a backup of the environment
 ###
 terminus backup:create $PANTHEON_SITE_UUID.$BEHAT_ENV
@@ -42,13 +48,6 @@ terminus backup:create $PANTHEON_SITE_UUID.$BEHAT_ENV
 # Clear site cache
 ###
 terminus env:clear-cache $PANTHEON_SITE_UUID.$BEHAT_ENV
-
-###
-# Delete existing WordPress admin user
-###
-{
-  terminus wp $PANTHEON_SITE_UUID.$BEHAT_ENV -- user delete $WORDPRESS_ADMIN_USERNAME no-reply@getpantheon.com
-} &> /dev/null
 
 ###
 # Set up WordPress admin user

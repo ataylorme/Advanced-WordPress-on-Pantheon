@@ -1,4 +1,8 @@
 #!/bin/bash
+source ./bin/terminus_auth.sh
+
+# Login to Terminus
+TerminusAuth
 
 ###
 # Prepare a Pantheon site environment for the Behat test suite, by creating

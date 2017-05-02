@@ -11,6 +11,9 @@ workflows:
         - type: webphp
           description: posting to Slack about the commit
           script: private/scripts/slack_after_code_push.php
+        - type: webphp
+          description: importing the WP-CFM config into the site
+          script: private/scripts/import_config_wp.php
 
     # Deploy: Making Magic Happen in the Test Environment
     deploy:

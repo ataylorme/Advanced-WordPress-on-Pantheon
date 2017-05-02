@@ -1,5 +1,4 @@
 #!/bin/bash
-source ./bin/terminus_auth.sh
 
 # Variables
 BUILD_DIR=$(pwd)
@@ -11,9 +10,6 @@ txtpur=$(tput setaf 5) # Purple
 txtcyn=$(tput setaf 6) # Cyan
 txtwht=$(tput setaf 7) # White
 txtrst=$(tput sgr0) # Text reset.
-
-# Login to Terminus
-TerminusAuth
 
 # Set variables
 COMMIT_MESSAGE="$(git show --name-only --decorate)"

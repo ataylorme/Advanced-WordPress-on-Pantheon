@@ -1,8 +1,4 @@
 #!/bin/bash
-source ./bin/terminus_auth.sh
-
-# Login to Terminus
-TerminusAuth
 
 ###
 # Restore the Pantheon site environment to the previous state after the Behat test suite has run.

@@ -14,7 +14,7 @@ $pantheon_yellow = '#EFD01B';
 $defaults = array(
 	'slack_channel'  => $secrets['slack_channel'],
 	'slack_username' => 'Deploy-on-Pantheon',
-	'slack_icon'     => $slack_user_icon = $secrets['live_url'] . '/wp-content/uploads/icons/pantheon.png',
+	'slack_icon'     => $slack_user_icon = $secrets['live_url'] . '/slack-icons/pantheon.png',
 );
 
 // Load our hidden credentials.

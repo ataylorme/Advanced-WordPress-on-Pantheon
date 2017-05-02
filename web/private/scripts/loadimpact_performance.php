@@ -21,7 +21,7 @@ $test_config_id = 3420633;
 // Provide the Slack Details
 $slack_channel_name = $secrets['slack_channel'];
 $slack_user_name    = 'PerformanceTesting-with-LoadImpact';
-$slack_user_icon    = $secrets['live_url'] . '/wp-content/uploads/icons/loadimpact.png';
+$slack_user_icon    = $secrets['live_url'] . '/slack-icons/loadimpact.png';
 
 // If we are deploying to test, run a performace test
 if ( defined( 'PANTHEON_ENVIRONMENT' ) && ( PANTHEON_ENVIRONMENT == 'test' ) ) {

@@ -72,3 +72,7 @@ Thumbs.db
 # PHP Storm #
 #############
 .idea
+
+# Don't ignore root level icons #
+#################################
+!/icons

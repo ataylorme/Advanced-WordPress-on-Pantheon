@@ -4,17 +4,6 @@
 # Restore the Pantheon site environment to the previous state after the Behat test suite has run.
 ###
 
-# Log into terminus.
-echo -e "\nLogging into Terminus"
-terminus auth:login --machine-token=$PANTHEON_MACHINE_TOKEN
-
-# Check if logged into Terminus
-TERMINUS_USER_ID=$(terminus auth:whoami --field=id 2>&1)
-if [[ ! $TERMINUS_USER_ID =~ ^[A-Za-z0-9-]{36}$ ]]; then
-	echo "Terminus unauthenticated; assuming unauthenticated build"
-	exit 0
-fi
-
 if [ -z "$BEHAT_TEST_URL" ] || [ -z "$RUN_BEHAT_BUILD" ]; then
 	echo "BEHAT_TEST_URL and RUN_BEHAT_BUILD environment variables must be set"
 	exit 1

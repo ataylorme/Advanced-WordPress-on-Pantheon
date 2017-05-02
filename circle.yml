@@ -85,6 +85,9 @@ dependencies:
         sudo apt-get update; sudo apt-get install jq
       fi
 
+    # Authenticate with Terminus
+    - ./bin/terminus_auth.sh
+
   override:
     - >
       if [ -n "${RUN_BEHAT_BUILD}" ]; then

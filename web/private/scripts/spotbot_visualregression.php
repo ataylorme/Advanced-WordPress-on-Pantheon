@@ -18,7 +18,7 @@ $project_url = $secrets['test_url'];
 // Provide the Slack Details
 $slack_channel_name = $secrets['slack_channel'];
 $slack_user_name    = 'CrossBrowserTesting-with-Spotbot';
-$slack_user_icon    = $secrets['live_url'] . '/wp-content/uploads/icons/spotbot.png';
+$slack_user_icon    = $secrets['live_url'] . '/slack-icons/spotbot.png';
 
 // If we are deploying to test, run a visual regression test
 // between the production environment and the testing environment.

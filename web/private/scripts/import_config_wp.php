@@ -10,7 +10,7 @@ $secrets = _get_secrets( array( 'slack_channel', 'live_url' ) );
 // Provide the Slack Details
 $slack_channel_name = $secrets['slack_channel'];
 $slack_user_name    = 'WP-CLI-on-Pantheon';
-$slack_user_icon    = $secrets['live_url'] . '/wp-content/uploads/icons/wp-cfm.png';
+$slack_user_icon    = $secrets['live_url'] . '/slack-icons/wp-cfm.png';
 
 // Activate the wp-cfm plugin
 exec( 'wp plugin activate wp-cfm 2>&1' );

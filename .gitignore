@@ -73,6 +73,6 @@ Thumbs.db
 #############
 .idea
 
-# Don't ignore root level icons #
+# Don't ignore Slack icons #
 #################################
-!/icons
+!/web/slack-icons

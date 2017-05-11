@@ -53,7 +53,7 @@ if [[ $CIRCLE_BRANCH != "master" ]]
 then
 	if [[ -z "$CI_PULL_REQUEST" ]]
 	then
-		echo -e "\n${txtred}Skipping deployment to Pantheon - not on the master branch and not a pull request\n Open a pull request to deploy to a multidev on Pantheon... ${txtrst}"
+		echo -e "\n${txtred}Skipping deployment to Pantheon - not on the master branch and not a pull request.\nOpen a pull request to deploy to a multidev on Pantheon. ${txtrst}"
 		exit 0
 	else
 		# Stash PR number

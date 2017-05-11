@@ -7,7 +7,7 @@ require_once( dirname( __FILE__ ) . '/slack_helper.php' );
 
 $secrets = _get_secrets( array( 'slack_channel', 'live_url' ) );
 
-$slack_user_icon = $secrets['live_url'] . 'wp-content/uploads/icons/git.png';
+$slack_user_icon = $secrets['live_url'] . '/slack-icons/git.png';
 
 if ( isset( $_POST['wf_type'] ) && $_POST['wf_type'] == 'sync_code' ) {
 	// Get the committer, hash, and message for the most recent commit.

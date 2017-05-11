@@ -49,61 +49,67 @@ PANTHEON_SITE_NAME="$(terminus site:info $PANTHEON_SITE_UUID --fields=name --for
 SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/code|the dev environment>! \nTo deploy to test run "'`terminus env:deploy '"${PANTHEON_SITE_UUID}"'.test`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#test/deploys|the site dashboard>."
 
 # Check if we are NOT on the master branch and this is a PR
-if [[ $CIRCLE_BRANCH != "master" && -n "$CI_PULL_REQUEST" ]]
+if [[ $CIRCLE_BRANCH != "master" ]]
 then
-	# Stash PR number
-	PR_NUMBER=${CI_PULL_REQUEST##*/}
-	echo -e "\n${txtylw}Processing pull request #$PR_NUMBER ${txtrst}"
-
-
-	# Multidev name is the pull request
-	PR_BRANCH="pr-$PR_NUMBER"
-
-	echo -e "\n${txtylw}Checking for the multidev environment ${PR_BRANCH} via Terminus ${txtrst}"
-
-	# Get a list of all environments
-	terminus multidev:list $PANTHEON_SITE_UUID --fields=Name
-
-	MULTIDEV_FOUND=0
-
-	while read -r line; do
-    	if [[ "${line}" == "${PR_BRANCH}" ]]
-    	then
-    		MULTIDEV_FOUND=1
-    	fi
-	done <<< "$PANTHEON_ENVS"
-
-	# If the multidev for this branch is found
-	if [[ "$MULTIDEV_FOUND" -eq 1 ]]
+	if [[ -z "$CI_PULL_REQUEST" ]]
 	then
-		# Send a message
-		echo -e "\n${txtylw}Multidev found! ${txtrst}"
+		echo -e "\n${txtred}Skipping deployment to Pantheon - not on the master branch and not a pull request\n Open a pull request to deploy to a multidev on Pantheon... ${txtrst}"
+		exit 0
 	else
-		# otherwise, create the multidev branch
+		# Stash PR number
+		PR_NUMBER=${CI_PULL_REQUEST##*/}
+		echo -e "\n${txtylw}Processing pull request #$PR_NUMBER ${txtrst}"
 
-		echo -e "\n${txtylw}Multidev not found, creating the multidev branch ${PR_BRANCH} via Terminus ${txtrst}"
-		terminus multidev:create $PANTHEON_SITE_UUID.dev $PR_BRANCH
 
-		# put a link to the multidev back on GitHub
-		echo -e "\n${txtylw}Linking multidev back to PR #$PR_NUMBER ${txtrst}"
-		MULTDEV_LINK="http://$PR_BRANCH-$PANTHEON_SITE_NAME.pantheonsite.io/"
-		curl -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"Multidev `$PR_BRANCH` created successfully! [$MULTDEV_LINK]($MULTDEV_LINK)\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments
+		# Multidev name is the pull request
+		PR_BRANCH="pr-$PR_NUMBER"
 
-		git fetch
+		echo -e "\n${txtylw}Checking for the multidev environment ${PR_BRANCH} via Terminus ${txtrst}"
+
+		# Get a list of all environments
+		terminus multidev:list $PANTHEON_SITE_UUID --fields=Name
+
+		MULTIDEV_FOUND=0
+
+		while read -r line; do
+			if [[ "${line}" == "${PR_BRANCH}" ]]
+			then
+				MULTIDEV_FOUND=1
+			fi
+		done <<< "$PANTHEON_ENVS"
+
+		# If the multidev for this branch is found
+		if [[ "$MULTIDEV_FOUND" -eq 1 ]]
+		then
+			# Send a message
+			echo -e "\n${txtylw}Multidev found! ${txtrst}"
+		else
+			# otherwise, create the multidev branch
+
+			echo -e "\n${txtylw}Multidev not found, creating the multidev branch ${PR_BRANCH} via Terminus ${txtrst}"
+			terminus multidev:create $PANTHEON_SITE_UUID.dev $PR_BRANCH
+
+			# put a link to the multidev back on GitHub
+			echo -e "\n${txtylw}Linking multidev back to PR #$PR_NUMBER ${txtrst}"
+			MULTDEV_LINK="http://$PR_BRANCH-$PANTHEON_SITE_NAME.pantheonsite.io/"
+			curl -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"Multidev `$PR_BRANCH` created successfully! [$MULTDEV_LINK]($MULTDEV_LINK)\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments
+
+			git fetch
+		fi
+
+		# Checkout the correct branch
+		GIT_BRANCHES="git show-ref --verify refs/heads/$PR_BRANCH"
+		if [[ ${GIT_BRANCHES} == *"${PR_BRANCH}"* ]]
+		then
+			echo -e "\n${txtylw}Branch ${PR_BRANCH} found, checking it out ${txtrst}"
+			git checkout $PR_BRANCH
+		else
+			echo -e "\n${txtylw}Branch ${PR_BRANCH} not found, creating it ${txtrst}"
+			git checkout -b $PR_BRANCH
+		fi
+
+		SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#${PR_BRANCH}/code|the ${PR_BRANCH} environment>! \nTo merge to dev run "'`terminus multidev:merge-to-dev '"${PANTHEON_SITE_UUID}"'.'"${PR_BRANCH}"'`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/merge|the site dashboard>."
 	fi
-
-	# Checkout the correct branch
-	GIT_BRANCHES="git show-ref --verify refs/heads/$PR_BRANCH"
-	if [[ ${GIT_BRANCHES} == *"${PR_BRANCH}"* ]]
-	then
-		echo -e "\n${txtylw}Branch ${PR_BRANCH} found, checking it out ${txtrst}"
-    	git checkout $PR_BRANCH
-  	else
-  		echo -e "\n${txtylw}Branch ${PR_BRANCH} not found, creating it ${txtrst}"
-		git checkout -b $PR_BRANCH
-  	fi
-
-	SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#${PR_BRANCH}/code|the ${PR_BRANCH} environment>! \nTo merge to dev run "'`terminus multidev:merge-to-dev '"${PANTHEON_SITE_UUID}"'.'"${PR_BRANCH}"'`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/merge|the site dashboard>."
 fi
 
 #echo -e "\n${txtylw}Creating a backup of the ${PANTHEON_ENV} environment for site ${PANTHEON_SITE_UUID} ${txtrst}"

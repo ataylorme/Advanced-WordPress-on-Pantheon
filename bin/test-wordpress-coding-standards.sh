@@ -11,7 +11,7 @@ cd $HOME/$CIRCLE_PROJECT_REPONAME
 
 # Sniff all PHP files
 find . -name '*.php' -print0 | while IFS= read -r -d $'\0' phpfile; do
-    phpcs --standard=phpcs.ruleset.xml phpfile
+    phpcs --standard=phpcs.ruleset.xml $phpfile
 	if [ "$?" != 0 ]
 	then
 		PHPCS_ERRORS = 0

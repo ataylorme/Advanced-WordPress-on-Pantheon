@@ -4,7 +4,7 @@
 phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
 
 # Assume no errors
-PHPCS_ERRORS = 0
+PHPCS_ERRORS=0
 
 # Change to project directory
 cd $HOME/$CIRCLE_PROJECT_REPONAME
@@ -14,7 +14,7 @@ find . -name '*.php' -print0 | while IFS= read -r -d $'\0' phpfile; do
     phpcs --standard=phpcs.ruleset.xml $phpfile
 	if [ "$?" != 0 ]
 	then
-		PHPCS_ERRORS = 0
+		PHPCS_ERRORS=1
 	fi
 done
 

@@ -13,7 +13,7 @@ phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wp
 cd $HOME/$CIRCLE_PROJECT_REPONAME
 
 # Sniff all PHP files
-phpcs --standard=phpcs.ruleset.xml $(find . -name '*.php')
+phpcs --standard=phpcs.ruleset.xml --runtime-set ignore_errors_on_exit 1 $(find . -name '*.php')
 
 # Change directories back to wherever we were before
 cd -

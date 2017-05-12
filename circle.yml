@@ -24,7 +24,7 @@ machine:
 
 dependencies:
   cache_directories:
-    - ~/.composer/cache
+    - ~/.composer
     - ~/.terminus/tokens
     - /home/ubuntu/nvm/versions/node/4.3.1/bin
     - /home/ubuntu/nvm/versions/node/4.3.1/lib/node_modules
@@ -88,14 +88,16 @@ dependencies:
     # Authenticate with Terminus
     - ./bin/terminus_auth.sh
 
+    # Install Composer dev dependencies
+    - composer install --dev
+
   override:
+
+    # Test WordPress coding standards
+    - ./bin/test-wordpress-coding-standards.sh
+
     - >
-      if [ -n "${RUN_BEHAT_BUILD}" ]; then
-        composer install --dev;
-      else
-        # Test WordPress coding standards
-        ./bin/test-wordpress-coding-standards.sh
-        # Run the build script
+      if [ -z "${RUN_BEHAT_BUILD}" ]; then
         ./bin/build.sh;
       fi
 

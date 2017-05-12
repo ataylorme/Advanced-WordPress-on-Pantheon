@@ -34,9 +34,6 @@ dependencies:
     - ~/terminus
 
   pre:
-    # Test WordPress coding standards
-    - ./bin/test-wordpress-coding-standards.sh
-
     # Dynamic hosts through Pantheon mean constantly checking interactively
     # that we mean to connect to an unknown host. We ignore those here.
     - echo Disabling strict host checking
@@ -96,6 +93,9 @@ dependencies:
       if [ -n "${RUN_BEHAT_BUILD}" ]; then
         composer install --dev;
       else
+        # Test WordPress coding standards
+        ./bin/test-wordpress-coding-standards.sh
+        # Run the build script
         ./bin/build.sh;
       fi
 

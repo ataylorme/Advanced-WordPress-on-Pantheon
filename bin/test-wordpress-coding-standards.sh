@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Install code sniffer
+composer global require squizlabs/php_codesniffer:3.x-dev
+
 # Install WordPress coding standards
 composer global require wp-coding-standards/wpcs
 

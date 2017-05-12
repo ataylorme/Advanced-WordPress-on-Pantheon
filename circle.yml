@@ -88,16 +88,15 @@ dependencies:
     # Authenticate with Terminus
     - ./bin/terminus_auth.sh
 
-    # Install Composer dev dependencies
-    - composer install --dev
-
   override:
 
     # Test WordPress coding standards
     - ./bin/test-wordpress-coding-standards.sh
 
     - >
-      if [ -z "${RUN_BEHAT_BUILD}" ]; then
+      if [ -n "${RUN_BEHAT_BUILD}" ]; then
+        composer install --dev;
+      else
         ./bin/build.sh;
       fi
 

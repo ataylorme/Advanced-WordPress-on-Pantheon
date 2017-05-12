@@ -102,10 +102,22 @@ test:
       if [ -n "${RUN_BEHAT_BUILD}" ]; then
         ./bin/behat-prepare.sh;
       fi
+    # Install WordPress coding standards
+    - >
+      if [[ $CIRCLE_BRANCH == "master" || -n "$CI_PULL_REQUEST" ]] ; then
+        composer global require wp-coding-standards/wpcs
+        phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
+      fi
   override:
     - >
       if [ -n "${RUN_BEHAT_BUILD}" ]; then
         ./bin/behat-test.sh --strict;
+      fi
+    - >
+      if [[ $CIRCLE_BRANCH == "master" || -n "$CI_PULL_REQUEST" ]] ; then
+        cd $HOME/$CIRCLE_PROJECT_REPONAME
+        phpcs --standard=phpcs.ruleset.xml $(find . -name '*.php')
+        cd -
       fi
   post:
     - >

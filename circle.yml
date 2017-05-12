@@ -95,7 +95,6 @@ dependencies:
   override:
     # Check for WordPress coding standards
     - ./bin/test-wordpress-coding-standards.sh
-    - 
     - >
       if [ -n "${RUN_BEHAT_BUILD}" ]; then
         composer install --dev;

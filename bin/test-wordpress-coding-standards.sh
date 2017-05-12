@@ -10,7 +10,7 @@ cd $HOME/$CIRCLE_PROJECT_REPONAME
 phpcs --standard=phpcs.ruleset.xml $(find . -name '*.php')
 if [ "$?" != 0 ]
 then
-	echo "\nPHPCS Failed. Please fix the error(s)."
+	echo -e "\nPHPCS Failed. Please fix the error(s)."
 	exit 1
 fi
 

@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# Install code sniffer
-composer global require squizlabs/php_codesniffer:2.9.x-dev
-
-# Install WordPress coding standards
-composer global require wp-coding-standards/wpcs
-
 # Add WordPress coding standards path to code sniffer
 phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
 

@@ -11,6 +11,13 @@ txtcyn=$(tput setaf 6) # Cyan
 txtwht=$(tput setaf 7) # White
 txtrst=$(tput sgr0) # Text reset.
 
+# If we are not and the master branch and this isn't a pull request, don't deploy to Pantheon
+if [[ $CIRCLE_BRANCH != "master" && -z "$CI_PULL_REQUEST" ]]
+then
+	echo -e "\n${txtred}Skipping deployment to Pantheon - not on the master branch and not a pull request.\nOpen a pull request to deploy to a multidev on Pantheon. ${txtrst}"
+	exit 0
+fi
+
 # Set variables
 COMMIT_MESSAGE="$(git show --name-only --decorate)"
 PANTHEON_ENVS="$(terminus multidev:list $PANTHEON_SITE_UUID --format=list --field=Name)"
@@ -67,10 +74,10 @@ then
 	MULTIDEV_FOUND=0
 
 	while read -r line; do
-    	if [[ "${line}" == "${PR_BRANCH}" ]]
-    	then
-    		MULTIDEV_FOUND=1
-    	fi
+		if [[ "${line}" == "${PR_BRANCH}" ]]
+		then
+			MULTIDEV_FOUND=1
+		fi
 	done <<< "$PANTHEON_ENVS"
 
 	# If the multidev for this branch is found
@@ -97,11 +104,11 @@ then
 	if [[ ${GIT_BRANCHES} == *"${PR_BRANCH}"* ]]
 	then
 		echo -e "\n${txtylw}Branch ${PR_BRANCH} found, checking it out ${txtrst}"
-    	git checkout $PR_BRANCH
-  	else
-  		echo -e "\n${txtylw}Branch ${PR_BRANCH} not found, creating it ${txtrst}"
+		git checkout $PR_BRANCH
+	else
+		echo -e "\n${txtylw}Branch ${PR_BRANCH} not found, creating it ${txtrst}"
 		git checkout -b $PR_BRANCH
-  	fi
+	fi
 
 	SLACK_MESSAGE="Circle CI build ${CIRCLE_BUILD_NUM} by ${CIRCLE_PROJECT_USERNAME} was successful and has been deployed to Pantheon on <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#${PR_BRANCH}/code|the ${PR_BRANCH} environment>! \nTo merge to dev run "'`terminus multidev:merge-to-dev '"${PANTHEON_SITE_UUID}"'.'"${PR_BRANCH}"'`'" or merge from <https://dashboard.pantheon.io/sites/${PANTHEON_SITE_UUID}#dev/merge|the site dashboard>."
 fi

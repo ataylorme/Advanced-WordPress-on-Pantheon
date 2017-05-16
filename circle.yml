@@ -107,7 +107,9 @@ test:
       if [ -n "${RUN_BEHAT_BUILD}" ]; then
         ./bin/behat-test.sh --strict;
       fi
-      ./vendor/bin/phpunit
+      if [ -n "${CI_PULL_REQUEST}" ]; then
+        ./vendor/bin/phpunit;
+      fi
   post:
     - >
       if [ -n "${RUN_BEHAT_BUILD}" ]; then

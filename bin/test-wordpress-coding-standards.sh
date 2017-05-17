@@ -7,7 +7,7 @@
 cd $HOME/$CIRCLE_PROJECT_REPONAME
 
 # Sniff all PHP files
-phpcs --standard=phpcs.ruleset.xml $(find . -name '*.php')
+./vendor/bin/phpcs --standard=phpcs.ruleset.xml $(find . -name '*.php')
 if [ "$?" != 0 ]
 then
 	echo -e "\nPHPCS Failed. Please fix the error(s)."

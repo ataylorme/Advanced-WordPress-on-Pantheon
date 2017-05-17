@@ -2,7 +2,7 @@
 BUILD_DIR=$(pwd)
 
 # Add WordPress coding standards path to code sniffer
-./vendor/bin/phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
+./vendor/bin/phpcs --config-set installed_paths $BUILD_DIR/vendor/wp-coding-standards/wpcs
 
 # Code sniff custom mu-plugin PHP files
 ./vendor/bin/phpcs --standard=phpcs.ruleset.xml ./web/wp-content/mu-plugins/alter-wpcfm-config-path.php

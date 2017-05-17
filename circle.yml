@@ -24,7 +24,7 @@ machine:
 
 dependencies:
   cache_directories:
-    - ~/.composer
+    - ~/.composer/cache
     - ~/.terminus/tokens
     - /home/ubuntu/nvm/versions/node/4.3.1/bin
     - /home/ubuntu/nvm/versions/node/4.3.1/lib/node_modules
@@ -34,10 +34,6 @@ dependencies:
     - ~/terminus
 
   pre:
-    # Install code sniffer and rules
-    - composer global require squizlabs/php_codesniffer:2.9.x-dev
-    - composer global require wp-coding-standards/wpcs
-
     # Dynamic hosts through Pantheon mean constantly checking interactively
     # that we mean to connect to an unknown host. We ignore those here.
     - echo Disabling strict host checking
@@ -93,12 +89,11 @@ dependencies:
     - ./bin/terminus_auth.sh
 
   override:
+    - composer install --dev
     # Check for WordPress coding standards
     - ./bin/test-wordpress-coding-standards.sh
     - >
-      if [ -n "${RUN_BEHAT_BUILD}" ]; then
-        composer install --dev;
-      else
+      if [ -z "${RUN_BEHAT_BUILD}" ]; then
         ./bin/build.sh;
       fi
 

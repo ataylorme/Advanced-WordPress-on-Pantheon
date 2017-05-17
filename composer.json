@@ -57,7 +57,9 @@
     "behat/mink-extension": "^2.2",
     "behat/mink-goutte-driver": "^1.2",
     "pantheon-systems/pantheon-wordpress-upstream-tests": "dev-master",
-    "paulgibbs/behat-wordpress-extension": "dev-master"
+    "paulgibbs/behat-wordpress-extension": "dev-master",
+    "squizlabs/php_codesniffer": "*",
+    "wp-coding-standards/wpcs": "dev-master"
   },
   "config": {
     "vendor-dir": "vendor",

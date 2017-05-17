@@ -92,7 +92,7 @@ dependencies:
     - ./bin/install-composer-dependencies.sh
     - >
       if [ -z "${RUN_BEHAT_BUILD}" ]; then
-        ./build-gulp-assets.sh
+        ./bin/build-gulp-assets.sh
       fi
 
 test:

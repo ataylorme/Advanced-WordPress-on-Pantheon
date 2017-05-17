@@ -89,12 +89,10 @@ dependencies:
     - ./bin/terminus_auth.sh
 
   override:
-    - composer install --dev
-    # Check for WordPress coding standards
-    - ./bin/test-wordpress-coding-standards.sh
+    - ./bin/install-composer-dependencies.sh
     - >
       if [ -z "${RUN_BEHAT_BUILD}" ]; then
-        ./bin/build.sh;
+        ./build-gulp-assets.sh
       fi
 
 test:
@@ -104,6 +102,7 @@ test:
         ./bin/behat-prepare.sh;
       fi
   override:
+    - ./bin/test-wordpress-coding-standards
     - >
       if [ -n "${RUN_BEHAT_BUILD}" ]; then
         ./bin/behat-test.sh --strict;

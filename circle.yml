@@ -102,7 +102,7 @@ test:
         ./bin/behat-prepare.sh;
       fi
   override:
-    - ./bin/test-wordpress-coding-standards
+    - ./bin/test-wordpress-coding-standards.sh
     - >
       if [ -n "${RUN_BEHAT_BUILD}" ]; then
         ./bin/behat-test.sh --strict;

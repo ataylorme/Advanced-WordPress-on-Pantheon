@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Add WordPress coding standards path to code sniffer
-phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
+./vendor/bin/phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
 
 # Change to project directory
 cd $HOME/$CIRCLE_PROJECT_REPONAME

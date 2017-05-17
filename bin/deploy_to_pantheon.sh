@@ -11,8 +11,8 @@ txtcyn=$(tput setaf 6) # Cyan
 txtwht=$(tput setaf 7) # White
 txtrst=$(tput sgr0) # Text reset.
 
-# If we are not and the master branch or this isn't a pull request, don't deploy to Pantheon
-if [[ $CIRCLE_BRANCH != "master" || -z "$CI_PULL_REQUEST" ]]
+# If we are not and the master branch and this isn't a pull request, don't deploy to Pantheon
+if [[ $CIRCLE_BRANCH != "master" && -z "$CI_PULL_REQUEST" ]]
 then
 	echo -e "\n${txtred}Skipping deployment to Pantheon - not on the master branch and not a pull request.\nOpen a pull request to deploy to a multidev on Pantheon. ${txtrst}"
 	exit 0

@@ -3,13 +3,13 @@ machine:
     America/Chicago
 
   node:
-    version: 5.5.0
+    version: 6.1.0
 
   php:
     version: 7.1.3
 
   environment:
-      YARN_VERSION: 0.18.1
+      YARN_VERSION: 0.24.4
       PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin:${HOME}/terminus/bin"
       WORDPRESS_ADMIN_USERNAME: pantheon
       # A random password is set in the dependencies:pre stage as a text file.
@@ -26,8 +26,8 @@ dependencies:
   cache_directories:
     - ~/.composer/cache
     - ~/.terminus/tokens
-    - /home/ubuntu/nvm/versions/node/4.3.1/bin
-    - /home/ubuntu/nvm/versions/node/4.3.1/lib/node_modules
+    - /home/ubuntu/nvm/versions/node/6.1.0/bin
+    - /home/ubuntu/nvm/versions/node/6.1.0/lib/node_modules
     - /usr/local/bin/terminus
     - ~/.yarn
     - ~/.cache/yarn

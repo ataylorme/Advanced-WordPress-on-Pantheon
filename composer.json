@@ -58,6 +58,8 @@
     "behat/mink-goutte-driver": "^1.2",
     "pantheon-systems/pantheon-wordpress-upstream-tests": "dev-master",
     "paulgibbs/behat-wordpress-extension": "dev-master",
+    "squizlabs/php_codesniffer": "*",
+    "wp-coding-standards/wpcs": "dev-master",
     "phpunit/phpunit": "^6.1",
     "brain/monkey": "^1.4"
   },

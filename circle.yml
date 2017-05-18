@@ -89,11 +89,10 @@ dependencies:
     - ./bin/terminus_auth.sh
 
   override:
+    - ./bin/install-composer-dependencies.sh
     - >
-      if [[ "${CIRCLE_BRANCH}" == "master" || -n "${CI_PULL_REQUEST}" || -n "${RUN_BEHAT_BUILD}" ]]; then
-        composer install --dev;
-      else
-        ./bin/build.sh;
+      if [ -z "${RUN_BEHAT_BUILD}" ]; then
+        ./bin/build-gulp-assets.sh
       fi
 
 test:
@@ -103,6 +102,7 @@ test:
         ./bin/behat-prepare.sh;
       fi
   override:
+    - ./bin/test-wordpress-coding-standards.sh
     - >
       if [ -n "${RUN_BEHAT_BUILD}" ]; then
         ./bin/behat-test.sh --strict;

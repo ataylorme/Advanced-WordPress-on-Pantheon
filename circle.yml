@@ -90,7 +90,7 @@ dependencies:
 
   override:
     - >
-      if [ -n "${RUN_BEHAT_BUILD}" ]; then
+      if [[ "${CIRCLE_BRANCH}" == "master" || -n "${CI_PULL_REQUEST}" || -n "${RUN_BEHAT_BUILD}" ]]; then
         composer install --dev;
       else
         ./bin/build.sh;
@@ -107,6 +107,7 @@ test:
       if [ -n "${RUN_BEHAT_BUILD}" ]; then
         ./bin/behat-test.sh --strict;
       fi
+    -  ./vendor/bin/phpunit
   post:
     - >
       if [ -n "${RUN_BEHAT_BUILD}" ]; then

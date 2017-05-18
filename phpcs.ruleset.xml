@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress Coding Standards for Plugins">
+	<description>Generally-applicable sniffs for WordPress plugins</description>
+
+	<rule ref="WordPress-Core" />
+	<rule ref="WordPress-Docs" />
+
+	<!-- Scan all files in directory -->
+  	<file>./web/index.php</file>
+  	<file>./web/wp-config.php</file>
+  	<file>./web/wp-content/mu-plugins/alter-wpcfm-config-path.php</file>
+  	<file>./web/wp-content/themes/twentyseventeen-child</file>
+
+	<exclude-pattern>*/examples/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/tests/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/.git/*</exclude-pattern>
+
+	<!-- Scan only PHP files -->
+	<arg name="extensions" value="php"/>
+
+	<!-- Show colors in console -->
+	<arg value="-colors"/>
+
+	<!-- Show sniff codes in all reports -->
+	<arg value="ns"/>
+
+	<rule ref="WordPress.Files.FileName.InvalidClassFileName">
+		<exclude-pattern>*/tests/*</exclude-pattern>
+	</rule>
+</ruleset>

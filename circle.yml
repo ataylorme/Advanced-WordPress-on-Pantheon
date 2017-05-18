@@ -107,10 +107,7 @@ test:
       if [ -n "${RUN_BEHAT_BUILD}" ]; then
         ./bin/behat-test.sh --strict;
       fi
-    - >
-      if [[ "${CIRCLE_BRANCH}" == "master" || -n "${CI_PULL_REQUEST}" ]]; then
-        ./vendor/bin/phpunit;
-      fi
+    -  ./vendor/bin/phpunit
   post:
     - >
       if [ -n "${RUN_BEHAT_BUILD}" ]; then

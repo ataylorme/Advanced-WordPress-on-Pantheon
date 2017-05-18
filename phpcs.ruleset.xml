@@ -4,7 +4,12 @@
 
 	<rule ref="WordPress-Core" />
 	<rule ref="WordPress-Docs" />
-	<rule ref="WordPress-Extra" />
+
+	<!-- Scan all files in directory -->
+  	<file>./web/index.php</file>
+  	<file>./web/wp-config.php</file>
+  	<file>./web/wp-content/mu-plugins/alter-wpcfm-config-path.php</file>
+  	<file>./web/wp-content/themes/twentyseventeen-child</file>
 
 	<exclude-pattern>*/examples/*</exclude-pattern>
 	<exclude-pattern>*/node_modules/*</exclude-pattern>

@@ -107,6 +107,7 @@ test:
       if [ -n "${RUN_BEHAT_BUILD}" ]; then
         ./bin/behat-test.sh --strict;
       fi
+    -  ./vendor/bin/phpunit
   post:
     - >
       if [ -n "${RUN_BEHAT_BUILD}" ]; then

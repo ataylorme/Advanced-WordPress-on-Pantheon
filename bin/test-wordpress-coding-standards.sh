@@ -5,7 +5,7 @@ BUILD_DIR=$(pwd)
 ./vendor/bin/phpcs --config-set installed_paths $BUILD_DIR/vendor/wp-coding-standards/wpcs
 
 # Run code sniff
-./vendor/bin/phpcs --standard=phpcs.ruleset.xml
+./vendor/bin/phpcs
 if [ "$?" != 0 ]
 then
 	echo -e "\nPHPCS Failed. Please fix the error(s)."

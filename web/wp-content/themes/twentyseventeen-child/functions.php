@@ -1,9 +1,23 @@
 <?php
+/**
+ * TwentySeventeen Child Theme Functions
+ * Version: 0.0.1
+ *
+ * @package AdvancedWordPressOnPantheon
+ * @subpackage TwentySeventeenChildTheme
+ */
+
 namespace twenty_seventeen_child_theme;
 
+/**
+ * Enqueue theme script and styles
+ *
+ * @return void
+ */
 function enqueue_scripts_styles() {
 
-	$js_deps   = $css_deps = array();
+	$js_deps   = array();
+	$css_deps  = array();
 	$js_deps[] = 'jquery';
 
 	wp_dequeue_style( 'twentyseventeen-style' );

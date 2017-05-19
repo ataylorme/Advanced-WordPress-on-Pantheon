@@ -109,16 +109,18 @@ In order to develop the site locally a few steps need to be completed.
 These steps only need to be performed once, unless noted. 
 
 * Open a terminal
-* Checkout the Git repository and enter it's directory
+* Checkout the Git repository
 * Enter the Git docroot
 * Install Composer if not already installed
-* Run `composer update`
-    * `composer update` will need to be ran after any changes to `composer.json`
 * Copy `sample.env` to `.env` and update the values accordingly
 * Install Node JS and NPM if not already installed
-* Open a new terminal window
-* Run `npm install` from the `web/wp-content/themes/twentysixteen-child` directory
-    * `npm install` will need to be ran after any changes to `web/wp-content/themes/twentysixteen-child/package.json` 
+* Run `./bin/local-build.sh` to install Composer dependencies and compile assets with gulp
+
+
+## Notes
+* `npm install` will need to be ran after any changes to `web/wp-content/themes/twentysixteen-child/package.json` 
+* `composer update` will need to be ran after any changes to `composer.json`
+
 
 ### [Kalabox](http://www.kalabox.io/) Setup
 Replace `project-name` with you Pantheon site slug.

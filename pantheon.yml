@@ -25,15 +25,15 @@ workflows:
         - type: webphp
           description: importing the WP-CFM config into the site
           script: private/scripts/import_config_wp.php
-        - type: webphp
-          description: running a cross browser test with Spotbot.qa
-          script: private/scripts/spotbot_visualregression.php
-        - type: webphp
-          description: running a visual regression test with Backtrac.io
-          script: private/scripts/backtrac_visualregression.php
-        - type: webphp
-          description: running a performance test with Loadimpact.com
-          script: private/scripts/loadimpact_performance.php
+        #- type: webphp
+        #  description: running a cross browser test with Spotbot.qa
+        #  script: private/scripts/spotbot_visualregression.php
+        #- type: webphp
+        #  description: running a visual regression test with Backtrac.io
+        #  script: private/scripts/backtrac_visualregression.php
+        #- type: webphp
+        #  description: running a performance test with Loadimpact.com
+        #  script: private/scripts/loadimpact_performance.php
         - type: webphp
           description: Log to New Relic
           script: private/scripts/new_relic_deploy.php

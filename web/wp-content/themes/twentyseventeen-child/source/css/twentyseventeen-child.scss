@@ -1,5 +1,7 @@
 .has-sidebar #secondary{
-    background: rgba(lightgrey, 0.65);
+    // background: rgba(lightgrey, 0.65);
+    background: mix(blue, gray);
+    &,a,h3{ color: white; }
     padding: 1em;
     section:first-of-type{
         padding-top: 0;

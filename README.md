@@ -75,7 +75,7 @@ The Quicksilver integrations included are:
 * Loadimpact performance testing
 
 
-The `icons` directory must also be copied to `wp-content/uploads` on the live environment to provide icons in the Slack notifications.
+The `slack-icons` directory must also be copied to `wp-content/uploads` on the live environment to provide icons in the Slack notifications.
 
 ### Example `secrets.json`
 ```

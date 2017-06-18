@@ -90,7 +90,7 @@ The `icons` directory must also be copied to `wp-content/uploads` on the live en
   "live_url" : "http://live-pantheon-wp-best-practices.pantheonsite.io",
   "circle_ci_project" : "username/repo-name",
   "circle_ci_branch" : "master",
-  "circle_ci_project" : "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "circle_ci_token" : "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
 }
 ```
 

@@ -95,6 +95,10 @@ then
 		rsync -rlvz backstop_data $CIRCLE_ARTIFACTS
 
 		DIFF_IMAGE=$(find ./backstop_data -type f -name "*.png" | grep diff | head -n 1)
+		if [ ! -f $DIFF_IMAGE ]; then
+			echo -e "\nDiff image file $DIFF_IMAGE not found!"
+			exit 1
+		fi
 		DIFF_IMAGE_URL="$CIRCLE_ARTIFACTS_URL/$DIFF_IMAGE"
 		DIFF_REPORT="$CIRCLE_ARTIFACTS_URL/backstop_data/html_report/index.html"
 		if [ ! -f $DIFF_REPORT ]; then

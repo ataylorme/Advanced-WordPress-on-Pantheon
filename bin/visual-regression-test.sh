@@ -58,6 +58,9 @@ then
 		MULTIDEV_SITE_URL="https://$PR_BRANCH-$PANTHEON_SITE_NAME.pantheonsite.io/"
 		LIVE_SITE_URL="https://live-$PANTHEON_SITE_NAME.pantheonsite.io/"
 
+		# Stash Circle Artifacts URL
+		CIRCLE_ARTIFACTS_URL="https://circleci.com/api/v1.1/project/github/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM/artifacts/0$CIRCLE_ARTIFACTS"
+
 		# Install node dependencies
 		echo -e "\nRunning npm install..."
 		npm install
@@ -87,23 +90,19 @@ then
 
 		cd -
 
+		rsync -rlvz backstop_data $CIRCLE_ARTIFACTS
+
+		DIFF_IMAGE=$(find * | grep png | grep diff | head -n 1)
+		DIFF_IMAGE_URL=$CIRCLE_ARTIFACTS_URL/$DIFF_IMAGE
+		REPORT_LINK="[![Visual report]($DIFF_IMAGE_URL)]($CIRCLE_ARTIFACTS_URL/backstop_data/html_report/index.html)"
+
 		if [[ ${VISUAL_REGRESSION_RESULTS} == *"Mismatch errors found"* ]]
 		then
-			# Upload the image to uploads.im
-			echo -e "\nUploading the failed diff image to uploads.im..."
-			IMAGE_FILE=$(find ./backstop_data/bitmaps_test -type f -name "*.png" | grep failed)
-			curl -F "upload=@$IMAGE_FILE" http://uploads.im/api
-			UPLOADED_DIFF_IMAGE="$(curl -F \"upload=@$IMAGE_FILE\" http://uploads.im/api | jq -r '.data.img_url')"
 			# visual regression failed
-			PR_MESSAGE="Visual regression test failed! ![Visual Regression Test Result]($UPLOADED_DIFF_IMAGE)"
+			PR_MESSAGE="Visual regression test failed! $REPORT_LINK"
 		else
-			# Upload the image to uploads.im
-			echo -e "\nUploading the passed diff image to uploads.im..."
-			IMAGE_FILE=$(find ./backstop_data/bitmaps_test -type f -name "*.png")
-			curl -F "upload=@$IMAGE_FILE" http://uploads.im/api
-			UPLOADED_DIFF_IMAGE="$(curl -F \"upload=@$IMAGE_FILE\" http://uploads.im/api | jq -r '.data.img_url')"
 			# visual regression passed
-			PR_MESSAGE="Visual regression test passed! ![Visual Regression Test Result]($UPLOADED_DIFF_IMAGE)"
+			PR_MESSAGE="Visual regression test passed! $REPORT_LINK"
 		fi
 		
 		# Post the image back to the pull request on GitHub

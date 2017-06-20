@@ -78,11 +78,9 @@ then
 
 		backstop reference
 
-		VISUAL_REGRESSION_RESULTS=$(backstop test)
+		VISUAL_REGRESSION_RESULTS=$(backstop test || echo 'true')
 
 		echo "${VISUAL_REGRESSION_RESULTS}"
-
-		cd -
 
 		# Rsync files to CIRCLE_ARTIFACTS
 		echo -e "\nRsyincing backstop_data files to $CIRCLE_ARTIFACTS..."

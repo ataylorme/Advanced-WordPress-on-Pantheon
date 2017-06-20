@@ -101,9 +101,11 @@ then
 		if [[ ${VISUAL_REGRESSION_RESULTS} == *"Mismatch errors found"* ]]
 		then
 			# visual regression failed
+			echo -e "\nVisual regression test failed! $REPORT_LINK"
 			PR_MESSAGE="Visual regression test failed! $REPORT_LINK"
 		else
 			# visual regression passed
+			echo -e "\nVisual regression test passed! $REPORT_LINK"
 			PR_MESSAGE="Visual regression test passed! $REPORT_LINK"
 		fi
 		

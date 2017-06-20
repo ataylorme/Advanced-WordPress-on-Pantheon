@@ -76,3 +76,7 @@ Thumbs.db
 # Don't ignore Slack icons #
 #################################
 !/web/slack-icons
+
+# Backstop JS #
+###############
+backstop.js

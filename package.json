@@ -1,0 +1,18 @@
+{
+  "name": "Advanced-WordPress-on-Pantheon",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ataylorme/Advanced-WordPress-on-Pantheon.git"
+  },
+  "author": "Andrew Taylor",
+  "bugs": {
+    "url": "https://github.com/ataylorme/Advanced-WordPress-on-Pantheon/issues"
+  },
+  "devDependencies": {
+    "backstopjs": "^1.3.5",
+    "phantomcss": "^1.1.5"
+  }
+}

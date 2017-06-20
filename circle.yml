@@ -121,4 +121,5 @@ deployment:
       - >
         if [ -z "${RUN_BEHAT_BUILD}" ]; then
           ./bin/deploy_to_pantheon.sh;
+          ./bin/visual-regression-test.sh;
         fi

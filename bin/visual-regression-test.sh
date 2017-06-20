@@ -78,7 +78,7 @@ then
 
 		backstop reference
 
-		VISUAL_REGRESSION_RESULTS=$(backstop test || echo 'true')
+		VISUAL_REGRESSION_RESULTS=$(backstop test)
 
 		echo "${VISUAL_REGRESSION_RESULTS}"
 

@@ -91,7 +91,7 @@ then
 		then
 			# Upload the image to uploads.im
 			echo -e "\nUploading the failed diff image to uploads.im..."
-			IMAGE_FILE=$(find ./bitmaps_test -type f -name "*.png" | grep failed)
+			IMAGE_FILE=$(find ./backstop_data/bitmaps_test -type f -name "*.png" | grep failed)
 			curl -F "upload=@$IMAGE_FILE" http://uploads.im/api
 			UPLOADED_DIFF_IMAGE="$(curl -F \"upload=@$IMAGE_FILE\" http://uploads.im/api | jq -r '.data.img_url')"
 			# visual regression failed
@@ -99,7 +99,7 @@ then
 		else
 			# Upload the image to uploads.im
 			echo -e "\nUploading the passed diff image to uploads.im..."
-			IMAGE_FILE=$(find ./bitmaps_test -type f -name "*.png" | grep passed)
+			IMAGE_FILE=$(find ./backstop_data/bitmaps_test -type f -name "*.png")
 			curl -F "upload=@$IMAGE_FILE" http://uploads.im/api
 			UPLOADED_DIFF_IMAGE="$(curl -F \"upload=@$IMAGE_FILE\" http://uploads.im/api | jq -r '.data.img_url')"
 			# visual regression passed

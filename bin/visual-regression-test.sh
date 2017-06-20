@@ -90,9 +90,11 @@ then
 
 		cd -
 
+		# Rsync files to CIRCLE_ARTIFACTS
+		echo -e "\nRsyincing backstop_data files to $CIRCLE_ARTIFACTS..."
 		rsync -rlvz backstop_data $CIRCLE_ARTIFACTS
 
-		DIFF_IMAGE=$(find * | grep png | grep diff | head -n 1)
+		DIFF_IMAGE=$(find ./backstop_data -type f -name "*.png" | grep diff | head -n 1)
 		DIFF_IMAGE_URL=$CIRCLE_ARTIFACTS_URL/$DIFF_IMAGE
 		REPORT_LINK="[![Visual report]($DIFF_IMAGE_URL)]($CIRCLE_ARTIFACTS_URL/backstop_data/html_report/index.html)"
 

@@ -79,8 +79,7 @@ then
 		backstop reference
 
 		echo -e "\nRunning backstop test..."
-		backstop test
-		#VISUAL_REGRESSION_RESULTS=$(backstop test || echo 'true')
+		VISUAL_REGRESSION_RESULTS=$(backstop test || echo 'true')
 
 		echo "${VISUAL_REGRESSION_RESULTS}"
 

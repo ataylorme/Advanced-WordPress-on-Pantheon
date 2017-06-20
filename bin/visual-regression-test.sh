@@ -64,11 +64,11 @@ then
 
 		# Ping the multidev environment to wake it from sleep
 		echo -e "\nPinging the ${PR_BRANCH} multidev environment to wake it from sleep..."
-		curl -I "$MULTIDEV_SITE_URL"
+		curl -I "$MULTIDEV_SITE_URL" >/dev/null
 		
 		# Ping the live environment to wake it from sleep
 		echo -e "\nPinging the live environment to wake it from sleep..."
-		curl -I "$LIVE_SITE_URL"
+		curl -I "$LIVE_SITE_URL" >/dev/null
 
 		# Create Backstop config file with URLs
 		echo -e "\nCreating backstop.js config file..."

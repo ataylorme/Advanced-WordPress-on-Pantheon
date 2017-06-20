@@ -61,10 +61,6 @@ then
 		# Stash Circle Artifacts URL
 		CIRCLE_ARTIFACTS_URL="https://circleci.com/api/v1.1/project/github/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM/artifacts/0$CIRCLE_ARTIFACTS"
 
-		# Install node dependencies
-		echo -e "\nRunning npm install..."
-		npm install
-
 		# Ping the multidev environment to wake it from sleep
 		echo -e "\nPinging the ${PR_BRANCH} multidev environment to wake it from sleep..."
 		curl -I "$MULTIDEV_SITE_URL" >/dev/null
@@ -80,11 +76,9 @@ then
 		# Backstop visual regression
 		echo -e "\nRunning BackstopJS tests..."
 
-		cd node_modules/backstopjs
+		backstop reference
 
-		npm run reference
-
-		VISUAL_REGRESSION_RESULTS=$(npm run test)
+		VISUAL_REGRESSION_RESULTS=$(backstop test || echo 'true')
 
 		echo "${VISUAL_REGRESSION_RESULTS}"
 

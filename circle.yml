@@ -74,6 +74,7 @@ dependencies:
     - >
       if [ -z "${RUN_BEHAT_BUILD}" ]; then
         echo Installing gulp globally; yarn global add gulp
+        echo Installing backstopjs globally; yarn global add backstopjs
       fi
 
     # Install Terminus

@@ -74,10 +74,11 @@ then
 		cat backstop.json.default | jq ".scenarios[0].url = \"$LIVE_SITE_URL\" | .scenarios[0].referenceUrl = \"$MULTIDEV_SITE_URL\" " > backstop.json
 
 		# Backstop visual regression
-		echo -e "\nRunning BackstopJS tests..."
+		echo -e "\nRunning backstop reference..."
 
 		backstop reference
 
+		echo -e "\nRunning backstop test..."
 		VISUAL_REGRESSION_RESULTS=$(backstop test || echo 'true')
 
 		echo "${VISUAL_REGRESSION_RESULTS}"

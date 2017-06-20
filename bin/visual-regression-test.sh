@@ -15,6 +15,9 @@ txtrst=$(tput sgr0) # Text reset.
 BUILD_DIR=$(pwd)
 GITHUB_API_URL="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
 
+# Authenticate with Terminus
+./bin/terminus_auth.sh
+
 # Check if we are NOT on the master branch and this is a PR
 if [[ $CIRCLE_BRANCH != "master" && -n "$CI_PULL_REQUEST" ]]
 then

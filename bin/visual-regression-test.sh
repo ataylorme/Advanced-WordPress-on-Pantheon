@@ -98,22 +98,23 @@ then
 			echo -e "\nDiff report file $DIFF_REPORT not found!"
 			exit 1
 		fi
+		DIFF_REPORT_URL="$CIRCLE_ARTIFACTS_URL/backstop_data/html_report/index.html"
 
 		if [[ "$DIFF_IMAGE" -eq 0 ]]
 		then
-			REPORT_LINK="[Visual report]($DIFF_REPORT)"
+			REPORT_LINK="[Visual report]($DIFF_REPORT_URL)"
 		else
-			REPORT_LINK="[![Visual report]($DIFF_IMAGE_URL)]($DIFF_REPORT)"
+			REPORT_LINK="[![Visual report]($DIFF_IMAGE_URL)]($DIFF_REPORT_URL)"
 		fi
 
 		if [[ ${VISUAL_REGRESSION_RESULTS} == *"Mismatch errors found"* ]]
 		then
 			# visual regression failed
-			echo -e "\nVisual regression test failed! $REPORT_LINK"
+			echo -e "\nVisual regression test failed!"
 			PR_MESSAGE="Visual regression test failed! $REPORT_LINK"
 		else
 			# visual regression passed
-			echo -e "\nVisual regression test passed! $REPORT_LINK"
+			echo -e "\nVisual regression test passed!"
 			PR_MESSAGE="Visual regression test passed! $REPORT_LINK"
 		fi
 		

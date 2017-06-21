@@ -59,7 +59,7 @@ then
 		LIVE_SITE_URL="https://live-$PANTHEON_SITE_NAME.pantheonsite.io/"
 
 		# Stash Circle Artifacts URL
-		CIRCLE_ARTIFACTS_URL="https://circleci.com/api/v1.1/project/github/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM/artifacts/0$CIRCLE_ARTIFACTS"
+		CIRCLE_ARTIFACTS_URL="$CIRCLE_BUILD_URL/artifacts/$CIRCLE_NODE_INDEX/$CIRCLE_ARTIFACTS"
 
 		# Ping the multidev environment to wake it from sleep
 		echo -e "\nPinging the ${PR_BRANCH} multidev environment to wake it from sleep..."

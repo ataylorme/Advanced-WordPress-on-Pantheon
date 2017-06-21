@@ -100,12 +100,7 @@ then
 		fi
 		DIFF_REPORT_URL="$CIRCLE_ARTIFACTS_URL/backstop_data/html_report/index.html"
 
-		if [[ "$DIFF_IMAGE" -eq 0 ]]
-		then
-			REPORT_LINK="[Visual report]($DIFF_REPORT_URL)"
-		else
-			REPORT_LINK="[![Visual report]($DIFF_IMAGE_URL)]($DIFF_REPORT_URL)"
-		fi
+		REPORT_LINK="[![Visual report]($DIFF_IMAGE_URL)]($DIFF_REPORT_URL)"
 
 		if [[ ${VISUAL_REGRESSION_RESULTS} == *"Mismatch errors found"* ]]
 		then

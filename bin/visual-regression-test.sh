@@ -87,7 +87,7 @@ then
 		echo -e "\nRsyincing backstop_data files to $CIRCLE_ARTIFACTS..."
 		rsync -rlvz backstop_data $CIRCLE_ARTIFACTS
 
-		DIFF_IMAGE=$(find ./backstop_data -type f -name "*.png" | grep diff | head -n 1)
+		DIFF_IMAGE=$(find ./backstop_data -type f -name "*.png" | grep diff | grep desktop | head -n 1)
 		if [ ! -f $DIFF_IMAGE ]; then
 			echo -e "\nDiff image file $DIFF_IMAGE not found!"
 			DIFF_IMAGE=$(find ./backstop_data/bitmaps_test -type f -name "*.png" | grep desktop | head -n 1)

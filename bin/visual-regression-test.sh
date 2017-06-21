@@ -59,7 +59,7 @@ then
 		LIVE_SITE_URL="https://live-$PANTHEON_SITE_NAME.pantheonsite.io/"
 
 		# Stash Circle Artifacts URL
-		CIRCLE_ARTIFACTS_URL="https://circleci.com/api/v1.1/project/github/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM/artifacts/0$CIRCLE_ARTIFACTS"
+		CIRCLE_ARTIFACTS_URL="https://$BUILD_ID-$REPO_ID-gh.circle-artifacts.com/0$CIRCLE_ARTIFACTS"
 
 		# Ping the multidev environment to wake it from sleep
 		echo -e "\nPinging the ${PR_BRANCH} multidev environment to wake it from sleep..."
@@ -87,7 +87,7 @@ then
 		echo -e "\nRsyincing backstop_data files to $CIRCLE_ARTIFACTS..."
 		rsync -rlvz backstop_data $CIRCLE_ARTIFACTS
 
-		DIFF_IMAGE=$(find ./backstop_data -type f -name "*.png" | grep diff | head -n 1)
+		DIFF_IMAGE=$(find ./backstop_data -type f -name "*.png" | grep diff | grep desktop)
 		if [ ! -f $DIFF_IMAGE ]; then
 			echo -e "\nDiff image file $DIFF_IMAGE not found!"
 			DIFF_IMAGE=$(find ./backstop_data/bitmaps_test -type f -name "*.png" | grep desktop | head -n 1)

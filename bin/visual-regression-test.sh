@@ -100,6 +100,7 @@ then
 		fi
 
 		if [[ "$DIFF_IMAGE" -eq 0 ]]
+		then
 			REPORT_LINK="[Visual report]($DIFF_REPORT)"
 		else
 			REPORT_LINK="[![Visual report]($DIFF_IMAGE_URL)]($DIFF_REPORT)"

@@ -90,7 +90,6 @@ then
 		DIFF_IMAGE=$(find ./backstop_data -type f -name "*.png" | grep diff | grep desktop | head -n 1)
 		if [ ! -f $DIFF_IMAGE ]; then
 			echo -e "\nDiff image file $DIFF_IMAGE not found!"
-			DIFF_IMAGE=$(find ./backstop_data/bitmaps_test -type f -name "*.png" | grep desktop | head -n 1)
 		fi
 		DIFF_IMAGE_URL="$CIRCLE_ARTIFACTS_URL/$DIFF_IMAGE"
 		DIFF_REPORT="$CIRCLE_ARTIFACTS/backstop_data/html_report/index.html"
@@ -109,6 +108,7 @@ then
 			PR_MESSAGE="Visual regression test failed! $REPORT_LINK"
 		else
 			# visual regression passed
+			REPORT_LINK="\n[Visual report]($DIFF_REPORT_URL)"
 			echo -e "\nVisual regression test passed!"
 			PR_MESSAGE="Visual regression test passed! $REPORT_LINK"
 		fi

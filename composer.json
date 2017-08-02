@@ -84,7 +84,7 @@
     ],
     "code-sniff": [
       "./vendor/bin/phpcs --config-set installed_paths ./vendor/wp-coding-standards/wpcs",
-      "./vendor/bin/phpcs --extensions=php ./web/wp-content"
+      "./vendor/bin/phpcs --extensions=php --runtime-set ignore_warnings_on_exit true ./web/wp-content"
     ],
     "unit-test": [
       "./vendor/bin/phpunit tests/unit/*"

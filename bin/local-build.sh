@@ -8,7 +8,7 @@
 
 # Test WordPress coding standards
 ./vendor/bin/phpcs --config-set installed_paths ./vendor/wp-coding-standards/wpcs
-./vendor/bin/phpcs --ignore=*/.git*/*,*/node_modules/*,*/*.min ./web/wp-content/themes/twentyseventeen-child
+./vendor/bin/phpcs --ignore=*/.git*/*,*/node_modules/* --extensions=php ./web/wp-content/themes/twentyseventeen-child
 
 # Run unit tests
 composer -n unit-test

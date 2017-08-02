@@ -12,6 +12,12 @@ apt-get update
 # Install node, npm and yarn
 apt-get install -y node npm
 
+echo -e "\nNode version"
+node -v
+
+echo -e "\nNPM version"
+npm -v
+
 # Install yarn
 npm install --global yarn
 

@@ -62,7 +62,6 @@ export default (file, watch) => {
             .pipe($.sourcemaps.init({loadMaps: true}))
             // minify the file
             .pipe($.uglify({
-                preserveComments: 'some',
                 mangle: false
             }))
             // rename to .min

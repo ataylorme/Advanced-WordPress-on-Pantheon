@@ -12,17 +12,8 @@ apt-get update
 # Install node, npm and yarn
 apt-get install -y node npm
 
-echo -e "\nNode version"
-node -v
-
-echo -e "\nNPM version"
-npm -v
-
-# Install yarn
-npm install --global yarn
-
 # Install gulp globally
-yarn global add gulp
+npm install --global gulp
 
 #=========================================================================
 # Commands below this line would not be transferable to a docker container

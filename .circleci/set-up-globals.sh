@@ -9,12 +9,11 @@ set -ex
 # Update current apt packages
 apt-get update
 
-# Add yarn package repository
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-
 # Install node, npm and yarn
-apt-get install -y node npm yarn
+apt-get install -y node npm
+
+# Install yarn
+npm install --global yarn
 
 # Install gulp globally
 yarn global add gulp

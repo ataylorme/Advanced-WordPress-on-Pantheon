@@ -9,6 +9,12 @@ set -ex
 # Update current apt packages
 apt-get update
 
+# Install node, npm and yarn
+apt-get install -y node=6.11.2 npm=5.3.0 yarn=0.27.5
+
+# Install gulp globally
+yarn global add gulp
+
 #=========================================================================
 # Commands below this line would not be transferable to a docker container
 #=========================================================================

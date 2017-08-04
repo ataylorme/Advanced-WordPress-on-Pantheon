@@ -23,7 +23,7 @@ then
     exit 0;
 fi
 
-if -n ${CIRCLE_PULL_REQUEST+x} && ! TERMINUS_DOES_MULTIDEV_EXIST ${TERMINUS_ENV}
+if [[ ${CIRCLE_BRANCH} != "master" && ! TERMINUS_DOES_MULTIDEV_EXIST ${TERMINUS_ENV} ]]
 then
     terminus env:wake -n "$TERMINUS_SITE.dev"
     terminus build:env:create -n "$TERMINUS_SITE.dev" "$TERMINUS_ENV" --clone-content --yes --notify="$NOTIFY"

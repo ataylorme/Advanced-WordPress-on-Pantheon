@@ -116,6 +116,7 @@ jobs:
                     - composer-cache
                     - terminus-install
                     - node
+                    - twentyseventeen-child-theme
 
             - run:
                 name: dependencies
@@ -132,6 +133,11 @@ jobs:
             - run:
                 name: deploy to Pantheon
                 command: ./.circleci/deploy-to-pantheon.sh
+
+            - save_cache:
+                key: twentyseventeen-child-theme
+                paths:
+                    - $HOME/example_wordpress_composer/web/wp-content/themes/twentyseventeen-child/node_modules
 
     behat_test:
         <<: *defaults

@@ -10,7 +10,8 @@ set -ex
 apt-get update
 
 # Install node, npm and yarn
-apt-get install -y node npm
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+apt-get install -y nodejs npm
 
 # Install gulp globally
 npm install --global gulp

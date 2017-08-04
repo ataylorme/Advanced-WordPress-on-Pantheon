@@ -41,6 +41,17 @@ deployment workflow on Pantheon integrating tools such as:
 * Unit and Behat testing
 * Enforcing WordPress coding standards
 
+## Circle CI Setup
+You will need to add the following environment variables in the Circle CI UI. See [https://circleci.com/docs/2.0/environment-variables](https://circleci.com/docs/2.0/environment-variables/)/ for details.
+
+* TERMINUS_SITE:  Name of the Pantheon site to run tests on, e.g. my_site
+* TERMINUS_TOKEN: The Pantheon machine token
+* GITHUB_TOKEN:   The GitHub personal access token
+* GIT_EMAIL:      The email address to use when making commits
+* TEST_SITE_NAME: The name of the test site to provide when installing.
+* ADMIN_PASSWORD: The admin password to use when installing.
+* ADMIN_EMAIL:    The email address to give the admin when installing.
+
 ## Local Setup
 In order to develop the site locally a few steps need to be completed. 
 These steps only need to be performed once, unless noted. 

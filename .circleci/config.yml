@@ -69,14 +69,6 @@ jobs:
                 paths:
                     - $HOME/.terminus
                     - $HOME/terminus
-            
-            - save_cache:
-                key: node
-                paths:
-                    - $HOME/nvm/versions/node/6.11.2/bin
-                    - $HOME/nvm/versions/node/6.11.2/lib/node_modules
-                    - $HOME/.yarn
-                    - $HOME/.cache/yarn
 
             - persist_to_workspace:
                 # Must be relative path from working_directory
@@ -142,6 +134,12 @@ jobs:
                 key: twentyseventeen-child-theme
                 paths:
                     - $HOME/example_wordpress_composer/web/wp-content/themes/twentyseventeen-child/node_modules
+
+            - save_cache:
+                key: node
+                paths:
+                    - $HOME/nvm/versions/node/6.11.2/bin
+                    - $HOME/nvm/versions/node/6.11.2/lib/node_modules
 
     behat_test:
         <<: *defaults

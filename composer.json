@@ -4,7 +4,6 @@
   "version": "0.1.0",
   "type": "project",
   "keywords": [],
-  "minimum-stability": "alpha",
   "repositories": [
     {
       "type": "composer",

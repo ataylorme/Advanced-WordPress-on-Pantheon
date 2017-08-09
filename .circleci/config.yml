@@ -123,6 +123,10 @@ jobs:
                 command: ./.circleci/set-up-globals.sh
 
             - run:
+                name: install Node packages
+                command: ./.circleci/install-node-packages.sh
+
+            - run:
                 name: build Composer assets
                 command: composer -n build-assets
 

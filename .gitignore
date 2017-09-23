@@ -12,6 +12,7 @@ vendor/
 !.gitignore
 !.env-sample
 !.travis.yml
+!.lando.yml
 
 # NPM Modules #
 ###############

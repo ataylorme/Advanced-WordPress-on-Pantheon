@@ -165,6 +165,31 @@ jobs:
             - run:
                 name: run Behat tests
                 command: ./.circleci/behat-test.sh
+    
+    visual_regression_test:
+        <<: *defaults
+        steps:
+            - checkout
+
+            - restore_cache:
+                keys:
+                    - terminus-install
+            
+            - run:
+                name: dependencies
+                command: ./.circleci/set-up-globals.sh
+
+            - run:
+                name: install Node packages
+                command: ./.circleci/install-node-packages.sh
+
+            - run:
+                name: visual regression test
+                command: ./.circleci/visual-regression-test.sh
+
+            - store_artifacts:
+                path: /tmp/artifacts
+                destination: artifacts
 
 workflows:
   version: 2
@@ -178,8 +203,13 @@ workflows:
       - code_sniff_unit_test:
             requires:
                 - install_dev_dependencies
-      # Run Behat tests after deploy so they can be done on Pantheon
+      # Run Visual Regression tests after deploy so they can be done on Pantheon
+      - visual_regression_test:
+            requires:
+                - build_and_deploy
+      # Run Behat tests after Visual Regression so the changes Behat makes don't mess with screenshots
       - behat_test:
             requires:
                 - install_dev_dependencies
                 - build_and_deploy
+                - visual_regression_test

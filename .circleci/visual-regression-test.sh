@@ -54,8 +54,8 @@ VISUAL_REGRESSION_RESULTS=$(backstop test || echo 'true')
 
 echo "${VISUAL_REGRESSION_RESULTS}"
 
-# Rsync files to CIRCLE_ARTIFACTS
-echo -e "\nRsyincing backstop_data files to $CIRCLE_ARTIFACTS..."
+# Rsync files to CIRCLE_ARTIFACTS_DIR
+echo -e "\nRsyincing backstop_data files to $CIRCLE_ARTIFACTS_DIR..."
 rsync -rlvz backstop_data $CIRCLE_ARTIFACTS_DIR
 
 DIFF_IMAGE=$(find ./backstop_data -type f -name "*.png" | grep diff | grep desktop | head -n 1)
@@ -63,7 +63,7 @@ if [ ! -f $DIFF_IMAGE ]; then
 	echo -e "\nDiff image file $DIFF_IMAGE not found!"
 fi
 DIFF_IMAGE_URL="$CIRCLE_ARTIFACTS_URL/$DIFF_IMAGE"
-DIFF_REPORT="$CIRCLE_ARTIFACTS/backstop_data/html_report/index.html"
+DIFF_REPORT="$CIRCLE_ARTIFACTS_DIR/backstop_data/html_report/index.html"
 if [ ! -f $DIFF_REPORT ]; then
 	echo -e "\nDiff report file $DIFF_REPORT not found!"
 	exit 1

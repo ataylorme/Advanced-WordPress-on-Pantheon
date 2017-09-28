@@ -168,8 +168,6 @@ jobs:
     
     visual_regression_test:
         <<: *defaults
-        docker:
-          - image: docksal/backstopjs:3
         steps:
             - checkout
 

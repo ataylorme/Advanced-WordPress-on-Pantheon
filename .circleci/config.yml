@@ -51,8 +51,12 @@ jobs:
                     - terminus-install
 
             - run:
-                name: dependencies
+                name: declare environment variables
                 command: ./.circleci/set-up-globals.sh
+
+            - run:
+                name: configure Composer/Terminus
+                command: ./.circleci/set-terminus-composer.sh
 
             - run:
                 name: install dev dependencies
@@ -109,8 +113,12 @@ jobs:
                     - twentyseventeen-child-theme
 
             - run:
-                name: dependencies
+                name: declare environment variables
                 command: ./.circleci/set-up-globals.sh
+
+            - run:
+                name: configure Composer/Terminus
+                command: ./.circleci/set-terminus-composer.sh
 
             - run:
                 name: build Composer assets
@@ -147,8 +155,12 @@ jobs:
                 command: cp -r /tmp/vendor .
             
             - run:
-                name: dependencies
+                name: declare environment variables
                 command: ./.circleci/set-up-globals.sh
+
+            - run:
+                name: configure Composer/Terminus
+                command: ./.circleci/set-terminus-composer.sh
 
             - run:
                 name: run Behat tests
@@ -166,7 +178,7 @@ jobs:
                     - terminus-install
             
             - run:
-                name: dependencies
+                name: declare environment variables
                 command: ./.circleci/set-up-globals.sh
 
             - run:

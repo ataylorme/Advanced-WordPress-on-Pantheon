@@ -52,12 +52,8 @@ fi
 touch $HOME/.ssh/config
 echo "StrictHostKeyChecking no" >> "$HOME/.ssh/config"
 
-GIT_INSTALLED=`which git`
-if [ -x "$GIT_INSTALLED" ]
-then
-	# Configure Git credentials
-	git config --global user.email "$GIT_EMAIL"
-	git config --global user.name "Circle CI"
-	# Ignore file permissions.
-	git config --global core.fileMode false
-fi
+# Configure Git credentials
+git config --global user.email "$GIT_EMAIL"
+git config --global user.name "Circle CI"
+# Ignore file permissions.
+git config --global core.fileMode false

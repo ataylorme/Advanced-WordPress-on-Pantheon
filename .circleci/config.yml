@@ -182,10 +182,6 @@ jobs:
                 command: ./.circleci/set-up-globals.sh
 
             - run:
-                name: install Node packages
-                command: ./.circleci/install-node-packages.sh
-
-            - run:
                 name: visual regression test
                 command: ./.circleci/visual-regression-test.sh
 

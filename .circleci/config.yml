@@ -197,7 +197,7 @@ workflows:
       - install_dev_dependencies
       # Build and deploy
       - build_and_deploy
-      # Code sniff and unit text first
+      # Code sniff and unit test first
       - code_sniff_unit_test:
             requires:
                 - install_dev_dependencies

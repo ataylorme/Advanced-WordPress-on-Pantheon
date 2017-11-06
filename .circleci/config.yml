@@ -1,7 +1,7 @@
 # https://circleci.com/docs/2.0/workflows/#using-workspaces-to-share-data-among-jobs
 defaults: &defaults
   docker:
-    - image: ataylorme/docker-php-Advanced-WordPress-on-Pantheon:latest
+    - image: ataylorme/docker-php-advanced-wordpress-on-pantheon:latest
   working_directory: ~/example_wordpress_composer
   environment:
     #=========================================================================
@@ -101,7 +101,7 @@ jobs:
                 name: run unit tests
                 command: composer -n unit-test
 
-    build_node_dependencies:
+    build:
         <<: *defaults
         docker:
           - image: ataylorme/docker-node-advanced-wordpress-on-pantheon:latest
@@ -221,7 +221,7 @@ workflows:
       # Install dev dependencies needed for testing
       - install_dev_dependencies
       # Build production assets with node
-      - build_node_assets
+      - build
       # Deploy to Pantheon requires the site being built
       - build_php_and_deploy_to_pantheon:
             requires:

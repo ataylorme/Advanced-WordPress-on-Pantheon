@@ -137,10 +137,6 @@ jobs:
                 # Must be absolute path or relative path from working_directory
                 at: /tmp
 
-            - run:
-                name: copy web
-                command: rsync -vaz --exclude='.git' --exclude='node_modules' /tmp/web ./web
-
             - restore_cache:
                 keys:
                     - composer-cache
@@ -157,6 +153,10 @@ jobs:
             - run:
                 name: build Composer assets
                 command: composer -n build-assets
+
+            - run:
+                name: copy production assets
+                command: rsync -vaz --exclude='.git' --exclude='node_modules' /tmp/web/* ./web
 
             - run:
                 name: deploy to Pantheon

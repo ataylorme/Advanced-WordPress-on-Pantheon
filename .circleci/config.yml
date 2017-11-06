@@ -1,7 +1,7 @@
 # https://circleci.com/docs/2.0/workflows/#using-workspaces-to-share-data-among-jobs
 defaults: &defaults
   docker:
-    - image: ataylorme/php-node-pantheon:latest
+    - image: ataylorme/docker-php-Advanced-WordPress-on-Pantheon:latest
   working_directory: ~/example_wordpress_composer
   environment:
     #=========================================================================
@@ -90,7 +90,7 @@ jobs:
                 at: /tmp
 
             - run:
-                name: copy vendor/web
+                name: copy vendor
                 command: cp -r /tmp/vendor .
 
             - run:
@@ -101,16 +101,50 @@ jobs:
                 name: run unit tests
                 command: composer -n unit-test
 
-    build_and_deploy:
+    build_node_dependencies:
         <<: *defaults
+        docker:
+          - image: ataylorme/docker-node-advanced-wordpress-on-pantheon:latest
         steps:
             - checkout
 
             - restore_cache:
                 keys:
+                    - twentyseventeen-child-theme
+
+            - run:
+                name: build gulp assets
+                command: ./.circleci/build-gulp-assets.sh
+
+            - save_cache:
+                key: twentyseventeen-child-theme
+                paths:
+                    - $HOME/example_wordpress_composer/web/wp-content/themes/twentyseventeen-child/node_modules
+
+            - persist_to_workspace:
+                # Must be relative path from working_directory
+                root: .
+                # Must be relative path from root
+                paths:
+                    - web
+    
+    build_php_and_deploy_to_pantheon:
+        <<: *defaults
+        steps:
+            - checkout
+
+             - attach_workspace:
+                # Must be absolute path or relative path from working_directory
+                at: /tmp
+
+            - run:
+                name: copy web
+                command: rsync -vaz --exclude='.git' --exclude='node_modules' /tmp/web ./web
+
+            - restore_cache:
+                keys:
                     - composer-cache
                     - terminus-install
-                    - twentyseventeen-child-theme
 
             - run:
                 name: declare environment variables
@@ -125,17 +159,8 @@ jobs:
                 command: composer -n build-assets
 
             - run:
-                name: build gulp assets
-                command: ./.circleci/build-gulp-assets.sh
-
-            - run:
                 name: deploy to Pantheon
                 command: ./.circleci/deploy-to-pantheon.sh
-
-            - save_cache:
-                key: twentyseventeen-child-theme
-                paths:
-                    - $HOME/example_wordpress_composer/web/wp-content/themes/twentyseventeen-child/node_modules
 
     behat_test:
         <<: *defaults
@@ -152,7 +177,7 @@ jobs:
 
             - run:
                 name: copy vendor
-                command: cp -r /tmp/vendor .
+                command: cp -r /tmp/vendor ./vendor
             
             - run:
                 name: declare environment variables
@@ -193,10 +218,14 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      # Install dev dependencies
+      # Install dev dependencies needed for testing
       - install_dev_dependencies
-      # Build and deploy
-      - build_and_deploy
+      # Build production assets with node
+      - build_node_assets
+      # Deploy to Pantheon requires the site being built
+      - build_php_and_deploy_to_pantheon:
+            requires:
+                - build_node_dependencies
       # Code sniff and unit test first
       - code_sniff_unit_test:
             requires:
@@ -204,10 +233,10 @@ workflows:
       # Run Visual Regression tests after deploy so they can be done on Pantheon
       - visual_regression_test:
             requires:
-                - build_and_deploy
+                - build_php_and_deploy_to_pantheon
       # Run Behat tests after Visual Regression so the changes Behat makes don't mess with screenshots
       - behat_test:
             requires:
                 - install_dev_dependencies
-                - build_and_deploy
+                - build_php_and_deploy_to_pantheon
                 - visual_regression_test

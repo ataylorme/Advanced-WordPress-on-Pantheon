@@ -225,7 +225,7 @@ workflows:
       # Deploy to Pantheon requires the site being built
       - build_php_and_deploy_to_pantheon:
             requires:
-                - build_node_dependencies
+                - build
       # Code sniff and unit test first
       - code_sniff_unit_test:
             requires:

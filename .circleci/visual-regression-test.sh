@@ -10,16 +10,14 @@ then
 	echo -e "\nVisual regression tests will only run if we are not on the master branch and making a pull request"
 	exit 0
 fi
-# Stash site name
-PANTHEON_SITE_NAME="$(terminus site:info $PANTHEON_SITE_UUID --fields=name --format=string)"
 
 # Stash PR number
 PR_NUMBER=${CI_PULL_REQUEST##*/}
 echo -e "\nProcessing pull request #$PR_NUMBER"
 
 # Stash site URLs
-MULTIDEV_SITE_URL="https://$TERMINUS_ENV-$PANTHEON_SITE_NAME.pantheonsite.io/"
-LIVE_SITE_URL="https://live-$PANTHEON_SITE_NAME.pantheonsite.io/"
+MULTIDEV_SITE_URL="https://$TERMINUS_ENV-$TERMINUS_SITE.pantheonsite.io/"
+LIVE_SITE_URL="https://live-$TERMINUS_SITE.pantheonsite.io/"
 
 # Make artifacts directory
 CIRCLE_ARTIFACTS='artifacts'

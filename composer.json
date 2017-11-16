@@ -20,7 +20,7 @@
     "wpackagist-plugin/wp-native-php-sessions": "^0.6.3",
     "wpackagist-plugin/pantheon-advanced-page-cache": "^0.2.0",
     "wpackagist-theme/twentyseventeen": "^1.1",
-    "pantheon-systems/wordpress-composer": "^4.8.3",
+    "pantheon-systems/wordpress-composer": "^4.9",
     "roots/wp-password-bcrypt": "^1.0.0",
     "rvtraveller/qs-composer-installer": "^1.1"
   },

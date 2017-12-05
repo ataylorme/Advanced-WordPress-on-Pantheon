@@ -80,6 +80,7 @@ echo -e "\nRsyincing lighthouse_results files to $CIRCLE_ARTIFACTS_DIR..."
 rsync -rlvz lighthouse_results $CIRCLE_ARTIFACTS_DIR
 
 LIGHTHOUSE_SCORE=$(cat $LIGHTHOUSE_RESULTS_JSON | jq -r '.["total-score"]')
+LIGHTHOUSE_RESULTS=$(cat $LIGHTHOUSE_RESULTS_JSON)
 LIGHTHOUSE_HTML_REPORT_URL="$CIRCLE_ARTIFACTS_URL/$LIGHTHOUSE_HTML_REPORT"
 REPORT_LINK="[Lighthouse report]($LIGHTHOUSE_HTML_REPORT_URL)"
 
@@ -89,19 +90,21 @@ if [[ -f $LIGHTHOUSE_RESULTS_JSON_MASTER ]]; then
 	if [ "$LIGHTHOUSE_MASTER_SCORE" -gt "$LIGHTHOUSE_SCORE" ]; then
 		# Lighthouse test failed! The score is less than the previous result on the master branch
 		echo -e "\nLighthouse test failed! The score of $LIGHTHOUSE_SCORE is less than the previous score of $LIGHTHOUSE_MASTER_SCORE on the master branch"
-		PR_MESSAGE="Lighthouse test failed! The score of $LIGHTHOUSE_SCORE is less than the previous score of $LIGHTHOUSE_MASTER_SCORE on the master branch. View the full $REPORT_LINK"
+		PR_MESSAGE="Lighthouse test failed! The score of $LIGHTHOUSE_SCORE is less than the previous score of $LIGHTHOUSE_MASTER_SCORE on the master branch."
 		exit 1
 	else
 		# Lighthouse test passed! The score isn't less than the previous result on the master branch
 		echo -e "\nLighthouse test passed! The score of $LIGHTHOUSE_SCORE isn't less than the previous score of $LIGHTHOUSE_MASTER_SCORE on the master branch"
-		PR_MESSAGE="Lighthouse test passed! The score of $LIGHTHOUSE_SCORE isn't less than the previous score of $LIGHTHOUSE_MASTER_SCORE on the master branch. View the full $REPORT_LINK"
+		PR_MESSAGE="Lighthouse test passed! The score of $LIGHTHOUSE_SCORE isn't less than the previous score of $LIGHTHOUSE_MASTER_SCORE on the master branch."
 	fi
 
 else
 	# Lighthouse test passed! The score was recorded but there is no reference score on the master branch
 	echo -e "\nLighthouse test passed! The score of $LIGHTHOUSE_SCORE was recorded but there is not reference score for the master branch"
-	PR_MESSAGE="Lighthouse test passed! The score of $LIGHTHOUSE_SCORE was recorded but there is not reference score for the master branch. View the full $REPORT_LINK"
+	PR_MESSAGE="Lighthouse test passed! The score of $LIGHTHOUSE_SCORE was recorded but there is not reference score for the master branch."
 fi
+
+PR_MESSAGE="$PR_MESSAGE \n```\n$LIGHTHOUSE_RESULTS\n``` \nView the full $REPORT_LINK"
 
 # Post the report back to the pull request on GitHub
 if [[ ${CIRCLE_BRANCH} != "master" ]]; then

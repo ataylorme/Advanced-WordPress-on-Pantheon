@@ -1,8 +1,8 @@
 # https://circleci.com/docs/2.0/workflows/#using-workspaces-to-share-data-among-jobs
 defaults: &defaults
   docker:
-    - image: ataylorme/docker-php-advanced-wordpress-on-pantheon:latest
-  working_directory: ~/example_wordpress_composer
+    - image: quay.io/stevector/pantheon-ci-testing:master
+  working_directory: ~/Advanced-WordPress-on-Pantheon
   environment:
     #=========================================================================
     # In addition to the environment variables defined in this file, also

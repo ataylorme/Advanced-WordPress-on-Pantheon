@@ -213,7 +213,7 @@ jobs:
     lighthouse_performance_test:
         <<: *defaults
         docker:
-          - image: quay.io/stevector/pantheon-ci-testing:master
+          - image: ataylorme/docker-node-advanced-wordpress-on-pantheon:lighthouse
         steps:
             - checkout
             

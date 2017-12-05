@@ -231,7 +231,18 @@ jobs:
 
 workflows:
   version: 2
+  commit-workflow:
+    filters:
+      branches:
+        only: 
+          - master
+    jobs:
+      - lighthouse_performance_test
   build_and_test:
+    filters:
+      branches:
+        only: 
+          - lighthouse
     jobs:
       # Install dev dependencies needed for testing
       - install_dev_dependencies

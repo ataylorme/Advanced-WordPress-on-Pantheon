@@ -38,6 +38,7 @@ LIGHTHOUSE_REPORT_NAME="$LIGHTHOUSE_RESULTS_DIR/lighthouse.json"
 LIGHTHOUSE_JSON_REPORT="$LIGHTHOUSE_RESULTS_DIR/lighthouse.report.json"
 LIGHTHOUSE_HTML_REPORT="$LIGHTHOUSE_RESULTS_DIR/lighthouse.report.html"
 LIGHTHOUSE_RESULTS_JSON="$LIGHTHOUSE_RESULTS_DIR/lighthouse.results.json"
+LIGHTHOUSE_RESULTS_JSON_MASTER="lighthouse_results/master/lighthouse.results.json"
 
 # Delete and recreate the Lighthouse results directory so we don't keep old results around
 if [ -d "$LIGHTHOUSE_RESULTS_DIR" ]; then
@@ -69,28 +70,39 @@ if [ ! -f $LIGHTHOUSE_JSON_REPORT ]; then
 	exit 1
 fi
 
+# Create tailored results JSON file
+cat lighthouse.report.json | jq '. | { "total-score": .score, "speed-index": .audits["speed-index-metric"]["score"], "first-meaningful-paint": .audits["first-meaningful-paint"]["score"], "estimated-input-latency": .audits["estimated-input-latency"]["score"], "time-to-first-byte": .audits["time-to-first-byte"]["rawValue"], "first-interactive": .audits["first-interactive"]["score"], "consistently-interactive": .audits["consistently-interactive"]["score"], "critical-request-chains": .audits["critical-request-chains"]["displayValue"], "redirects": .audits["redirects"]["score"], "bootup-time": .audits["bootup-time"]["rawValue"], "uses-long-cache-ttl": .audits["uses-long-cache-ttl"]["score"], "total-byte-weight": .audits["total-byte-weight"]["score"], "offscreen-images": .audits["offscreen-images"]["score"], "uses-webp-images": .audits["uses-webp-images"]["score"], "uses-optimized-images": .audits["uses-optimized-images"]["score"], "uses-request-compression": .audits["uses-request-compression"]["score"], "uses-responsive-images": .audits["uses-responsive-images"]["score"], "dom-size": .audits["dom-size"]["score"], "script-blocking-first-paint": .audits["script-blocking-first-paint"]["score"] }' > LIGHTHOUSE_RESULTS_JSON
+
 # Rsync files to CIRCLE_ARTIFACTS_DIR
 echo -e "\nRsyincing lighthouse_results files to $CIRCLE_ARTIFACTS_DIR..."
 rsync -rlvz lighthouse_results $CIRCLE_ARTIFACTS_DIR
 
-# Create tailored results JSON file
-cat lighthouse.report.json | jq '[ . | { "speed-index": .audits["speed-index-metric"]["score"], "first-meaningful-paint": .audits["first-meaningful-paint"]["score"], "estimated-input-latency": .audits["estimated-input-latency"]["score"] } ]' > LIGHTHOUSE_RESULTS_JSON
-
+LIGHTHOUSE_SCORE=$(cat $LIGHTHOUSE_RESULTS_JSON | jq -r '.["total-score"]')
 LIGHTHOUSE_HTML_REPORT_URL="$CIRCLE_ARTIFACTS_URL/$LIGHTHOUSE_HTML_REPORT"
 REPORT_LINK="[Lighthouse report]($LIGHTHOUSE_HTML_REPORT_URL)"
 
-#if [[ ${VISUAL_REGRESSION_RESULTS} == *"Mismatch errors found"* ]]
-#then
-#	# visual regression failed
-#	echo -e "\nVisual regression test failed!"
-#	PR_MESSAGE="Visual regression test failed! $REPORT_LINK"
-#else
-#	# visual regression passed
-#	REPORT_LINK="\n[Visual report]($DIFF_REPORT_URL)"
-#	echo -e "\nVisual regression test passed!"
-#	PR_MESSAGE="Visual regression test passed! $REPORT_LINK"
-#fi
+if [[ -f $LIGHTHOUSE_RESULTS_JSON_MASTER ]]; then
+	LIGHTHOUSE_MASTER_SCORE=$(cat $LIGHTHOUSE_RESULTS_JSON_MASTER | jq -r '.["total-score"]')
+	
+	if [ "$LIGHTHOUSE_MASTER_SCORE" -gt "$LIGHTHOUSE_SCORE" ]; then
+		# Lighthouse test failed! The score is less than the previous result on the master branch
+		echo -e "\nLighthouse test failed! The score of $LIGHTHOUSE_SCORE is less than the previous score of $LIGHTHOUSE_MASTER_SCORE on the master branch"
+		PR_MESSAGE="Lighthouse test failed! The score of $LIGHTHOUSE_SCORE is less than the previous score of $LIGHTHOUSE_MASTER_SCORE on the master branch. View the full $REPORT_LINK"
+		exit 1
+	else
+		# Lighthouse test passed! The score isn't less than the previous result on the master branch
+		echo -e "\nLighthouse test passed! The score of $LIGHTHOUSE_SCORE isn't less than the previous score of $LIGHTHOUSE_MASTER_SCORE on the master branch"
+		PR_MESSAGE="Lighthouse test passed! The score of $LIGHTHOUSE_SCORE isn't less than the previous score of $LIGHTHOUSE_MASTER_SCORE on the master branch. View the full $REPORT_LINK"
+	fi
+
+else
+	# Lighthouse test passed! The score was recorded but there is no reference score on the master branch
+	echo -e "\nLighthouse test passed! The score of $LIGHTHOUSE_SCORE was recorded but there is not reference score for the master branch"
+	PR_MESSAGE="Lighthouse test passed! The score of $LIGHTHOUSE_SCORE was recorded but there is not reference score for the master branch. View the full $REPORT_LINK"
+fi
 
 # Post the report back to the pull request on GitHub
-echo -e "\nPosting Lighthouse results back to $LIGHTHOUSE_BRANCH "
-curl -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"$REPORT_LINK\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments
+if [[ ${CIRCLE_BRANCH} != "master" ]]; then
+	echo -e "\nPosting Lighthouse results back to $LIGHTHOUSE_BRANCH "
+	curl -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"$PR_MESSAGE\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments
+fi

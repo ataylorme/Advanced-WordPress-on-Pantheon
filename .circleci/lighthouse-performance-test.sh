@@ -37,6 +37,7 @@ LIGHTHOUSE_RESULTS_DIR="lighthouse_results/$LIGHTHOUSE_BRANCH"
 LIGHTHOUSE_REPORT_NAME="$LIGHTHOUSE_RESULTS_DIR/lighthouse.json"
 LIGHTHOUSE_JSON_REPORT="$LIGHTHOUSE_RESULTS_DIR/lighthouse.report.json"
 LIGHTHOUSE_HTML_REPORT="$LIGHTHOUSE_RESULTS_DIR/lighthouse.report.html"
+LIGHTHOUSE_RESULTS_JSON="$LIGHTHOUSE_RESULTS_DIR/lighthouse.results.json"
 
 # Delete and recreate the Lighthouse results directory so we don't keep old results around
 if [ -d "$LIGHTHOUSE_RESULTS_DIR" ]; then
@@ -56,10 +57,6 @@ echo -e "\nRunning lighthouse --perf --save-artifacts --output json --output htm
 
 lighthouse --perf --save-artifacts --output json --output html --output-path ${LIGHTHOUSE_REPORT_NAME} --chrome-flags="--headless" ${LIGHTHOUSE_URL}
 
-# Rsync files to CIRCLE_ARTIFACTS_DIR
-echo -e "\nRsyincing lighthouse_results files to $CIRCLE_ARTIFACTS_DIR..."
-rsync -rlvz lighthouse_results $CIRCLE_ARTIFACTS_DIR
-
 # Check for HTML report file
 if [ ! -f $LIGHTHOUSE_HTML_REPORT ]; then
 	echo -e "\nLighthouse HTML report file $LIGHTHOUSE_HTML_REPORT not found!"
@@ -71,6 +68,13 @@ if [ ! -f $LIGHTHOUSE_JSON_REPORT ]; then
 	echo -e "\nLighthouse JSON report file $LIGHTHOUSE_JSON_REPORT not found!"
 	exit 1
 fi
+
+# Rsync files to CIRCLE_ARTIFACTS_DIR
+echo -e "\nRsyincing lighthouse_results files to $CIRCLE_ARTIFACTS_DIR..."
+rsync -rlvz lighthouse_results $CIRCLE_ARTIFACTS_DIR
+
+# Create tailored results JSON file
+cat lighthouse.report.json | jq '[ . | { "speed-index": .audits["speed-index-metric"]["score"], "first-meaningful-paint": .audits["first-meaningful-paint"]["score"], "estimated-input-latency": .audits["estimated-input-latency"]["score"] } ]' > LIGHTHOUSE_RESULTS_JSON
 
 LIGHTHOUSE_HTML_REPORT_URL="$CIRCLE_ARTIFACTS_URL/$LIGHTHOUSE_HTML_REPORT"
 REPORT_LINK="[Lighthouse report]($LIGHTHOUSE_HTML_REPORT_URL)"

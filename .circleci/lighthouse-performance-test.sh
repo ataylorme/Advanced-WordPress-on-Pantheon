@@ -40,11 +40,13 @@ LIGHTHOUSE_HTML_REPORT="$LIGHTHOUSE_RESULTS_DIR/lighthouse.report.html"
 LIGHTHOUSE_RESULTS_JSON="$LIGHTHOUSE_RESULTS_DIR/lighthouse.results.json"
 LIGHTHOUSE_RESULTS_JSON_MASTER="lighthouse_results/master/lighthouse.results.json"
 
-# Delete and recreate the Lighthouse results directory so we don't keep old results around
+# Delete the Lighthouse results directory so we don't keep old results around
 if [ -d "$LIGHTHOUSE_RESULTS_DIR" ]; then
   rm -rf $LIGHTHOUSE_RESULTS_DIR
-  mkdir $LIGHTHOUSE_RESULTS_DIR
 fi
+
+# Create the Lighthouse results directory if it doesn't exist or has been deleted
+mkdir -p $LIGHTHOUSE_RESULTS_DIR
 
 # Stash Circle Artifacts URL
 CIRCLE_ARTIFACTS_URL="$CIRCLE_BUILD_URL/artifacts/$CIRCLE_NODE_INDEX/$CIRCLE_ARTIFACTS"
@@ -54,7 +56,7 @@ echo -e "\nPinging the ${LIGHTHOUSE_BRANCH} environment to wake it from sleep...
 curl -I "$LIGHTHOUSE_URL" >/dev/null
 
 # Run the Lighthouse test
-echo -e "\nRunning lighthouse --perf --save-artifacts --output json --output html --output-path ${LIGHTHOUSE_REPORT_NAME} --chrome-flags=\"--headless\" ${LIGHTHOUSE_URL}..."
+echo -e "\nRunning lighthouse --perf --save-artifacts --save-assets --output json --output html --output-path ${LIGHTHOUSE_REPORT_NAME} --chrome-flags=\"--headless --disable-gpu\" ${LIGHTHOUSE_URL}..."
 
 lighthouse --perf --save-artifacts --save-assets --output json --output html --output-path ${LIGHTHOUSE_REPORT_NAME} --chrome-flags="--headless --disable-gpu" ${LIGHTHOUSE_URL}
 

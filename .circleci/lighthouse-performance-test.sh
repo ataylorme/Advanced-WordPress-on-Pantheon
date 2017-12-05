@@ -29,14 +29,14 @@ if [[ ${CIRCLE_BRANCH} == "master" ]]; then
 	LIGHTHOUSE_BRANCH="master"
 	LIGHTHOUSE_URL=$LIVE_SITE_URL
 else	
-	LIGHTHOUSE_BRANCH=$PR_NUMBER
+	LIGHTHOUSE_BRANCH=$TERMINUS_ENV
 	LIGHTHOUSE_URL=$MULTIDEV_SITE_URL
 fi
 
 LIGHTHOUSE_RESULTS_DIR="lighthouse_results/$LIGHTHOUSE_BRANCH"
-LIGHTHOUSE_REPORT_NAME="lighthouse_results/$LIGHTHOUSE_BRANCH/lighthouse.json"
-LIGHTHOUSE_JSON_REPORT="lighthouse_results/$LIGHTHOUSE_BRANCH/lighthouse.report.json"
-LIGHTHOUSE_HTML_REPORT="lighthouse_results/$LIGHTHOUSE_BRANCH/lighthouse.report.html"
+LIGHTHOUSE_REPORT_NAME="$LIGHTHOUSE_RESULTS_DIR/lighthouse.json"
+LIGHTHOUSE_JSON_REPORT="$LIGHTHOUSE_RESULTS_DIR/lighthouse.report.json"
+LIGHTHOUSE_HTML_REPORT="$LIGHTHOUSE_RESULTS_DIR/lighthouse.report.html"
 
 # Delete and recreate the Lighthouse results directory so we don't keep old results around
 if [ -d "$LIGHTHOUSE_RESULTS_DIR" ]; then
@@ -52,7 +52,7 @@ echo -e "\nPinging the ${LIGHTHOUSE_BRANCH} environment to wake it from sleep...
 curl -I "$LIGHTHOUSE_URL" >/dev/null
 
 # Run the Lighthouse test
-echo -e "\nRunning lighthouse --perf --save-artifacts --output json --output html --output-path lighthouse_results/${LIGHTHOUSE_BRANCH}.json --chrome-flags=\"--headless\" ${LIGHTHOUSE_URL}..."
+echo -e "\nRunning lighthouse --perf --save-artifacts --output json --output html --output-path ${LIGHTHOUSE_REPORT_NAME} --chrome-flags=\"--headless\" ${LIGHTHOUSE_URL}..."
 
 lighthouse --perf --save-artifacts --output json --output html --output-path ${LIGHTHOUSE_REPORT_NAME} --chrome-flags="--headless" ${LIGHTHOUSE_URL}
 

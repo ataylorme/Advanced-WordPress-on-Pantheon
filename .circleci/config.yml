@@ -213,7 +213,7 @@ jobs:
     lighthouse_performance_test:
         <<: *defaults
         docker:
-          - image: ataylorme/docker-node-advanced-wordpress-on-pantheon:latest
+          - image: femtopixel/google-lighthouse:latest
         steps:
             - checkout
             

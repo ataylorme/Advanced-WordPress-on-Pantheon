@@ -52,9 +52,9 @@ echo -e "\nPinging the ${LIGHTHOUSE_BRANCH} environment to wake it from sleep...
 curl -I "$LIGHTHOUSE_URL" >/dev/null
 
 # Run the Lighthouse test
-echo -e "\nRunning lighthouse --perf --save-artifacts --output json --output html --output-path lighthouse_results/${LIGHTHOUSE_BRANCH}.json ${LIGHTHOUSE_URL}..."
+echo -e "\nRunning lighthouse --perf --save-artifacts --output json --output html --output-path lighthouse_results/${LIGHTHOUSE_BRANCH}.json --chrome-flags=\"--headless\" ${LIGHTHOUSE_URL}..."
 
-lighthouse --perf --save-artifacts --output json --output html --output-path --chrome-flags="--headless" ${LIGHTHOUSE_REPORT_NAME} ${LIGHTHOUSE_URL}
+lighthouse --perf --save-artifacts --output json --output html --output-path ${LIGHTHOUSE_REPORT_NAME} --chrome-flags="--headless" ${LIGHTHOUSE_URL}
 
 # Rsync files to CIRCLE_ARTIFACTS_DIR
 echo -e "\nRsyincing lighthouse_results files to $CIRCLE_ARTIFACTS_DIR..."

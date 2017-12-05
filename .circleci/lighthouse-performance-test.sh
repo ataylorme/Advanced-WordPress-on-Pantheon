@@ -56,7 +56,7 @@ curl -I "$LIGHTHOUSE_URL" >/dev/null
 # Run the Lighthouse test
 echo -e "\nRunning lighthouse --perf --save-artifacts --output json --output html --output-path ${LIGHTHOUSE_REPORT_NAME} --chrome-flags=\"--headless\" ${LIGHTHOUSE_URL}..."
 
-lighthouse --perf --save-artifacts --output json --output html --output-path ${LIGHTHOUSE_REPORT_NAME} --chrome-flags="--headless" ${LIGHTHOUSE_URL}
+lighthouse --perf --save-artifacts --save-assets --output json --output html --output-path ${LIGHTHOUSE_REPORT_NAME} --chrome-flags="--headless --disable-gpu" ${LIGHTHOUSE_URL}
 
 # Check for HTML report file
 if [ ! -f $LIGHTHOUSE_HTML_REPORT ]; then

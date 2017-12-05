@@ -231,7 +231,7 @@ jobs:
 
 workflows:
   version: 2
-  commit-workflow:
+  commit_workflow:
     jobs:
       - lighthouse_performance_test:
         filters:

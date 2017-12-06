@@ -104,7 +104,7 @@ else
 	PR_MESSAGE="Lighthouse test passed! The score of $LIGHTHOUSE_SCORE was recorded but there is not reference score for the master branch."
 fi
 
-PR_MESSAGE="$PR_MESSAGE \n```\n$LIGHTHOUSE_RESULTS\n``` \nView the full $REPORT_LINK"
+PR_MESSAGE="$PR_MESSAGE \n\`\`\`\n$LIGHTHOUSE_RESULTS\n\`\`\` \nView the full $REPORT_LINK"
 
 # Post the report back to the pull request on GitHub
 if [[ ${CIRCLE_BRANCH} != "master" ]]; then

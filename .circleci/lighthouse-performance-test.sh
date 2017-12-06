@@ -114,7 +114,7 @@ rsync -rlvz lighthouse_results $CIRCLE_ARTIFACTS_DIR
 echo -e "\nMaster score of $LIGHTHOUSE_MASTER_SCORE recorded"
 
 LIGHTHOUSE_MASTER_HTML_REPORT_URL="$CIRCLE_ARTIFACTS_URL/$LIGHTHOUSE_MASTER_HTML_REPORT"
-REPORT_LINK="\n\n[Lighthouse performance report for \`$CIRCLE_BRANCH\`]($LIGHTHOUSE_HTML_REPORT_URL) and compare it to the [Lighthouse performance report for the \`master\` branch]($LIGHTHOUSE_MASTER_HTML_REPORT_URL)"
+REPORT_LINK="[Lighthouse performance report for \`$CIRCLE_BRANCH\`]($LIGHTHOUSE_HTML_REPORT_URL) and compare it to the [Lighthouse performance report for the \`master\` branch]($LIGHTHOUSE_MASTER_HTML_REPORT_URL)"
 	
 if [ $LIGHTHOUSE_SCORE -lt $LIGHTHOUSE_MASTER_SCORE ]; then
 	# Lighthouse test failed! The score is less than the result on the master branch
@@ -127,7 +127,7 @@ else
 	PR_MESSAGE="Lighthouse test passed! The score of \`$LIGHTHOUSE_SCORE\` isn't less than the score of \`$LIGHTHOUSE_MASTER_SCORE\` on the master branch."
 fi
 
-PR_MESSAGE="$PR_MESSAGE View the full $REPORT_LINK"
+PR_MESSAGE="$PR_MESSAGE\n\nView the full $REPORT_LINK"
 
 # Post the report back to the pull request on GitHub
 echo -e "\nPosting Lighthouse results back to $LIGHTHOUSE_BRANCH "

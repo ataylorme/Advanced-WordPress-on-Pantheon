@@ -1,0 +1,21 @@
+{
+  "total-score": 99.94117647058823,
+  "speed-index": 99,
+  "first-meaningful-paint": 100,
+  "estimated-input-latency": 100,
+  "time-to-first-byte": 25.288000000728005,
+  "first-interactive": 100,
+  "consistently-interactive": 100,
+  "critical-request-chains": "5",
+  "redirects": 100,
+  "bootup-time": 199.4400000013411,
+  "uses-long-cache-ttl": 99,
+  "total-byte-weight": 100,
+  "offscreen-images": 100,
+  "uses-webp-images": 100,
+  "uses-optimized-images": 100,
+  "uses-request-compression": 100,
+  "uses-responsive-images": 100,
+  "dom-size": 100,
+  "script-blocking-first-paint": 100
+}

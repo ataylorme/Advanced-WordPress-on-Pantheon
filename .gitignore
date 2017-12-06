@@ -40,6 +40,8 @@ web/private/*
 !web/private/scripts/
 web/private/scripts/quicksilver
 !.circleci
+lighthouse_results/*
+!lighthouse_results/master
 
 # Add directories containing build assets below.
 # Keep all additions above the "cut" line.

@@ -79,15 +79,15 @@ cat $LIGHTHOUSE_JSON_REPORT | jq '. | { "total-score": .score, "speed-index": .a
 echo -e "\nRsyincing lighthouse_results files to $CIRCLE_ARTIFACTS_DIR..."
 rsync -rlvz lighthouse_results $CIRCLE_ARTIFACTS_DIR
 
-LIGHTHOUSE_SCORE=$(cat $LIGHTHOUSE_RESULTS_JSON | jq -r '.["total-score"]')
+LIGHTHOUSE_SCORE=$(cat $LIGHTHOUSE_RESULTS_JSON | jq -r '.["total-score"] | tonumber')
 LIGHTHOUSE_RESULTS=$(cat $LIGHTHOUSE_RESULTS_JSON | jq '.|tostring')
 LIGHTHOUSE_HTML_REPORT_URL="$CIRCLE_ARTIFACTS_URL/$LIGHTHOUSE_HTML_REPORT"
 REPORT_LINK="[Lighthouse report]($LIGHTHOUSE_HTML_REPORT_URL)"
 
 if [[ -f $LIGHTHOUSE_RESULTS_JSON_MASTER ]]; then
-	LIGHTHOUSE_MASTER_SCORE=$(cat $LIGHTHOUSE_RESULTS_JSON_MASTER | jq -r '.["total-score"]')
+	LIGHTHOUSE_MASTER_SCORE=$(cat $LIGHTHOUSE_RESULTS_JSON_MASTER | jq -r '.["total-score"] | tonumber')
 	
-	if [ "$LIGHTHOUSE_MASTER_SCORE" -gt "$LIGHTHOUSE_SCORE" ]; then
+	if [ $LIGHTHOUSE_MASTER_SCORE -gt $LIGHTHOUSE_SCORE ]; then
 		# Lighthouse test failed! The score is less than the previous result on the master branch
 		echo -e "\nLighthouse test failed! The score of $LIGHTHOUSE_SCORE is less than the previous score of $LIGHTHOUSE_MASTER_SCORE on the master branch"
 		PR_MESSAGE="Lighthouse test failed! The score of \`$LIGHTHOUSE_SCORE\` is less than the previous score of \`$LIGHTHOUSE_MASTER_SCORE\` on the master branch."

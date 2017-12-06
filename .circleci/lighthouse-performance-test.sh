@@ -84,12 +84,14 @@ LIGHTHOUSE_RESULTS=$(cat $LIGHTHOUSE_RESULTS_JSON | jq '.|tostring')
 LIGHTHOUSE_HTML_REPORT_URL="$CIRCLE_ARTIFACTS_URL/$LIGHTHOUSE_HTML_REPORT"
 REPORT_LINK="[Lighthouse performance report]($LIGHTHOUSE_HTML_REPORT_URL)"
 LAST_SUCCESSFUL_MASTER_BUILD_NUM=$(curl https://circleci.com/api/v1.1/project/github/ataylorme/Advanced-WordPress-on-Pantheon/tree/master | jq '.[0].previous_successful_build.build_num | tonumber')
+echo -e "\nLast successful master build $LAST_SUCCESSFUL_MASTER_BUILD_NUM"
 LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL=$(curl https://circleci.com/api/v1.1/project/github/ataylorme/Advanced-WordPress-on-Pantheon/${LAST_SUCCESSFUL_MASTER_BUILD_NUM}/artifacts | jq '.[] | select(.url | endswith(\'$LIGHTHOUSE_RESULTS_JSON_MASTER\'')) | .url | tostring')
+echo -e "\nPulling Lighthouse results from $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL"
 
 if [[ -n $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL ]]; then
 	LIGHTHOUSE_MASTER_SCORE=$(curl $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL | jq -r '.["total-score"] | tonumber | floor')
 	
-	if [ $LIGHTHOUSE_MASTER_SCORE -gt $LIGHTHOUSE_SCORE ]; then
+	if [ $LIGHTHOUSE_SCORE -lt $LIGHTHOUSE_MASTER_SCORE ]; then
 		# Lighthouse test failed! The score is less than the previous result on the master branch
 		echo -e "\nLighthouse test failed! The score of $LIGHTHOUSE_SCORE is less than the previous score of $LIGHTHOUSE_MASTER_SCORE on the master branch"
 		PR_MESSAGE="Lighthouse test failed! The score of \`$LIGHTHOUSE_SCORE\` is less than the previous score of \`$LIGHTHOUSE_MASTER_SCORE\` on the master branch."

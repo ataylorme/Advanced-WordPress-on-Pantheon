@@ -110,4 +110,8 @@ PR_MESSAGE="$PR_MESSAGE View the full $REPORT_LINK"
 if [[ ${CIRCLE_BRANCH} != "master" ]]; then
 	echo -e "\nPosting Lighthouse results back to $LIGHTHOUSE_BRANCH "
 	curl -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"$PR_MESSAGE\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments
+else
+	git add $LIGHTHOUSE_RESULTS_DIR
+	git commit -m "New Lighthouse score for master branch of $LIGHTHOUSE_MASTER_SCORE"
+	git push
 fi

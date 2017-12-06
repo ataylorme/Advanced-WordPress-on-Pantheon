@@ -104,11 +104,11 @@ echo -e "\nLast successful master build with artifacts: $LAST_SUCCESSFUL_MASTER_
 echo -e "\nPulling Lighthouse results from $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL"
 
 if [ -n $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL ]; then
-	LIGHTHOUSE_MASTER_SCORE=$(curl -s $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL | jq ".[\"total-score\"]  | floor | tonumber")
+	LIGHTHOUSE_MASTER_SCORE=$(curl -s $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL | jq ".[\"total-score\"]  | floor")
 	echo -e "\ncurl -s $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL | jq \".[\\\"total-score\\\"]  | floor\""
 	echo -e "\n Stored master score of $LIGHTHOUSE_MASTER_SCORE found"
 	
-	if [ $LIGHTHOUSE_SCORE -lt $LIGHTHOUSE_MASTER_SCORE ]; then
+	if [ "$LIGHTHOUSE_SCORE" -lt "${LIGHTHOUSE_MASTER_SCORE:-90}" ]; then
 		# Lighthouse test failed! The score is less than the previous result on the master branch
 		echo -e "\nLighthouse test failed! The score of $LIGHTHOUSE_SCORE is less than the previous score of $LIGHTHOUSE_MASTER_SCORE on the master branch"
 		PR_MESSAGE="Lighthouse test failed! The score of \`$LIGHTHOUSE_SCORE\` is less than the previous score of \`$LIGHTHOUSE_MASTER_SCORE\` on the master branch."

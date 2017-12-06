@@ -87,7 +87,7 @@ REPORT_LINK="[Lighthouse performance report]($LIGHTHOUSE_HTML_REPORT_URL)"
 # Crawl Circle CI API to get the latest results from artifacts stored in build from the master branch
 ARRAY_KEY=0
 
-while [ -z $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL && $ARRAY_KEY -lt 9 ]
+while [[ -z $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL && $ARRAY_KEY -lt 9 ]]
 do
 	LAST_SUCCESSFUL_MASTER_BUILD_NUM=$(curl https://circleci.com/api/v1.1/project/github/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/tree/master | jq ".[$ARRAY_KEY].previous_successful_build.build_num | tonumber")
 	

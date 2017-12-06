@@ -79,7 +79,7 @@ cat $LIGHTHOUSE_JSON_REPORT | jq '. | { "total-score": .score, "speed-index": .a
 echo -e "\nRsyincing lighthouse_results files to $CIRCLE_ARTIFACTS_DIR..."
 rsync -rlvz lighthouse_results $CIRCLE_ARTIFACTS_DIR
 
-LIGHTHOUSE_SCORE=$(cat $LIGHTHOUSE_RESULTS_JSON | jq -r '.["total-score"] | tonumber | floor')
+LIGHTHOUSE_SCORE=$(cat $LIGHTHOUSE_RESULTS_JSON | jq '.["total-score"] | floor | tonumber')
 LIGHTHOUSE_RESULTS=$(cat $LIGHTHOUSE_RESULTS_JSON | jq '.|tostring')
 LIGHTHOUSE_HTML_REPORT_URL="$CIRCLE_ARTIFACTS_URL/$LIGHTHOUSE_HTML_REPORT"
 REPORT_LINK="[Lighthouse performance report]($LIGHTHOUSE_HTML_REPORT_URL)"
@@ -101,7 +101,9 @@ echo -e "\nPulling Lighthouse results from $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_
 
 if [ -n $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL ]; then
 	LIGHTHOUSE_MASTER_SCORE=$(curl -s $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL | jq '.["total-score"]  | floor | tonumber')
+	echo -e "\ncurl -s $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL | jq '.[\"total-score\"]  | floor | tonumber'"
 	echo -e "\n Stored master score of $LIGHTHOUSE_MASTER_SCORE found"
+	exit 0
 	
 	if [ $LIGHTHOUSE_SCORE -lt $LIGHTHOUSE_MASTER_SCORE ]; then
 		# Lighthouse test failed! The score is less than the previous result on the master branch

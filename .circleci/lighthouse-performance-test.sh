@@ -125,7 +125,6 @@ else
 	# Lighthouse test passed! The score isn't less than the previous result on the master branch
 	echo -e "\nLighthouse test passed! The score of $LIGHTHOUSE_SCORE isn't less than the previous score of $LIGHTHOUSE_MASTER_SCORE on the master branch"
 	PR_MESSAGE="Lighthouse test passed! The score of \`$LIGHTHOUSE_SCORE\` isn't less than the previous score of \`$LIGHTHOUSE_MASTER_SCORE\` on the master branch."
-	exit 0
 fi
 
 PR_MESSAGE="$PR_MESSAGE View the full $REPORT_LINK"

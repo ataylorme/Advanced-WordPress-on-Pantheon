@@ -77,8 +77,8 @@ then
 	PR_MESSAGE="Visual regression test failed! $REPORT_LINK"
 else
 	# visual regression passed
-	REPORT_LINK="\n[Visual report]($DIFF_REPORT_URL)"
-	echo -e "\nVisual regression test passed!"
+	REPORT_LINK="\n\nView the [visual regression test report]($DIFF_REPORT_URL)"
+	echo -e "\n\nVisual regression test passed!"
 	PR_MESSAGE="Visual regression test passed! $REPORT_LINK"
 fi
 

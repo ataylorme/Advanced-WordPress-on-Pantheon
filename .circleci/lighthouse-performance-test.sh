@@ -82,7 +82,7 @@ rsync -rlvz lighthouse_results $CIRCLE_ARTIFACTS_DIR
 LIGHTHOUSE_SCORE=$(cat $LIGHTHOUSE_RESULTS_JSON | jq -r '.["total-score"] | tonumber | floor')
 LIGHTHOUSE_RESULTS=$(cat $LIGHTHOUSE_RESULTS_JSON | jq '.|tostring')
 LIGHTHOUSE_HTML_REPORT_URL="$CIRCLE_ARTIFACTS_URL/$LIGHTHOUSE_HTML_REPORT"
-REPORT_LINK="[Lighthouse report]($LIGHTHOUSE_HTML_REPORT_URL)"
+REPORT_LINK="[Lighthouse performance report]($LIGHTHOUSE_HTML_REPORT_URL)"
 
 if [[ -f $LIGHTHOUSE_RESULTS_JSON_MASTER ]]; then
 	LIGHTHOUSE_MASTER_SCORE=$(cat $LIGHTHOUSE_RESULTS_JSON_MASTER | jq -r '.["total-score"] | tonumber | floor')

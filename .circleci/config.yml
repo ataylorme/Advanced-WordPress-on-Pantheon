@@ -231,7 +231,33 @@ jobs:
 
 workflows:
   version: 2
-  build_and_test:
+    build_and_test:
     jobs:
-      # Run Lighthouse test
-      - lighthouse_performance_test
+      # Install dev dependencies needed for testing
+      - install_dev_dependencies
+      # Build production assets with node
+      - build
+      # Deploy to Pantheon requires the site being built
+      - build_php_and_deploy_to_pantheon:
+            requires:
+                - build
+      # Code sniff and unit test first
+      - code_sniff_unit_test:
+            requires:
+                - install_dev_dependencies
+      # Run Lighthouse test after deploy so it can be done on Pantheon
+      - lighthouse_performance_test:
+            requires:
+                - build_php_and_deploy_to_pantheon
+      # Run visual regression test after deploy so it can be done on Pantheon
+      # Require Lighthouse to finish first so visual regression crawl doesn't effect the performance score
+      - visual_regression_test:
+            requires:
+                - build_php_and_deploy_to_pantheon
+                - lighthouse_performance_test
+      # Run Behat tests after Visual Regression so the changes Behat makes don't mess with screenshots
+      - behat_test:
+            requires:
+                - install_dev_dependencies
+                - build_php_and_deploy_to_pantheon
+                - visual_regression_test

@@ -84,13 +84,14 @@ LIGHTHOUSE_RESULTS=$(cat $LIGHTHOUSE_RESULTS_JSON | jq '.|tostring')
 LIGHTHOUSE_HTML_REPORT_URL="$CIRCLE_ARTIFACTS_URL/$LIGHTHOUSE_HTML_REPORT"
 REPORT_LINK="[Lighthouse performance report]($LIGHTHOUSE_HTML_REPORT_URL)"
 
+# Crawl Circle CI API to get the latest results from artifacts stored in build from the master branch
 ARRAY_KEY=0
 
-while [ -z $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL ]
+while [ -z $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL && ARRAY_KEY -lt 9 ]
 do
-	LAST_SUCCESSFUL_MASTER_BUILD_NUM=$(curl https://circleci.com/api/v1.1/project/github/ataylorme/Advanced-WordPress-on-Pantheon/tree/master | jq ".[$ARRAY_KEY].previous_successful_build.build_num | tonumber")
+	LAST_SUCCESSFUL_MASTER_BUILD_NUM=$(curl https://circleci.com/api/v1.1/project/github/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/tree/master | jq ".[$ARRAY_KEY].previous_successful_build.build_num | tonumber")
 	
-	LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL=$(curl https://circleci.com/api/v1.1/project/github/ataylorme/Advanced-WordPress-on-Pantheon/$LAST_SUCCESSFUL_MASTER_BUILD_NUM/artifacts | jq ".[] | select(.url | endswith(\"$LIGHTHOUSE_RESULTS_JSON_MASTER\")) | .url | tostring")
+	LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL=$(curl https://circleci.com/api/v1.1/project/github/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$LAST_SUCCESSFUL_MASTER_BUILD_NUM/artifacts | jq ".[] | select(.url | endswith(\"lighthouse_results/master/lighthouse.results.json\")) | .url | tostring")
 
 	ARRAY_KEY=$[$ARRAY_KEY+1]
 done

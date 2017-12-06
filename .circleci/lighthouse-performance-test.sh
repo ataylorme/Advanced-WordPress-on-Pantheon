@@ -5,9 +5,9 @@ BUILD_DIR=$(pwd)
 GITHUB_API_URL="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
 
 # Check if we are NOT on the master branch and this is a PR
-if [[ ${CIRCLE_BRANCH} == "master" || -z ${CIRCLE_PULL_REQUEST+x} ]];
+if [[ ${CIRCLE_BRANCH} != "master" && -z ${CIRCLE_PULL_REQUEST+x} ]];
 then
-	echo -e "\Lighthouse performance test will only run if we are not on the master branch and are making a pull request"
+	echo -e "\Lighthouse performance test will only run if not on the master branch when making a pull request"
 	exit 0
 fi
 

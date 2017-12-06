@@ -87,7 +87,7 @@ REPORT_LINK="[Lighthouse performance report]($LIGHTHOUSE_HTML_REPORT_URL)"
 # Crawl Circle CI API to get the latest results from artifacts stored in build from the master branch
 ARRAY_KEY=0
 
-while [ -z $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL && ARRAY_KEY -lt 9 ]
+while [ -z $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL && $ARRAY_KEY -lt 9 ]
 do
 	LAST_SUCCESSFUL_MASTER_BUILD_NUM=$(curl https://circleci.com/api/v1.1/project/github/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/tree/master | jq ".[$ARRAY_KEY].previous_successful_build.build_num | tonumber")
 	
@@ -101,6 +101,7 @@ echo -e "\nPulling Lighthouse results from $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_
 
 if [[ -n $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL ]]; then
 	LIGHTHOUSE_MASTER_SCORE=$(curl $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL | jq -r '.["total-score"] | tonumber | floor')
+	echo -e "\n Stored master score of $LIGHTHOUSE_MASTER_SCORE found"
 	
 	if [ $LIGHTHOUSE_SCORE -lt $LIGHTHOUSE_MASTER_SCORE ]; then
 		# Lighthouse test failed! The score is less than the previous result on the master branch

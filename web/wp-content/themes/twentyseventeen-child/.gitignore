@@ -1,3 +1,4 @@
 !.babelrc
-assets/
+assets/*
 node_modules/
+!assets/images

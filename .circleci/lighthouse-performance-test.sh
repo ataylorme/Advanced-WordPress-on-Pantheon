@@ -83,9 +83,19 @@ LIGHTHOUSE_SCORE=$(cat $LIGHTHOUSE_RESULTS_JSON | jq -r '.["total-score"] | tonu
 LIGHTHOUSE_RESULTS=$(cat $LIGHTHOUSE_RESULTS_JSON | jq '.|tostring')
 LIGHTHOUSE_HTML_REPORT_URL="$CIRCLE_ARTIFACTS_URL/$LIGHTHOUSE_HTML_REPORT"
 REPORT_LINK="[Lighthouse performance report]($LIGHTHOUSE_HTML_REPORT_URL)"
-LAST_SUCCESSFUL_MASTER_BUILD_NUM=$(curl https://circleci.com/api/v1.1/project/github/ataylorme/Advanced-WordPress-on-Pantheon/tree/master | jq '.[0].previous_successful_build.build_num | tonumber')
-echo -e "\nLast successful master build $LAST_SUCCESSFUL_MASTER_BUILD_NUM"
-LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL=$(curl https://circleci.com/api/v1.1/project/github/ataylorme/Advanced-WordPress-on-Pantheon/$LAST_SUCCESSFUL_MASTER_BUILD_NUM/artifacts | jq ".[] | select(.url | endswith(\"$LIGHTHOUSE_RESULTS_JSON_MASTER\")) | .url | tostring")
+
+ARRAY_KEY=0
+
+while [ -z $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL ]
+do
+	LAST_SUCCESSFUL_MASTER_BUILD_NUM=$(curl https://circleci.com/api/v1.1/project/github/ataylorme/Advanced-WordPress-on-Pantheon/tree/master | jq ".[$ARRAY_KEY].previous_successful_build.build_num | tonumber")
+	
+	LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL=$(curl https://circleci.com/api/v1.1/project/github/ataylorme/Advanced-WordPress-on-Pantheon/$LAST_SUCCESSFUL_MASTER_BUILD_NUM/artifacts | jq ".[] | select(.url | endswith(\"$LIGHTHOUSE_RESULTS_JSON_MASTER\")) | .url | tostring")
+
+	ARRAY_KEY=$[$ARRAY_KEY+1]
+done
+
+echo -e "\nLast successful master build with artifacts: $LAST_SUCCESSFUL_MASTER_BUILD_NUM"
 echo -e "\nPulling Lighthouse results from $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL"
 
 if [[ -n $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL ]]; then
@@ -113,8 +123,5 @@ PR_MESSAGE="$PR_MESSAGE View the full $REPORT_LINK"
 # Post the report back to the pull request on GitHub
 if [[ ${CIRCLE_BRANCH} != "master" ]]; then
 	echo -e "\nPosting Lighthouse results back to $LIGHTHOUSE_BRANCH "
-	curl -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"$PR_MESSAGE\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments
-else
-	# TODO: Commit updated master score back to GitHub OR pull from CircleCI API
-	
+	curl -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"$PR_MESSAGE\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments	
 fi

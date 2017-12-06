@@ -123,15 +123,24 @@ if [ $LIGHTHOUSE_SCORE -lt $LIGHTHOUSE_ACCEPTABLE_SCORE ]; then
 	# Lighthouse test failed! The score is less than the acceptable score
 	echo -e "\nLighthouse test failed! The score of $LIGHTHOUSE_SCORE is less than the acceptable score of $LIGHTHOUSE_ACCEPTABLE_SCORE ($LIGHTHOUSE_ACCEPTABLE_THRESHOLD less than the score of $LIGHTHOUSE_MASTER_SCORE on the master branch"
 	PR_MESSAGE="Lighthouse test failed! The score of \`$LIGHTHOUSE_SCORE\` is than the acceptable score of \`$LIGHTHOUSE_ACCEPTABLE_SCORE\` (\`$LIGHTHOUSE_ACCEPTABLE_THRESHOLD\` less than the score of \`$LIGHTHOUSE_MASTER_SCORE\` on the master branch"
+
+	PR_MESSAGE="$PR_MESSAGE\n\nView the full $REPORT_LINK"
+
+	# Post the report back to the pull request on GitHub
+	echo -e "\nPosting Lighthouse results back to $LIGHTHOUSE_BRANCH "
+	curl -s -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"$PR_MESSAGE\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments
+
 	exit 1
 else
 	# Lighthouse test passed! The score isn't less than the acceptable score
 	echo -e "\nLighthouse test passed! The score of $LIGHTHOUSE_SCORE isn't less than the acceptable score of $LIGHTHOUSE_ACCEPTABLE_SCORE ($LIGHTHOUSE_ACCEPTABLE_THRESHOLD less than the score of $LIGHTHOUSE_MASTER_SCORE on the master branch"
 	PR_MESSAGE="Lighthouse test passed! The score of \`$LIGHTHOUSE_SCORE\` isn't less than the acceptable score of \`$LIGHTHOUSE_ACCEPTABLE_SCORE\` (\`$LIGHTHOUSE_ACCEPTABLE_THRESHOLD\` less than the score of \`$LIGHTHOUSE_MASTER_SCORE\` on the master branch"
+
+	PR_MESSAGE="$PR_MESSAGE\n\nView the full $REPORT_LINK"
+
+	# Post the report back to the pull request on GitHub
+	echo -e "\nPosting Lighthouse results back to $LIGHTHOUSE_BRANCH "
+	curl -s -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"$PR_MESSAGE\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments
+
+	exit 0
 fi
-
-PR_MESSAGE="$PR_MESSAGE\n\nView the full $REPORT_LINK"
-
-# Post the report back to the pull request on GitHub
-echo -e "\nPosting Lighthouse results back to $LIGHTHOUSE_BRANCH "
-curl -s -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"$PR_MESSAGE\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments

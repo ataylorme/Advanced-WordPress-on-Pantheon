@@ -250,14 +250,13 @@ workflows:
             requires:
                 - build_php_and_deploy_to_pantheon
       # Run visual regression test after deploy so it can be done on Pantheon
-      # Require Lighthouse to finish first so visual regression crawl doesn't effect the performance score
       - visual_regression_test:
             requires:
                 - build_php_and_deploy_to_pantheon
-                - lighthouse_performance_test
       # Run Behat tests after Visual Regression so the changes Behat makes don't mess with screenshots
       - behat_test:
             requires:
                 - install_dev_dependencies
                 - build_php_and_deploy_to_pantheon
                 - visual_regression_test
+                - lighthouse_performance_test

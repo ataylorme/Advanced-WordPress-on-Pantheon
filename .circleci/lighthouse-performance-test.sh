@@ -38,9 +38,6 @@ LIGHTHOUSE_REPORT_NAME="$LIGHTHOUSE_RESULTS_DIR/lighthouse.json"
 LIGHTHOUSE_JSON_REPORT="$LIGHTHOUSE_RESULTS_DIR/lighthouse.report.json"
 LIGHTHOUSE_HTML_REPORT="$LIGHTHOUSE_RESULTS_DIR/lighthouse.report.html"
 LIGHTHOUSE_RESULTS_JSON="$LIGHTHOUSE_RESULTS_DIR/lighthouse.results.json"
-LIGHTHOUSE_MASTER_HTML_REPORT="lighthouse_results/master/lighthouse.report.html"
-LIGHTHOUSE_MASTER_REPORT_NAME="lighthouse_results/master/lighthouse.json"
-LIGHTHOUSE_MASTER_RESULTS_JSON="lighthouse_results/master/lighthouse.results.json"
 
 # Delete the Lighthouse results directory so we don't keep old results around
 if [ -d "$LIGHTHOUSE_RESULTS_DIR" ]; then
@@ -91,6 +88,12 @@ if [[ ${CIRCLE_BRANCH} == "master" ]]; then
 	exit 0
 fi
 
+LIGHTHOUSE_MASTER_RESULTS_DIR="lighthouse_results/master"
+LIGHTHOUSE_MASTER_REPORT_NAME="$LIGHTHOUSE_MASTER_RESULTS_DIR/lighthouse.json"
+LIGHTHOUSE_MASTER_JSON_REPORT="$LIGHTHOUSE_MASTER_RESULTS_DIR/lighthouse.report.json"
+LIGHTHOUSE_MASTER_HTML_REPORT="$LIGHTHOUSE_MASTER_RESULTS_DIR/lighthouse.report.html"
+LIGHTHOUSE_MASTER_RESULTS_JSON="$LIGHTHOUSE_MASTER_RESULTS_DIR/lighthouse.results.json"
+
 # Ping the live environment to wake it from sleep and prime the cache
 echo -e "\nPinging the live environment to wake it from sleep..."
 curl -s -I "$LIVE_SITE_URL" >/dev/null
@@ -100,9 +103,9 @@ echo -e "\nRunning Lighthouse on the live environment"
 lighthouse --perf --save-artifacts --output json --output html --output-path "$LIGHTHOUSE_MASTER_REPORT_NAME" --chrome-flags="--headless --disable-gpu --no-sandbox" ${LIVE_SITE_URL}
 
 # Create tailored results JSON file
-cat $LIGHTHOUSE_MASTER_REPORT_NAME | jq '. | { "total-score": .score, "speed-index": .audits["speed-index-metric"]["score"], "first-meaningful-paint": .audits["first-meaningful-paint"]["score"], "estimated-input-latency": .audits["estimated-input-latency"]["score"], "time-to-first-byte": .audits["time-to-first-byte"]["rawValue"], "first-interactive": .audits["first-interactive"]["score"], "consistently-interactive": .audits["consistently-interactive"]["score"], "critical-request-chains": .audits["critical-request-chains"]["displayValue"], "redirects": .audits["redirects"]["score"], "bootup-time": .audits["bootup-time"]["rawValue"], "uses-long-cache-ttl": .audits["uses-long-cache-ttl"]["score"], "total-byte-weight": .audits["total-byte-weight"]["score"], "offscreen-images": .audits["offscreen-images"]["score"], "uses-webp-images": .audits["uses-webp-images"]["score"], "uses-optimized-images": .audits["uses-optimized-images"]["score"], "uses-request-compression": .audits["uses-request-compression"]["score"], "uses-responsive-images": .audits["uses-responsive-images"]["score"], "dom-size": .audits["dom-size"]["score"], "script-blocking-first-paint": .audits["script-blocking-first-paint"]["score"] }' > $LIGHTHOUSE_MASTER_RESULTS_JSON
+cat $LIGHTHOUSE_MASTER_JSON_REPORT | jq '. | { "total-score": .score, "speed-index": .audits["speed-index-metric"]["score"], "first-meaningful-paint": .audits["first-meaningful-paint"]["score"], "estimated-input-latency": .audits["estimated-input-latency"]["score"], "time-to-first-byte": .audits["time-to-first-byte"]["rawValue"], "first-interactive": .audits["first-interactive"]["score"], "consistently-interactive": .audits["consistently-interactive"]["score"], "critical-request-chains": .audits["critical-request-chains"]["displayValue"], "redirects": .audits["redirects"]["score"], "bootup-time": .audits["bootup-time"]["rawValue"], "uses-long-cache-ttl": .audits["uses-long-cache-ttl"]["score"], "total-byte-weight": .audits["total-byte-weight"]["score"], "offscreen-images": .audits["offscreen-images"]["score"], "uses-webp-images": .audits["uses-webp-images"]["score"], "uses-optimized-images": .audits["uses-optimized-images"]["score"], "uses-request-compression": .audits["uses-request-compression"]["score"], "uses-responsive-images": .audits["uses-responsive-images"]["score"], "dom-size": .audits["dom-size"]["score"], "script-blocking-first-paint": .audits["script-blocking-first-paint"]["score"] }' > $LIGHTHOUSE_MASTER_RESULTS_JSON
 
-LIGHTHOUSE_MASTER_SCORE="$(cat $LIGHTHOUSE_MASTER_RESULTS_JSON | jq \".[\"total-score\"]  | floor | tonumber\")"
+LIGHTHOUSE_MASTER_SCORE=$(cat $LIGHTHOUSE_MASTER_RESULTS_JSON | jq '.["total-score"] | floor | tonumber')
 
 # Rsync files to CIRCLE_ARTIFACTS_DIR again now that we have master results
 echo -e "\nRsyincing lighthouse_results files to $CIRCLE_ARTIFACTS_DIR..."

@@ -231,7 +231,7 @@ jobs:
 
 workflows:
   version: 2
-    build_and_test:
+  build_and_test:
     jobs:
       # Install dev dependencies needed for testing
       - install_dev_dependencies

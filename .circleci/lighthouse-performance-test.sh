@@ -85,7 +85,7 @@ LIGHTHOUSE_HTML_REPORT_URL="$CIRCLE_ARTIFACTS_URL/$LIGHTHOUSE_HTML_REPORT"
 REPORT_LINK="[Lighthouse performance report]($LIGHTHOUSE_HTML_REPORT_URL)"
 LAST_SUCCESSFUL_MASTER_BUILD_NUM=$(curl https://circleci.com/api/v1.1/project/github/ataylorme/Advanced-WordPress-on-Pantheon/tree/master | jq '.[0].previous_successful_build.build_num | tonumber')
 echo -e "\nLast successful master build $LAST_SUCCESSFUL_MASTER_BUILD_NUM"
-LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL=$(curl https://circleci.com/api/v1.1/project/github/ataylorme/Advanced-WordPress-on-Pantheon/${LAST_SUCCESSFUL_MASTER_BUILD_NUM}/artifacts | jq '.[] | select(.url | endswith(\'$LIGHTHOUSE_RESULTS_JSON_MASTER\'')) | .url | tostring')
+LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL=$(curl https://circleci.com/api/v1.1/project/github/ataylorme/Advanced-WordPress-on-Pantheon/$LAST_SUCCESSFUL_MASTER_BUILD_NUM/artifacts | jq ".[] | select(.url | endswith(\"$LIGHTHOUSE_RESULTS_JSON_MASTER\")) | .url | tostring")
 echo -e "\nPulling Lighthouse results from $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL"
 
 if [[ -n $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL ]]; then

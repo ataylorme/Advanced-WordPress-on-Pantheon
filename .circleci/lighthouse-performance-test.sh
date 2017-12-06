@@ -39,7 +39,7 @@ LIGHTHOUSE_JSON_REPORT="$LIGHTHOUSE_RESULTS_DIR/lighthouse.report.json"
 LIGHTHOUSE_HTML_REPORT="$LIGHTHOUSE_RESULTS_DIR/lighthouse.report.html"
 LIGHTHOUSE_RESULTS_JSON="$LIGHTHOUSE_RESULTS_DIR/lighthouse.results.json"
 LIGHTHOUSE_MASTER_HTML_REPORT="lighthouse_results/master/lighthouse.report.html"
-LIGHTHOUSE_MASTER_REPORT_NAME="lighthouse_results/master/lighthouse.report.json"
+LIGHTHOUSE_MASTER_REPORT_NAME="lighthouse_results/master/lighthouse.json"
 LIGHTHOUSE_MASTER_RESULTS_JSON="lighthouse_results/master/lighthouse.results.json"
 
 # Delete the Lighthouse results directory so we don't keep old results around

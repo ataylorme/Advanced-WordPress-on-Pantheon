@@ -83,9 +83,11 @@ LIGHTHOUSE_SCORE=$(cat $LIGHTHOUSE_RESULTS_JSON | jq -r '.["total-score"] | tonu
 LIGHTHOUSE_RESULTS=$(cat $LIGHTHOUSE_RESULTS_JSON | jq '.|tostring')
 LIGHTHOUSE_HTML_REPORT_URL="$CIRCLE_ARTIFACTS_URL/$LIGHTHOUSE_HTML_REPORT"
 REPORT_LINK="[Lighthouse performance report]($LIGHTHOUSE_HTML_REPORT_URL)"
+LAST_SUCCESSFUL_MASTER_BUILD_NUM=$(curl https://circleci.com/api/v1.1/project/github/ataylorme/Advanced-WordPress-on-Pantheon/tree/master | jq '.[0].previous_successful_build.build_num | tonumber')
+LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL=$(curl https://circleci.com/api/v1.1/project/github/ataylorme/Advanced-WordPress-on-Pantheon/${LAST_SUCCESSFUL_MASTER_BUILD_NUM}/artifacts | jq '.[] | select(.url | endswith(\'$LIGHTHOUSE_RESULTS_JSON_MASTER\'')) | .url | tostring')
 
-if [[ -f $LIGHTHOUSE_RESULTS_JSON_MASTER ]]; then
-	LIGHTHOUSE_MASTER_SCORE=$(cat $LIGHTHOUSE_RESULTS_JSON_MASTER | jq -r '.["total-score"] | tonumber | floor')
+if [[ -n $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL ]]; then
+	LIGHTHOUSE_MASTER_SCORE=$(curl $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL | jq -r '.["total-score"] | tonumber | floor')
 	
 	if [ $LIGHTHOUSE_MASTER_SCORE -gt $LIGHTHOUSE_SCORE ]; then
 		# Lighthouse test failed! The score is less than the previous result on the master branch
@@ -112,7 +114,5 @@ if [[ ${CIRCLE_BRANCH} != "master" ]]; then
 	curl -i -u "$GIT_USERNAME:$GIT_TOKEN" -d "{\"body\": \"$PR_MESSAGE\"}" $GITHUB_API_URL/issues/$PR_NUMBER/comments
 else
 	# TODO: Commit updated master score back to GitHub OR pull from CircleCI API
-	#git add $LIGHTHOUSE_RESULTS_DIR
-	#git commit -m "New Lighthouse score for master branch of $LIGHTHOUSE_MASTER_SCORE"
-	#git push
+	
 fi

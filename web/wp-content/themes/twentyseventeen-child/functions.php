@@ -48,15 +48,3 @@ function Enqueue_Scripts_styles()
 }
 
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\Enqueue_Scripts_styles');
-
-/**
- * Add no cache header
- *
- * @return void
- */
-function Add_No_Cache_header() 
-{
-    header( 'Cache-Control: no-cache, must-revalidate, max-age=0' );		
-}
-
-add_action('send_headers', __NAMESPACE__ . '\Add_No_Cache_header'); 

@@ -99,8 +99,8 @@ done
 echo -e "\nLast successful master build with artifacts: $LAST_SUCCESSFUL_MASTER_BUILD_NUM"
 echo -e "\nPulling Lighthouse results from $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL"
 
-if [[ -n $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL ]]; then
-	LIGHTHOUSE_MASTER_SCORE=$(curl $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL | jq -r '.["total-score"] | tonumber | floor')
+if [ -n $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL ]; then
+	LIGHTHOUSE_MASTER_SCORE=$(curl $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL | jq '.["total-score"]  | floor | tonumber')
 	echo -e "\n Stored master score of $LIGHTHOUSE_MASTER_SCORE found"
 	
 	if [ $LIGHTHOUSE_SCORE -lt $LIGHTHOUSE_MASTER_SCORE ]; then

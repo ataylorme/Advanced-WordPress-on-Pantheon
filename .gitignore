@@ -12,6 +12,7 @@ vendor/
 !.gitignore
 !.env-sample
 !.travis.yml
+!.circleci
 
 # NPM Modules #
 ###############
@@ -39,7 +40,6 @@ web/private/*
 !web/private/config/
 !web/private/scripts/
 web/private/scripts/quicksilver
-!.circleci
 
 # Add directories containing build assets below.
 # Keep all additions above the "cut" line.

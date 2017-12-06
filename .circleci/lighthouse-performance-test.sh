@@ -105,9 +105,8 @@ echo -e "\nPulling Lighthouse results from $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_
 
 if [ -n $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL ]; then
 	LIGHTHOUSE_MASTER_SCORE=$(curl -s $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL | jq ".[\"total-score\"]  | floor | tonumber")
-	echo -e "\ncurl -s $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL | jq \".[\"total-score\"]  | floor | tonumber\""
+	echo -e "\ncurl -s $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL | jq \".[\\\"total-score\\\"]  | floor\""
 	echo -e "\n Stored master score of $LIGHTHOUSE_MASTER_SCORE found"
-	exit 0
 	
 	if [ $LIGHTHOUSE_SCORE -lt $LIGHTHOUSE_MASTER_SCORE ]; then
 		# Lighthouse test failed! The score is less than the previous result on the master branch
@@ -118,6 +117,7 @@ if [ -n $LAST_SUCCESSFUL_MASTER_BUILD_RESULT_JSON_URL ]; then
 		# Lighthouse test passed! The score isn't less than the previous result on the master branch
 		echo -e "\nLighthouse test passed! The score of $LIGHTHOUSE_SCORE isn't less than the previous score of $LIGHTHOUSE_MASTER_SCORE on the master branch"
 		PR_MESSAGE="Lighthouse test passed! The score of \`$LIGHTHOUSE_SCORE\` isn't less than the previous score of \`$LIGHTHOUSE_MASTER_SCORE\` on the master branch."
+		exit 0
 	fi
 
 else

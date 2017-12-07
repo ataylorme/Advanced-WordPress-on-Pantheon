@@ -104,7 +104,7 @@ jobs:
     build:
         <<: *defaults
         docker:
-          - image: ataylorme/docker-node-advanced-wordpress-on-pantheon:latest
+          - image: ataylorme/docker-node-advanced-wordpress-on-pantheon:js-task-runners
         steps:
             - checkout
 
@@ -194,7 +194,7 @@ jobs:
     visual_regression_test:
         <<: *defaults
         docker:
-          - image: ataylorme/docker-node-advanced-wordpress-on-pantheon:latest
+          - image: ataylorme/docker-node-advanced-wordpress-on-pantheon:backstop-js
         steps:
             - checkout
             

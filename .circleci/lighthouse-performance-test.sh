@@ -57,8 +57,27 @@ CIRCLE_ARTIFACTS_URL="$CIRCLE_BUILD_URL/artifacts/$CIRCLE_NODE_INDEX/$CIRCLE_ART
 echo -e "\nPinging the ${LIGHTHOUSE_BRANCH} environment to wake it from sleep..."
 curl -s -I "$LIGHTHOUSE_URL" >/dev/null
 
+# Start Chrome
+export DISPLAY=:1.5
+CHROME_TMP_PROFILE_DIR=$(mktemp -d -t lighthouse.XXXXXXXXXX)
+
+# start up chromium inside xvfb
+echo -e "\nStarting Chrome inside xvfb"
+xvfb-run \
+	--server-args='-screen 0, 1024x768x16' \
+    $CHROME_PATH \
+	--user-data-dir=$CHROME_TMP_PROFILE_DIR
+    --start-maximized \
+    --no-first-run \
+	--disable-gpu \
+	--no-sandbox \
+    --remote-debugging-port=9222 "about:blank"
+
 # Run the Lighthouse test
-lighthouse --perf --save-artifacts --output json --output html --output-path ${LIGHTHOUSE_REPORT_NAME} --chrome-flags="--disable-gpu" ${LIGHTHOUSE_URL}
+echo -e "\nRunnng the Lighthouse test"
+lighthouse --port=9222 --perf --save-artifacts --output json --output html --output-path ${LIGHTHOUSE_REPORT_NAME} ${LIGHTHOUSE_URL}
+
+exit 0
 
 # Check for HTML report file
 if [ ! -f $LIGHTHOUSE_HTML_REPORT ]; then
@@ -100,7 +119,7 @@ curl -s -I "$LIVE_SITE_URL" >/dev/null
 
 # Run Lighthouse on the live environment
 echo -e "\nRunning Lighthouse on the live environment"
-lighthouse --perf --save-artifacts --output json --output html --output-path "$LIGHTHOUSE_MASTER_REPORT_NAME" --chrome-flags="--disable-gpu" ${LIVE_SITE_URL}
+lighthouse --port=9222 --perf --save-artifacts --output json --output html --output-path "$LIGHTHOUSE_MASTER_REPORT_NAME" --chrome-flags="--disable-gpu" ${LIVE_SITE_URL}
 
 # Create tailored results JSON file
 cat $LIGHTHOUSE_MASTER_JSON_REPORT | jq '. | { "total-score": .score, "speed-index": .audits["speed-index-metric"]["score"], "first-meaningful-paint": .audits["first-meaningful-paint"]["score"], "estimated-input-latency": .audits["estimated-input-latency"]["score"], "time-to-first-byte": .audits["time-to-first-byte"]["rawValue"], "first-interactive": .audits["first-interactive"]["score"], "consistently-interactive": .audits["consistently-interactive"]["score"], "critical-request-chains": .audits["critical-request-chains"]["displayValue"], "redirects": .audits["redirects"]["score"], "bootup-time": .audits["bootup-time"]["rawValue"], "uses-long-cache-ttl": .audits["uses-long-cache-ttl"]["score"], "total-byte-weight": .audits["total-byte-weight"]["score"], "offscreen-images": .audits["offscreen-images"]["score"], "uses-webp-images": .audits["uses-webp-images"]["score"], "uses-optimized-images": .audits["uses-optimized-images"]["score"], "uses-request-compression": .audits["uses-request-compression"]["score"], "uses-responsive-images": .audits["uses-responsive-images"]["score"], "dom-size": .audits["dom-size"]["score"], "script-blocking-first-paint": .audits["script-blocking-first-paint"]["score"] }' > $LIGHTHOUSE_MASTER_RESULTS_JSON

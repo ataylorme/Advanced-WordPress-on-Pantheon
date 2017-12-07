@@ -58,7 +58,7 @@ echo -e "\nPinging the ${LIGHTHOUSE_BRANCH} environment to wake it from sleep...
 curl -s -I "$LIGHTHOUSE_URL" >/dev/null
 
 # Run the Lighthouse test
-lighthouse --perf --save-artifacts --output json --output html --output-path ${LIGHTHOUSE_REPORT_NAME} --chrome-flags="--headless --disable-gpu --no-sandbox" ${LIGHTHOUSE_URL}
+lighthouse --perf --save-artifacts --output json --output html --output-path ${LIGHTHOUSE_REPORT_NAME} --chrome-flags="--disable-gpu" ${LIGHTHOUSE_URL}
 
 # Check for HTML report file
 if [ ! -f $LIGHTHOUSE_HTML_REPORT ]; then
@@ -100,7 +100,7 @@ curl -s -I "$LIVE_SITE_URL" >/dev/null
 
 # Run Lighthouse on the live environment
 echo -e "\nRunning Lighthouse on the live environment"
-lighthouse --perf --save-artifacts --output json --output html --output-path "$LIGHTHOUSE_MASTER_REPORT_NAME" --chrome-flags="--headless --disable-gpu --no-sandbox" ${LIVE_SITE_URL}
+lighthouse --perf --save-artifacts --output json --output html --output-path "$LIGHTHOUSE_MASTER_REPORT_NAME" --chrome-flags="--disable-gpu" ${LIVE_SITE_URL}
 
 # Create tailored results JSON file
 cat $LIGHTHOUSE_MASTER_JSON_REPORT | jq '. | { "total-score": .score, "speed-index": .audits["speed-index-metric"]["score"], "first-meaningful-paint": .audits["first-meaningful-paint"]["score"], "estimated-input-latency": .audits["estimated-input-latency"]["score"], "time-to-first-byte": .audits["time-to-first-byte"]["rawValue"], "first-interactive": .audits["first-interactive"]["score"], "consistently-interactive": .audits["consistently-interactive"]["score"], "critical-request-chains": .audits["critical-request-chains"]["displayValue"], "redirects": .audits["redirects"]["score"], "bootup-time": .audits["bootup-time"]["rawValue"], "uses-long-cache-ttl": .audits["uses-long-cache-ttl"]["score"], "total-byte-weight": .audits["total-byte-weight"]["score"], "offscreen-images": .audits["offscreen-images"]["score"], "uses-webp-images": .audits["uses-webp-images"]["score"], "uses-optimized-images": .audits["uses-optimized-images"]["score"], "uses-request-compression": .audits["uses-request-compression"]["score"], "uses-responsive-images": .audits["uses-responsive-images"]["score"], "dom-size": .audits["dom-size"]["score"], "script-blocking-first-paint": .audits["script-blocking-first-paint"]["score"] }' > $LIGHTHOUSE_MASTER_RESULTS_JSON

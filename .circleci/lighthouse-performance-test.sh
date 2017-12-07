@@ -63,19 +63,22 @@ CHROME_TMP_PROFILE_DIR=$(mktemp -d -t lighthouse.XXXXXXXXXX)
 
 # start up chromium inside xvfb
 echo -e "\nStarting Chrome inside xvfb"
-xvfb-run \
-	--server-args='-screen 0, 1024x768x16' \
-    $CHROME_PATH \
-	--user-data-dir=$CHROME_TMP_PROFILE_DIR
+xvfb-run --server-args='-screen 0, 1024x768x16' \
+    chromium-browser --user-data-dir=$TMP_PROFILE_DIR
     --start-maximized \
     --no-first-run \
-	--disable-gpu \
-	--no-sandbox \
     --remote-debugging-port=9222 "about:blank"
 
 # Run the Lighthouse test
 echo -e "\nRunnng the Lighthouse test"
-lighthouse --port=9222 --perf --save-artifacts --output json --output html --output-path ${LIGHTHOUSE_REPORT_NAME} ${LIGHTHOUSE_URL}
+lighthouse \
+	--port=9222 \
+	--perf \
+	--save-artifacts \
+	--output json \
+	--output html \
+	--output-path ${LIGHTHOUSE_REPORT_NAME} \
+	${LIGHTHOUSE_URL}
 
 exit 0
 

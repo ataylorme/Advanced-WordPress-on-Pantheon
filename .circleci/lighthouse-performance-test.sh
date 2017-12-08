@@ -57,33 +57,28 @@ CIRCLE_ARTIFACTS_URL="$CIRCLE_BUILD_URL/artifacts/$CIRCLE_NODE_INDEX/$CIRCLE_ART
 echo -e "\nPinging the ${LIGHTHOUSE_BRANCH} environment to wake it from sleep..."
 curl -s -I "$LIGHTHOUSE_URL" >/dev/null
 
-# Start Chrome
-export DISPLAY=:1.5
-CHROME_TMP_PROFILE_DIR=$(mktemp -d -t lighthouse.XXXXXXXXXX)
-
-# start up chromium inside xvfb
-echo -e "\nStarting Chrome inside xvfb"
-xvfb-run \
-	--server-args='-screen 0, 1024x768x16' \
-    chromium-browser \
-	--user-data-dir=$TMP_PROFILE_DIR \
-    --start-maximized \
-    --no-first-run \
-    --remote-debugging-port=9222 \
-	"about:blank"
-
 # Run the Lighthouse test
-echo -e "\nRunnng the Lighthouse test"
-lighthouse \
-	--port=9222 \
-	--perf \
-	--save-artifacts \
-	--output json \
-	--output html \
-	--output-path ${LIGHTHOUSE_REPORT_NAME} \
-	${LIGHTHOUSE_URL}
+echo -e "\nRunning the Lighthouse test"
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: 123" \
+  --data "{\"format\": \"json\", \"url\": \"$LIGHTHOUSE_URL\"}" \
+  https://builder-dot-lighthouse-ci.appspot.com/ci > $LIGHTHOUSE_JSON_REPORT
 
-exit 0
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: 123" \
+  --data "{\"format\": \"html\", \"url\": \"$LIGHTHOUSE_URL\"}" \
+  https://builder-dot-lighthouse-ci.appspot.com/ci > $LIGHTHOUSE_HTML_REPORT
+
+#lighthouse \
+#	--perf \
+#	--save-artifacts \
+#	--output json \
+#	--output html \
+#	--output-path ${LIGHTHOUSE_REPORT_NAME} \
+#	--chrome-flags="--headless --disable-gpu --no-sandbox" \
+#	${LIGHTHOUSE_URL}
 
 # Check for HTML report file
 if [ ! -f $LIGHTHOUSE_HTML_REPORT ]; then
@@ -102,6 +97,13 @@ cat $LIGHTHOUSE_JSON_REPORT | jq '. | { "total-score": .score, "speed-index": .a
 
 LIGHTHOUSE_SCORE=$(cat $LIGHTHOUSE_RESULTS_JSON | jq '.["total-score"] | floor | tonumber')
 LIGHTHOUSE_HTML_REPORT_URL="$CIRCLE_ARTIFACTS_URL/$LIGHTHOUSE_HTML_REPORT"
+
+cat $LIGHTHOUSE_RESULTS_JSON
+
+echo -e "\n\n\n$LIGHTHOUSE_SCORE"
+echo -e "\n\n$LIGHTHOUSE_HTML_REPORT_URL"
+
+exit 0
 
 # Rsync files to CIRCLE_ARTIFACTS_DIR
 echo -e "\nRsyincing lighthouse_results files to $CIRCLE_ARTIFACTS_DIR..."

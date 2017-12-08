@@ -103,11 +103,11 @@ cat $LIGHTHOUSE_RESULTS_JSON
 echo -e "\n\n\n$LIGHTHOUSE_SCORE"
 echo -e "\n\n$LIGHTHOUSE_HTML_REPORT_URL"
 
-exit 0
-
 # Rsync files to CIRCLE_ARTIFACTS_DIR
 echo -e "\nRsyincing lighthouse_results files to $CIRCLE_ARTIFACTS_DIR..."
 rsync -rlvz lighthouse_results $CIRCLE_ARTIFACTS_DIR
+
+exit 0
 
 # If we are on on the master branch
 if [[ ${CIRCLE_BRANCH} == "master" ]]; then

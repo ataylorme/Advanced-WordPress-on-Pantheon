@@ -159,9 +159,9 @@ REPORT_LINK="[Lighthouse performance report for \`$CIRCLE_BRANCH\`]($LIGHTHOUSE_
 LIGHTHOUSE_ACCEPTABLE_THRESHOLD=5
 LIGHTHOUSE_ACCEPTABLE_SCORE=$((LIGHTHOUSE_MASTER_SCORE-LIGHTHOUSE_ACCEPTABLE_THRESHOLD))
 if [ $LIGHTHOUSE_SCORE -lt $LIGHTHOUSE_ACCEPTABLE_SCORE ]; then
-	# Lighthouse test failed! The score is less than the acceptable score
-	echo -e "\nLighthouse test failed! The score of $LIGHTHOUSE_SCORE is less than the acceptable score of $LIGHTHOUSE_ACCEPTABLE_SCORE ($LIGHTHOUSE_ACCEPTABLE_THRESHOLD less than the score of $LIGHTHOUSE_MASTER_SCORE on the master branch)"
-	PR_MESSAGE="Lighthouse test failed! The score of \`$LIGHTHOUSE_SCORE\` is than the acceptable score of \`$LIGHTHOUSE_ACCEPTABLE_SCORE\` (\`$LIGHTHOUSE_ACCEPTABLE_THRESHOLD\` less than the score of \`$LIGHTHOUSE_MASTER_SCORE\` on the master branch)"
+	# Lighthouse test failed! The score is worse than the acceptable score
+	echo -e "\nLighthouse test failed! The score of $LIGHTHOUSE_SCORE is worse than the acceptable score of $LIGHTHOUSE_ACCEPTABLE_SCORE ($LIGHTHOUSE_ACCEPTABLE_THRESHOLD less than the score of $LIGHTHOUSE_MASTER_SCORE on the master branch)"
+	PR_MESSAGE="Lighthouse test failed! The score of \`$LIGHTHOUSE_SCORE\` is worse than the acceptable score of \`$LIGHTHOUSE_ACCEPTABLE_SCORE\` (\`$LIGHTHOUSE_ACCEPTABLE_THRESHOLD\` less than the score of \`$LIGHTHOUSE_MASTER_SCORE\` on the master branch)"
 
 	PR_MESSAGE="$PR_MESSAGE\n\nView the full $REPORT_LINK"
 
@@ -171,9 +171,9 @@ if [ $LIGHTHOUSE_SCORE -lt $LIGHTHOUSE_ACCEPTABLE_SCORE ]; then
 
 	exit 1
 else
-	# Lighthouse test passed! The score isn't less than the acceptable score
-	echo -e "\nLighthouse test passed! The score of $LIGHTHOUSE_SCORE isn't less than the acceptable score of $LIGHTHOUSE_ACCEPTABLE_SCORE ($LIGHTHOUSE_ACCEPTABLE_THRESHOLD less than the score of $LIGHTHOUSE_MASTER_SCORE on the master branch)"
-	PR_MESSAGE="Lighthouse test passed! The score of \`$LIGHTHOUSE_SCORE\` isn't less than the acceptable score of \`$LIGHTHOUSE_ACCEPTABLE_SCORE\` (\`$LIGHTHOUSE_ACCEPTABLE_THRESHOLD\` less than the score of \`$LIGHTHOUSE_MASTER_SCORE\` on the master branch)"
+	# Lighthouse test passed! The score worse than the acceptable score
+	echo -e "\nLighthouse test passed! The score of $LIGHTHOUSE_SCORE isn't worse than the acceptable score of $LIGHTHOUSE_ACCEPTABLE_SCORE ($LIGHTHOUSE_ACCEPTABLE_THRESHOLD less than the score of $LIGHTHOUSE_MASTER_SCORE on the master branch)"
+	PR_MESSAGE="Lighthouse test passed! The score of \`$LIGHTHOUSE_SCORE\` isn't worse than the acceptable score of \`$LIGHTHOUSE_ACCEPTABLE_SCORE\` (\`$LIGHTHOUSE_ACCEPTABLE_THRESHOLD\` less than the score of \`$LIGHTHOUSE_MASTER_SCORE\` on the master branch)"
 
 	PR_MESSAGE="$PR_MESSAGE\n\nView the full $REPORT_LINK"
 

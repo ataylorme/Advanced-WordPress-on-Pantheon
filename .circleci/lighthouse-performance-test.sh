@@ -5,9 +5,9 @@ BUILD_DIR=$(pwd)
 GITHUB_API_URL="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
 
 # Check if we are NOT on the master branch and this is a PR
-if [[ ${CIRCLE_BRANCH} != "master" && -z ${CIRCLE_PULL_REQUEST+x} ]];
+if [[ ${CIRCLE_BRANCH} == "master" || -z ${CIRCLE_PULL_REQUEST+x} ]];
 then
-	echo -e "\Lighthouse performance test will only run if not on the master branch when making a pull request"
+	echo -e "\Lighthouse performance test will only run if not on the master branch and when making a pull request"
 	exit 0
 fi
 
@@ -25,13 +25,8 @@ CIRCLE_ARTIFACTS_DIR='/tmp/artifacts'
 mkdir -p $CIRCLE_ARTIFACTS_DIR
 
 # Set Lighthouse results directory, branch and url based on current Git branch
-if [[ ${CIRCLE_BRANCH} == "master" ]]; then
-	LIGHTHOUSE_BRANCH="master"
-	LIGHTHOUSE_URL=$LIVE_SITE_URL
-else	
-	LIGHTHOUSE_BRANCH=$TERMINUS_ENV
-	LIGHTHOUSE_URL=$MULTIDEV_SITE_URL
-fi
+LIGHTHOUSE_BRANCH=$TERMINUS_ENV
+LIGHTHOUSE_URL=$MULTIDEV_SITE_URL
 
 LIGHTHOUSE_RESULTS_DIR="lighthouse_results/$LIGHTHOUSE_BRANCH"
 LIGHTHOUSE_REPORT_NAME="$LIGHTHOUSE_RESULTS_DIR/lighthouse.json"
@@ -46,9 +41,6 @@ fi
 
 # Create the Lighthouse results directory if it doesn't exist or has been deleted
 mkdir -p $LIGHTHOUSE_RESULTS_DIR
-if [ ! -d "lighthouse_results/master" ]; then
-	mkdir -p "lighthouse_results/master"
-fi
 
 # Stash Circle Artifacts URL
 CIRCLE_ARTIFACTS_URL="$CIRCLE_BUILD_URL/artifacts/$CIRCLE_NODE_INDEX/$CIRCLE_ARTIFACTS"
@@ -102,17 +94,16 @@ LIGHTHOUSE_HTML_REPORT_URL="$CIRCLE_ARTIFACTS_URL/$LIGHTHOUSE_HTML_REPORT"
 echo -e "\nRsyincing lighthouse_results files to $CIRCLE_ARTIFACTS_DIR..."
 rsync -rlvz lighthouse_results $CIRCLE_ARTIFACTS_DIR
 
-# If we are on on the master branch
-if [[ ${CIRCLE_BRANCH} == "master" ]]; then
-	echo -e "\nLighthouse score is $LIGHTHOUSE_SCORE"
-	exit 0
-fi
-
 LIGHTHOUSE_MASTER_RESULTS_DIR="lighthouse_results/master"
 LIGHTHOUSE_MASTER_REPORT_NAME="$LIGHTHOUSE_MASTER_RESULTS_DIR/lighthouse.json"
 LIGHTHOUSE_MASTER_JSON_REPORT="$LIGHTHOUSE_MASTER_RESULTS_DIR/lighthouse.report.json"
 LIGHTHOUSE_MASTER_HTML_REPORT="$LIGHTHOUSE_MASTER_RESULTS_DIR/lighthouse.report.html"
 LIGHTHOUSE_MASTER_RESULTS_JSON="$LIGHTHOUSE_MASTER_RESULTS_DIR/lighthouse.results.json"
+
+# Create master results directory if needed
+if [ ! -d "lighthouse_results/master" ]; then
+	mkdir -p "lighthouse_results/master"
+fi
 
 # Ping the live environment to wake it from sleep and prime the cache
 echo -e "\nPinging the live environment to wake it from sleep..."

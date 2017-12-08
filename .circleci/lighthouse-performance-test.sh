@@ -58,7 +58,7 @@ echo -e "\nPinging the ${LIGHTHOUSE_BRANCH} environment to wake it from sleep...
 curl -s -I "$LIGHTHOUSE_URL" >/dev/null
 
 # Run the Lighthouse test
-echo -e "\nRunning the Lighthouse test"
+echo -e "\nRunning the Lighthouse test for $LIGHTHOUSE_URL"
 curl -X POST \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: 123" \
@@ -98,16 +98,9 @@ cat $LIGHTHOUSE_JSON_REPORT | jq '. | { "total-score": .reportCategories[] | sel
 LIGHTHOUSE_SCORE=$(cat $LIGHTHOUSE_RESULTS_JSON | jq '.["total-score"] | floor | tonumber')
 LIGHTHOUSE_HTML_REPORT_URL="$CIRCLE_ARTIFACTS_URL/$LIGHTHOUSE_HTML_REPORT"
 
-cat $LIGHTHOUSE_RESULTS_JSON
-
-echo -e "\n\n\n$LIGHTHOUSE_SCORE"
-echo -e "\n\n$LIGHTHOUSE_HTML_REPORT_URL"
-
 # Rsync files to CIRCLE_ARTIFACTS_DIR
 echo -e "\nRsyincing lighthouse_results files to $CIRCLE_ARTIFACTS_DIR..."
 rsync -rlvz lighthouse_results $CIRCLE_ARTIFACTS_DIR
-
-exit 0
 
 # If we are on on the master branch
 if [[ ${CIRCLE_BRANCH} == "master" ]]; then
@@ -126,8 +119,27 @@ echo -e "\nPinging the live environment to wake it from sleep..."
 curl -s -I "$LIVE_SITE_URL" >/dev/null
 
 # Run Lighthouse on the live environment
-echo -e "\nRunning Lighthouse on the live environment"
-lighthouse --port=9222 --perf --save-artifacts --output json --output html --output-path "$LIGHTHOUSE_MASTER_REPORT_NAME" --chrome-flags="--disable-gpu" ${LIVE_SITE_URL}
+echo -e "\nRunning the Lighthouse test for $LIVE_SITE_URL"
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: 123" \
+  --data "{\"format\": \"json\", \"url\": \"$LIVE_SITE_URL\"}" \
+  https://builder-dot-lighthouse-ci.appspot.com/ci > $LIGHTHOUSE_MASTER_JSON_REPORT
+
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: 123" \
+  --data "{\"format\": \"html\", \"url\": \"$LIVE_SITE_URL\"}" \
+  https://builder-dot-lighthouse-ci.appspot.com/ci > $LIGHTHOUSE_MASTER_HTML_REPORT
+
+#lighthouse \
+#	--perf \
+#	--save-artifacts \
+#	--output json \
+#	--output html \
+#	--output-path ${LIGHTHOUSE_MASTER_REPORT_NAME} \
+#	--chrome-flags="--headless --disable-gpu --no-sandbox" \
+#	${LIVE_SITE_URL}
 
 # Create tailored results JSON file
 cat $LIGHTHOUSE_MASTER_JSON_REPORT | jq '. | { "total-score": .reportCategories[] | select(.id=="performance") | .score, "speed-index": .audits["speed-index-metric"]["score"], "first-meaningful-paint": .audits["first-meaningful-paint"]["score"], "estimated-input-latency": .audits["estimated-input-latency"]["score"], "time-to-first-byte": .audits["time-to-first-byte"]["rawValue"], "first-interactive": .audits["first-interactive"]["score"], "consistently-interactive": .audits["consistently-interactive"]["score"], "critical-request-chains": .audits["critical-request-chains"]["displayValue"], "redirects": .audits["redirects"]["score"], "bootup-time": .audits["bootup-time"]["rawValue"], "uses-long-cache-ttl": .audits["uses-long-cache-ttl"]["score"], "total-byte-weight": .audits["total-byte-weight"]["score"], "offscreen-images": .audits["offscreen-images"]["score"], "uses-webp-images": .audits["uses-webp-images"]["score"], "uses-optimized-images": .audits["uses-optimized-images"]["score"], "uses-request-compression": .audits["uses-request-compression"]["score"], "uses-responsive-images": .audits["uses-responsive-images"]["score"], "dom-size": .audits["dom-size"]["score"], "script-blocking-first-paint": .audits["script-blocking-first-paint"]["score"] }' > $LIGHTHOUSE_MASTER_RESULTS_JSON

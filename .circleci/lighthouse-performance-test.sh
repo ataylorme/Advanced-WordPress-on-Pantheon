@@ -59,13 +59,13 @@ curl -s -I "$LIGHTHOUSE_URL" >/dev/null
 
 # Run the Lighthouse test
 echo -e "\nRunning the Lighthouse test for $LIGHTHOUSE_URL"
-curl -X POST \
+curl -s -X POST \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: 123" \
   --data "{\"format\": \"json\", \"url\": \"$LIGHTHOUSE_URL\"}" \
   https://builder-dot-lighthouse-ci.appspot.com/ci > $LIGHTHOUSE_JSON_REPORT
 
-curl -X POST \
+curl -s -X POST \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: 123" \
   --data "{\"format\": \"html\", \"url\": \"$LIGHTHOUSE_URL\"}" \
@@ -120,13 +120,13 @@ curl -s -I "$LIVE_SITE_URL" >/dev/null
 
 # Run Lighthouse on the live environment
 echo -e "\nRunning the Lighthouse test for $LIVE_SITE_URL"
-curl -X POST \
+curl -s -X POST \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: 123" \
   --data "{\"format\": \"json\", \"url\": \"$LIVE_SITE_URL\"}" \
   https://builder-dot-lighthouse-ci.appspot.com/ci > $LIGHTHOUSE_MASTER_JSON_REPORT
 
-curl -X POST \
+curl -s -X POST \
   -H "Content-Type: application/json" \
   -H "X-API-KEY: 123" \
   --data "{\"format\": \"html\", \"url\": \"$LIVE_SITE_URL\"}" \

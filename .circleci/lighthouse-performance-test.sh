@@ -46,6 +46,8 @@ fi
 
 # Create the Lighthouse results directory if it doesn't exist or has been deleted
 mkdir -p $LIGHTHOUSE_RESULTS_DIR
+
+# Create the Lighthouse results directory for master if needed
 if [ ! -d "lighthouse_results/master" ]; then
 	mkdir -p "lighthouse_results/master"
 fi

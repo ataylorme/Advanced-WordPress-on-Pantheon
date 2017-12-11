@@ -60,3 +60,15 @@ function Add_No_Cache_header()
 }
 
 add_action('send_headers', __NAMESPACE__ . '\Add_No_Cache_header'); 
+
+/**
+ * Delay wp_head
+ *
+ * @return void
+ */
+function Delay_wphead()
+{
+    sleep(2);
+}
+
+add_action('wp_head', __NAMESPACE__ . '\Delay_wphead'); 

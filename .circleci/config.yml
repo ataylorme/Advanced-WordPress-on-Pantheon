@@ -2,7 +2,7 @@
 defaults: &defaults
   docker:
     - image: ataylorme/docker-php-advanced-wordpress-on-pantheon:latest
-  working_directory: ~/example_wordpress_composer
+  working_directory: ~/Advanced-WordPress-on-Pantheon
   environment:
     #=========================================================================
     # In addition to the environment variables defined in this file, also
@@ -104,7 +104,7 @@ jobs:
     build:
         <<: *defaults
         docker:
-          - image: ataylorme/docker-node-advanced-wordpress-on-pantheon:latest
+          - image: ataylorme/docker-node-advanced-wordpress-on-pantheon:js-task-runners
         steps:
             - checkout
 
@@ -194,13 +194,9 @@ jobs:
     visual_regression_test:
         <<: *defaults
         docker:
-          - image: ataylorme/docker-node-advanced-wordpress-on-pantheon:latest
+          - image: ataylorme/docker-node-advanced-wordpress-on-pantheon:backstop-js
         steps:
             - checkout
-
-            - restore_cache:
-                keys:
-                    - terminus-install
             
             - run:
                 name: declare environment variables
@@ -209,6 +205,25 @@ jobs:
             - run:
                 name: visual regression test
                 command: ./.circleci/visual-regression-test.sh
+
+            - store_artifacts:
+                path: /tmp/artifacts
+                destination: artifacts
+
+    lighthouse_performance_test:
+        <<: *defaults
+        docker:
+          - image: ataylorme/docker-node-advanced-wordpress-on-pantheon:slim
+        steps:
+            - checkout
+            
+            - run:
+                name: declare environment variables
+                command: ./.circleci/set-up-globals.sh
+
+            - run:
+                name: lighthouse test
+                command: ./.circleci/lighthouse-performance-test.sh
 
             - store_artifacts:
                 path: /tmp/artifacts
@@ -230,7 +245,11 @@ workflows:
       - code_sniff_unit_test:
             requires:
                 - install_dev_dependencies
-      # Run Visual Regression tests after deploy so they can be done on Pantheon
+      # Run Lighthouse test after deploy so it can be done on Pantheon
+      - lighthouse_performance_test:
+            requires:
+                - build_php_and_deploy_to_pantheon
+      # Run visual regression test after deploy so it can be done on Pantheon
       - visual_regression_test:
             requires:
                 - build_php_and_deploy_to_pantheon
@@ -240,3 +259,4 @@ workflows:
                 - install_dev_dependencies
                 - build_php_and_deploy_to_pantheon
                 - visual_regression_test
+                - lighthouse_performance_test

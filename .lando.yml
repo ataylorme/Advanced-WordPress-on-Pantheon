@@ -1,0 +1,38 @@
+# Set up some basic pantheon recipe config
+name: pantheon-wp-best-practices
+recipe: pantheon
+config:
+  framework: wordpress
+  env: lando
+  site: pantheon-wp-best-practices
+  id: 094f4627-a25e-4d60-8d5b-a3d99a7232bf
+  xdebug: true
+
+# Additionally spin up a node service so we can do gulp things
+services:
+  appserver:
+    build:
+      - cd $LANDO_MOUNT && ./bin/install-composer-dependencies.sh
+  node:
+    type: node:6
+    globals:
+      gulp-cli: "latest"
+    build:
+      - cd $LANDO_MOUNT && ./.circleci/build-gulp-assets.sh
+
+# Provide some tooling routes
+tooling:
+  npm:
+    service: node
+  node:
+    service: node
+  gulp:
+    service: node
+  yarn:
+    service: node
+
+# Automate some build steps that should happen after every start
+# events:
+#   post-start:
+#     - appserver: cd $LANDO_MOUNT && ./bin/install-composer-dependencies.sh
+#     - node: cd $LANDO_MOUNT && ./.circleci/build-gulp-assets.sh

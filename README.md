@@ -40,6 +40,7 @@ deployment workflow on Pantheon integrating tools such as:
 * Build process on Circle CI 2.0
 * Unit and Behat testing
 * Enforcing WordPress coding standards
+* Lighthouse performance testing
 
 ## Deprecated Branch
 The old version of this example used Circle CI 1.0 and did a lot of steps that the [Terminus build tools plugin](https://github.com/pantheon-systems/terminus-build-tools-plugin/) now does manually. This has been deprecated in favor of an example based on Circle CI 2.0 and [Example WordPress Composer](https://github.com/pantheon-systems/example-wordpress-composer/). The [circle-ci-1](https://github.com/ataylorme/Advanced-WordPress-on-Pantheon/tree/circle-ci-1) branch has this version archived for reference only.
@@ -47,13 +48,13 @@ The old version of this example used Circle CI 1.0 and did a lot of steps that t
 ## Circle CI Setup
 You will need to add the following environment variables in the Circle CI UI. See [https://circleci.com/docs/2.0/environment-variables](https://circleci.com/docs/2.0/environment-variables/)/ for details.
 
-* TERMINUS_SITE:  Name of the Pantheon site to run tests on, e.g. my_site
-* TERMINUS_TOKEN: The Pantheon machine token
-* GITHUB_TOKEN:   The GitHub personal access token
-* GIT_EMAIL:      The email address to use when making commits
-* TEST_SITE_NAME: The name of the test site to provide when installing.
-* ADMIN_PASSWORD: The admin password to use when installing.
-* ADMIN_EMAIL:    The email address to give the admin when installing.
+* `TERMINUS_SITE`:  Name of the Pantheon site to run tests on, e.g. my_site
+* `TERMINUS_TOKEN`: The Pantheon machine token
+* `GITHUB_TOKEN`:   The GitHub personal access token
+* `GIT_EMAIL`:      The email address to use when making commits
+* `TEST_SITE_NAME`: The name of the test site to provide when installing.
+* `ADMIN_PASSWORD`: The admin password to use when installing.
+* `ADMIN_EMAIL`:    The email address to give the admin when installing.
 
 ## Local Setup
 In order to develop the site locally a few steps need to be completed. 
@@ -70,6 +71,7 @@ These steps only need to be performed once, unless noted.
 ## Notes
 * `npm install` will need to be ran after any changes to `web/wp-content/themes/twentyseventeen-child/package.json` 
 * `composer update` will need to be ran after any changes to `composer.json`
+* `gulp` will need to be ran in `web/wp-content/themes/twentyseventeen-child` after any changes to `web/wp-content/themes/twentyseventeen-child/source` files
 
 ### Local Development
 The gulp _watch_ task initates a BrowserSync session and watches for:

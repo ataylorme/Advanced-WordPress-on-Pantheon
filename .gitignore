@@ -18,6 +18,10 @@ vendor/
 ###############
 node_modules/
 
+# Lighthouse Results #
+###############
+lighthouse_results/
+
 # Webroot #
 ###########
 !web/

@@ -12,10 +12,15 @@ vendor/
 !.gitignore
 !.env-sample
 !.travis.yml
+!.circleci
 
 # NPM Modules #
 ###############
 node_modules/
+
+# Lighthouse Results #
+###############
+lighthouse_results/
 
 # Webroot #
 ###########
@@ -39,7 +44,6 @@ web/private/*
 !web/private/config/
 !web/private/scripts/
 web/private/scripts/quicksilver
-!.circleci
 
 # Add directories containing build assets below.
 # Keep all additions above the "cut" line.

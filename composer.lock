@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ec3d46b34cd31b549730e5f96b53a94",
+    "content-hash": "da3e883f2cfb7e1a3f46b1a545cc33f0",
     "packages": [
         {
             "name": "composer/installers",
@@ -1739,16 +1739,16 @@
         },
         {
             "name": "paulgibbs/behat-wordpress-extension",
-            "version": "v0.9.0",
+            "version": "v0.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paulgibbs/behat-wordpress-extension.git",
-                "reference": "782e652553bbcdace62e300eedc64a749d44c2a1"
+                "reference": "900712b270714621b9bd87320f5c14ff781573d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paulgibbs/behat-wordpress-extension/zipball/782e652553bbcdace62e300eedc64a749d44c2a1",
-                "reference": "782e652553bbcdace62e300eedc64a749d44c2a1",
+                "url": "https://api.github.com/repos/paulgibbs/behat-wordpress-extension/zipball/900712b270714621b9bd87320f5c14ff781573d7",
+                "reference": "900712b270714621b9bd87320f5c14ff781573d7",
                 "shasum": ""
             },
             "require": {
@@ -1797,7 +1797,7 @@
                 "extension",
                 "wordpress"
             ],
-            "time": "2017-10-09T17:54:23+00:00"
+            "time": "2017-12-14T11:26:09+00:00"
         },
         {
             "name": "phar-io/manifest",

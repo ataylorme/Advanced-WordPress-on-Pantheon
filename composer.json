@@ -86,6 +86,9 @@
     ],
     "unit-test": [
       "./vendor/bin/phpunit tests/unit/*"
+    ],
+    "wordhat-scenarios": [
+      "./vendor/bin/behat -dl --config=tests/behat/behat-pantheon.yml"
     ]
   }
 }

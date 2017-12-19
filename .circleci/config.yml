@@ -119,7 +119,7 @@ jobs:
             - save_cache:
                 key: twentyseventeen-child-theme
                 paths:
-                    - $HOME/example_wordpress_composer/web/wp-content/themes/twentyseventeen-child/node_modules
+                    - $HOME/Advanced-WordPress-on-Pantheon/web/wp-content/themes/twentyseventeen-child/node_modules
 
             - persist_to_workspace:
                 # Must be relative path from working_directory

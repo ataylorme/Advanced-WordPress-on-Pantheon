@@ -161,6 +161,7 @@ jobs:
             - run:
                 name: deploy to Pantheon
                 command: ./.circleci/deploy-to-pantheon.sh
+                no_output_timeout: 30m
 
     behat_test:
         <<: *defaults

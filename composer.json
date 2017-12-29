@@ -16,14 +16,14 @@
   ],
   "require": {
     "php": ">=7.1",
-    "composer/installers": "^1.3.0",
-    "vlucas/phpdotenv": "2.*",
-    "wpackagist-plugin/wp-native-php-sessions": "*",
-    "wpackagist-plugin/pantheon-advanced-page-cache": "*",
-    "wpackagist-theme/twentyseventeen": "1.*",
+    "composer/installers": "v1.5.0",
     "pantheon-systems/wordpress-composer": "4.*",
     "roots/wp-password-bcrypt": "^1.0.0",
-    "rvtraveller/qs-composer-installer": "^1.1"
+    "rvtraveller/qs-composer-installer": "^1.1",
+    "vlucas/phpdotenv": "2.*",
+    "wpackagist-plugin/pantheon-advanced-page-cache": "*",
+    "wpackagist-plugin/wp-native-php-sessions": "*",
+    "wpackagist-theme/twentyseventeen": "1.*"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",

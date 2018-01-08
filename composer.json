@@ -23,7 +23,8 @@
     "wpackagist-theme/twentyseventeen": "1.*",
     "pantheon-systems/wordpress-composer": "4.*",
     "roots/wp-password-bcrypt": "^1.0.0",
-    "rvtraveller/qs-composer-installer": "^1.1"
+    "rvtraveller/qs-composer-installer": "^1.1",
+    "10up/async-transients": "dev-master"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",

@@ -17,7 +17,7 @@
   "require": {
     "php": ">=7.1",
     "composer/installers": "v1.5.0",
-    "pantheon-systems/wordpress-composer": "4.*",
+    "pantheon-systems/wordpress-composer": "4.9.4",
     "roots/wp-password-bcrypt": "^1.0.0",
     "rvtraveller/qs-composer-installer": "^1.1",
     "vlucas/phpdotenv": "2.*",

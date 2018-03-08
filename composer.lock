@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "33b0b1b89d72e034563174657f09febe",
+    "content-hash": "19023748d6950a794ea0f34fb6ab8b11",
     "packages": [
         {
             "name": "composer/installers",
@@ -375,15 +375,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-native-php-sessions",
-            "version": "0.6.5",
+            "version": "0.6.6",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-native-php-sessions/",
-                "reference": "tags/0.6.5"
+                "reference": "tags/0.6.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-native-php-sessions.0.6.5.zip",
+                "url": "https://downloads.wordpress.org/plugin/wp-native-php-sessions.0.6.6.zip",
                 "reference": null,
                 "shasum": null
             },

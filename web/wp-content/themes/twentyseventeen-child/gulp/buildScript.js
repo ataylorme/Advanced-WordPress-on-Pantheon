@@ -16,7 +16,7 @@ export default (file, watch) => {
     let props = {
         entries: ['./' + file],
         debug: true,
-        transform: [babelify.configure({presets: ["es2015"]})]
+        transform: [babelify]
     };
 
     // watchify() if watch requested, otherwise run browserify() once

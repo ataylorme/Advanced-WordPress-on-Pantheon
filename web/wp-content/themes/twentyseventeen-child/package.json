@@ -19,6 +19,7 @@
     "gulp-sourcemaps": "~2.6.4",
     "gulp-uglify": "~3.0.0",
     "gulp-util": "~3.0.8",
+    "node-sass": "https://github.com/sass/node-sass/tarball/v5",
     "vinyl-buffer": "~1.0.1",
     "vinyl-source-stream": "~2.0.0",
     "watchify": "~3.11.0"

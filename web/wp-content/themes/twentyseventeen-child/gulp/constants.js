@@ -16,5 +16,3 @@ export const JSpaths = {
 };
 
 export const $ = require('gulp-load-plugins')();
-
-export const browserSync = require('browser-sync').create();

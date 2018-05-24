@@ -1,7 +1,7 @@
 'use strict';
 
 // External dependencies
-import {watch, parallel, series} from 'gulp';
+import {task, parallel, series} from 'gulp';
 import rimraf from 'rimraf';
 import log from 'fancy-log';
 import colors from 'ansi-colors';
@@ -10,12 +10,10 @@ import colors from 'ansi-colors';
 import {JSpaths} from './gulp/constants';
 import buildStyles from './gulp/buildStyles';
 import buildScript from './gulp/buildScript';
+import clean from './gulp/clean';
+import watchFiles from './gulp/watch';
 
-export function clean(done){
-    log(colors.red('Deleting assets...'));
-    rimraf('assets', done);
-}
-
-const assets = series(clean, parallel( buildStyles, buildScript ) );
+export const assets = series(clean, parallel( buildStyles, buildScript ) );
+export const watch = series(clean, parallel( buildStyles, buildScript ), watchFiles);
 
 export default assets;

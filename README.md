@@ -72,12 +72,3 @@ These steps only need to be performed once, unless noted.
 * `npm install` will need to be ran after any changes to `web/wp-content/themes/twentyseventeen-child/package.json` 
 * `composer update` will need to be ran after any changes to `composer.json`
 * `gulp` will need to be ran in `web/wp-content/themes/twentyseventeen-child` after any changes to `web/wp-content/themes/twentyseventeen-child/source` files
-
-### Local Development
-The gulp _watch_ task initates a BrowserSync session and watches for:
-* Changes to `web/wp-content/themes/twentyseventeen-child/source/css/twentyseventeen-child.scss`, recompiling the CSS build files and injecting changes into the browser
-* Changes to `web/wp-content/themes/twentyseventeen-child/source/js/twentyseventeen-child.js`, recompiling the JavaScript build files and reloading the browser
-* Changes to `.php` files in the `web/wp-content/themes/twentyseventeen-child` directory, reloading the browser
-
-To start the watch task run `gulp watch` from the `web/wp-content/themes/twentyseventeen-child` directory.
-When you are done developing stop the task with `ctrl + c`.

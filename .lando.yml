@@ -1,0 +1,36 @@
+name: pantheon-wp-best-practices
+recipe: pantheon
+config:
+  framework: wordpress
+  site: pantheon-wp-best-practices
+  id: 094f4627-a25e-4d60-8d5b-a3d99a7232bf
+  xdebug: true
+  webroot: web
+  php: '7.1'
+
+services:
+  # Run composer every time appserver started
+  appserver:
+    build:
+      - cd $LANDO_MOUNT && ./bin/install-composer-dependencies.sh
+  
+  # Spin up a node service so we can run gulp
+  node:
+    type: node:8.9
+    #ssl: true
+    globals:
+      gulp-cli: "latest"
+    # Run gulp every time node is started
+    build:
+      - cd $LANDO_MOUNT && ./.circleci/build-gulp-assets.sh
+
+# Provide some tooling routes
+tooling:
+  npm:
+    service: node
+  node:
+    service: node
+  gulp:
+    service: node
+  composer:
+    service: appserver

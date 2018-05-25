@@ -35,7 +35,7 @@
 This repository is an extension of [pantheon-systems/example-wordpress-composer](https://github.com/pantheon-systems/example-wordpress-composer/) 
 showning an example of an advanced WordPress 
 deployment workflow on Pantheon integrating tools such as:
-* Asset compilation with gulp 4
+* Asset compilation with [gulp](https://gulpjs.com/) 4
 * PHP dependency management with [Composer](https://getcomposer.org/)
 * Build and testing processes run on [CircleCI 2.0](https://circleci.com/)
 * Unit tests with [PHP Unit](https://phpunit.de/)
@@ -69,6 +69,13 @@ These steps only need to be performed once, unless noted.
 * Copy `sample.env` to `.env` and update the values accordingly
 * Install Node JS, NPM and Yarn if not already installed
 * Run `./bin/local-build.sh` to install Composer dependencies and compile assets with gulp
+
+## Local Development
+* Change into the theme directory at `web/wp-content/themes/twentyseventeen-child`
+* Update the `url` export in `web/wp-content/themes/twentyseventeen-child/gulp/constants.js` with your local development URL
+* Run `npm install`, if needed, to download dependencies
+* Run `npm run gulp` to build the CSS and JavaScript
+* Run `npm run dev` to build the CSS and JavaScript, watch for changes and start a [BrowserSync](https://browsersync.io/) instance for automated reloading
 
 ## Notes
 * `npm install` will need to be ran after any changes to `web/wp-content/themes/twentyseventeen-child/package.json` 

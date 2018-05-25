@@ -6,10 +6,10 @@ import colors from 'ansi-colors';
 import {sassPaths, JSpaths, $} from './constants';
 import buildStyles from './buildStyles';
 import buildScript from './buildScript';
-import clean from './clean';
+import {cleanScripts, cleanStyles} from './clean';
 
 export default function watchFiles () {
     log(colors.green('Watching files for changes...'));
-    watch(sassPaths.src, series(clean, buildStyles));
-    watch(JSpaths.src, series(clean, buildScript));
+    watch(sassPaths.src, series(cleanStyles, buildStyles));
+    watch(JSpaths.src, series(cleanScripts, buildScript));
 }

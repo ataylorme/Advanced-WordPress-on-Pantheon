@@ -176,16 +176,16 @@
         },
         {
             "name": "pantheon-systems/wordpress-composer",
-            "version": "4.9.5.1",
+            "version": "4.9.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pantheon-systems/wordpress-composer.git",
-                "reference": "bb1d8c7ddb5319f2408eec634ab8a0d60a71b1f2"
+                "reference": "551e8a8b588eaa54ec153e531a22bea557519cb5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pantheon-systems/wordpress-composer/zipball/bb1d8c7ddb5319f2408eec634ab8a0d60a71b1f2",
-                "reference": "bb1d8c7ddb5319f2408eec634ab8a0d60a71b1f2",
+                "url": "https://api.github.com/repos/pantheon-systems/wordpress-composer/zipball/551e8a8b588eaa54ec153e531a22bea557519cb5",
+                "reference": "551e8a8b588eaa54ec153e531a22bea557519cb5",
                 "shasum": ""
             },
             "require": {
@@ -203,10 +203,10 @@
             ],
             "description": "WordPress for Pantheon with a composer.json file.",
             "support": {
-                "source": "https://github.com/pantheon-systems/wordpress-composer/tree/4.9.5.1",
+                "source": "https://github.com/pantheon-systems/wordpress-composer/tree/4.9.6",
                 "issues": "https://github.com/pantheon-systems/wordpress-composer/issues"
             },
-            "time": "2018-04-06T17:28:04+00:00"
+            "time": "2018-05-25T20:27:05+00:00"
         },
         {
             "name": "roots/wp-password-bcrypt",
@@ -3474,7 +3474,7 @@
         },
         {
             "name": "symfony/browser-kit",
-            "version": "v4.0.10",
+            "version": "v4.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/browser-kit.git",
@@ -3531,7 +3531,7 @@
         },
         {
             "name": "symfony/class-loader",
-            "version": "v3.4.10",
+            "version": "v3.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/class-loader.git",
@@ -3587,7 +3587,7 @@
         },
         {
             "name": "symfony/config",
-            "version": "v4.0.10",
+            "version": "v4.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
@@ -3650,7 +3650,7 @@
         },
         {
             "name": "symfony/console",
-            "version": "v4.0.10",
+            "version": "v4.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
@@ -3718,7 +3718,7 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v3.4.10",
+            "version": "v3.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
@@ -3771,16 +3771,16 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v4.0.10",
+            "version": "v4.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "c5d5cd9756d52b642a294c93a5c3a40a3bcc424b"
+                "reference": "4b272d65e9c0d2d40e2d23bab3c7a184ad4a3a18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/c5d5cd9756d52b642a294c93a5c3a40a3bcc424b",
-                "reference": "c5d5cd9756d52b642a294c93a5c3a40a3bcc424b",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/4b272d65e9c0d2d40e2d23bab3c7a184ad4a3a18",
+                "reference": "4b272d65e9c0d2d40e2d23bab3c7a184ad4a3a18",
                 "shasum": ""
             },
             "require": {
@@ -3838,11 +3838,11 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
-            "time": "2018-05-21T10:09:47+00:00"
+            "time": "2018-05-25T11:57:52+00:00"
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v4.0.10",
+            "version": "v4.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
@@ -3899,7 +3899,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v4.0.10",
+            "version": "v4.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -3962,7 +3962,7 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v4.0.10",
+            "version": "v4.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
@@ -4126,7 +4126,7 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v4.0.10",
+            "version": "v4.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
@@ -4194,7 +4194,7 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v4.0.10",
+            "version": "v4.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",

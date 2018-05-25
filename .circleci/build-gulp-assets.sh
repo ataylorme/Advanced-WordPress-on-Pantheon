@@ -28,18 +28,12 @@ do
 
         echo -e "\npackage.json found in ${d%/*}"
 
-        NODE_SASS_INSTALLED=$(npm list | grep node-sass >/dev/null)
-        if [ -z $NODE_SASS_INSTALLED ]
-        then
-            # this is necessary as I run MacOS locally but Linux for automated builds
-            echo -e "\nnode-sass found, rebuilding it's binary..."
-            npm rebuild node-sass --force >/dev/null 2>&1
-        fi
-
-	    #if [ -d 'node_modules' ]
+        #NODE_SASS_INSTALLED=$(npm list | grep node-sass >/dev/null)
+        #if [ -z $NODE_SASS_INSTALLED ]
         #then
-            #echo -e "\nRemoving existing node_modules"
-            #rm -rf node_modules
+            # this is necessary as I run MacOS locally but Linux for automated builds
+        #    echo -e "\nnode-sass found, rebuilding it's binary..."
+        #    npm rebuild node-sass --force >/dev/null 2>&1
         #fi
 
         echo -e "\nRunning 'npm install'"

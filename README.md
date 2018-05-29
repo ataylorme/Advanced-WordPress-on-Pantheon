@@ -76,6 +76,10 @@ First, take care of the one-time setup steps below:
 
 Then, use `lando start` and `lando stop` to start and stop the local development environment.
 
+You can also run tests locally on Lando with the commands below:
+* `lando composer local-behat`
+* `lando composer unit-test`
+
 ### Using another local development environment
 All of these steps are a one-time step unless noted.
 

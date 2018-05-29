@@ -16,7 +16,9 @@ default:
 
   extensions:
     Behat\MinkExtension:
-      base_url: https://pantheonwpbestpractices.lndo.site
+      # lando runs on https://nginx
+      # See https://docs.devwithlando.io/tutorials/lando-pantheon-workflow.html#configuring-behat-and-travis
+      base_url: https://nginx/
       browser_name: chrome
       default_session: default
       javascript_session: selenium2
@@ -29,7 +31,7 @@ default:
           selenium2: ~
 
     PaulGibbs\WordpressBehatExtension:
-      site_url: https://pantheonwpbestpractices.lndo.site/wp
+      site_url: https://nginx/wp
       users:
         admin:
           username: admin

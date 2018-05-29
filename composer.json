@@ -90,6 +90,10 @@
     ],
     "wordhat-scenarios": [
       "./vendor/bin/behat -dl --config=tests/behat/behat-pantheon.yml"
+    ],
+    "local-behat": [
+      "./vendor/bin/behat --config=tests/behat/behat-local.yml --strict"
+
     ]
   }
 }

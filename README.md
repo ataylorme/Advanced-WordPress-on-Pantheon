@@ -76,11 +76,11 @@ First, take care of the one-time setup steps below:
 
 Then, use `lando start` and `lando stop` to start and stop the local development environment.
 
-After your first time running `lando start` you will need to download dependencies. To do this run the commands below:
+After cloning this repository you will need to download dependencies. This should happen automattically when starting Lando but can also be done manually with the commands below:
 * `lando composer-install`
 * `lando gulp-build`
 
-You can also run tests locally on Lando with the commands below:
+Tests can also be run locally on Lando with the commands below:
 * `lando composer local-behat`
 * `lando composer unit-test`
 

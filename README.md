@@ -76,6 +76,10 @@ First, take care of the one-time setup steps below:
 
 Then, use `lando start` and `lando stop` to start and stop the local development environment.
 
+After your first time running `lando start` you will need to download dependencies. To do this run the commands below:
+* `lando composer-install`
+* `lando gulp-build`
+
 You can also run tests locally on Lando with the commands below:
 * `lando composer local-behat`
 * `lando composer unit-test`
@@ -91,10 +95,12 @@ All of these steps are a one-time step unless noted.
 * Run `./.circleci/build-gulp-assets.sh` to compile theme assets
 
 ### Updates and file changes
+** Note: ** if you are using Lando for local development prefix all of the commands below with `lando ` to run them on Lando instead of your local system. For example, `composer update` would become `lando composer update`.
+
 * `composer update` will need to be ran after any changes to `composer.json`
     - Any non-custom PHP code, including to WordPress core, new plugins, etc., should be managed with Composer and updated in this way.
 * `npm run gulp` will need to be ran in `web/wp-content/themes/twentyseventeen-child` after any changes to `web/wp-content/themes/twentyseventeen-child/source` files
     - `npm run watch` can be used to build the production CSS and JavaScript files, watch for changes in the source files, and rebuild the production files after a change.
-    - `npm run dev` is the same as above but it also starts a [BrowserSync](https://browsersync.io/) instance for automated reloading. Be sure to update the `url` export in `web/wp-content/themes/twentyseventeen-child/gulp/constants.js` with your local development URL.
+    - `npm run dev` is the same as above but it also starts a [BrowserSync](https://browsersync.io/) instance for automated reloading. Be sure to update the `url` export in `web/wp-content/themes/twentyseventeen-child/gulp/constants.js` with your local development URL. Unless you are using Lando, in which case leave it set to `https://nginx/`.
 * `npm install` will need to be ran after any changes to `web/wp-content/themes/twentyseventeen-child/package.json`
     - This is for advanced users who wish to customize their frontend build process.

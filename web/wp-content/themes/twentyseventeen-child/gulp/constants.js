@@ -2,7 +2,7 @@ import browserSync from 'browser-sync';
 
 export const server = browserSync.create();
 
-export const url = 'https://pantheonwpbestpractices.lndo.site';
+export const url = 'https://nginx/';
 
 export const dirs = {
     src: 'source',

@@ -30,13 +30,11 @@ tooling:
     service: appserver
   wp:
     service: appserver
-
-# Automate some build steps that should happen after every start
-events:
-  post-start:
-    # Run composer every time appserver is started
-    - appserver: cd $LANDO_MOUNT && ./bin/install-composer-dependencies.sh
-    # Run gulp every time node is started
-    # This is commented out due to node-sass needing it's binary rebuilt to run in Lando
-    # Since that is too heavy of an operation I run gulp locally
-    #- node: cd $LANDO_MOUNT && ./.circleci/build-gulp-assets.sh
+  composer-install:
+    description: Install Composer dependencies
+    cmd: ./bin/install-composer-dependencies.sh
+    service: appserver
+  gulp-build:
+    description: Install npm dependencies and run gulp
+    cmd: ./.circleci/build-gulp-assets.sh
+    service: node

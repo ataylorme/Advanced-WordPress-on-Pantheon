@@ -5,7 +5,8 @@ export default function serve(done) {
         files: ["assets/css/*.css", "assets/js/*.js", "**/*.php"],
         proxy: {
             target: url
-        }
+        },
+        open: false
     });
     done();
 }

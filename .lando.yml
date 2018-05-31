@@ -1,5 +1,7 @@
 name: pantheon-wp-best-practices
+
 recipe: pantheon
+
 config:
   framework: wordpress
   site: pantheon-wp-best-practices
@@ -10,6 +12,8 @@ config:
 
 proxy:
   node:
+    # Setup a proxy for the node service to connect
+    # to BrowserSync at https://wp-best-practices.lndo.site:3000/
     - wp-best-practices.lndo.site:3000
 
 services:
@@ -19,13 +23,16 @@ services:
     node: '8.9'
     ssl: true
     globals:
+      # install the gulp command line
       gulp-cli: "latest"
+      # install gulp 4, currently @next
       gulp: "next"
     overrides:
       services:
+        # expose port 3000 for BrowserSync
         ports: [3000:3000]
 
-# Provide some tooling routes
+# Additional "lando" commands
 tooling:
   npm:
     service: node

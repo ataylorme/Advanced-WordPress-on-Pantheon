@@ -8,6 +8,10 @@ config:
   webroot: web
   php: '7.1'
 
+proxy:
+  node:
+    - wp-best-practices.lndo.site:3000
+
 services:
   # Spin up a node service so we can run gulp
   node:
@@ -17,6 +21,9 @@ services:
     globals:
       gulp-cli: "latest"
       gulp: "next"
+    overrides:
+      services:
+        ports: [3000:3000]
 
 # Provide some tooling routes
 tooling:

@@ -6,7 +6,8 @@ export default function serve(done) {
         proxy: {
             target: url
         },
-        open: false
+        open: false,
+        port: 3000
     });
     done();
 }

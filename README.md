@@ -73,6 +73,7 @@ These steps only need to be performed once, unless noted.
 First, take care of the one-time setup steps below:
 * Install [Lando](https://docs.devwithlando.io/) if not already installed
 * Edit `.lando.yml` and update `name`, `site` and `id` to match those of your Pantheon site
+    - You will also need to edit the node proxy if you wish to access BrowserSync at a different URL
 
 Then, use `lando start` and `lando stop` to start and stop the local development environment.
 
@@ -95,7 +96,7 @@ All of these steps are a one-time step unless noted.
 * Run `./.circleci/build-gulp-assets.sh` to compile theme assets
 
 ### Updates and file changes
-** Note: ** if you are using Lando for local development prefix all of the commands below with `lando ` to run them on Lando instead of your local system. For example, `composer update` would become `lando composer update`.
+** Note: ** if you are using Lando for local development prefix all of the commands below with `lando ` to run them on Lando instead of your local system. For example, `npm run dev` would become `lando npm run dev`.
 
 * `composer update` will need to be ran after any changes to `composer.json`
     - Any non-custom PHP code, including to WordPress core, new plugins, etc., should be managed with Composer and updated in this way.

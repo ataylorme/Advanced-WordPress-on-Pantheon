@@ -89,10 +89,10 @@
       "./vendor/bin/phpunit tests/unit/*"
     ],
     "wordhat-scenarios": [
-      "./vendor/bin/behat -dl --config=tests/behat/behat-pantheon.yml"
+      "./vendor/bin/behat -dl --config=tests/behat/behat-pantheon.yml --strict"
     ],
     "local-behat": [
-      "./vendor/bin/behat --config=tests/behat/behat-local.yml --strict"
+      "./vendor/bin/behat --config=tests/behat/behat-lando.yml --strict"
 
     ]
   }

@@ -48,7 +48,13 @@ if ( ! isset( $_ENV['PANTHEON_ENVIRONMENT'] ) && file_exists( $root_path . '/.en
  * Yes if there is a .env file
  * or we are using Lando
  */
-if ( getenv( 'IS_LOCAL' ) !== false || 'lando' === $_ENV['PANTHEON_ENVIRONMENT'] ){
+if ( 
+    getenv( 'IS_LOCAL' ) !== false || 
+        (
+            isset( $_ENV['PANTHEON_ENVIRONMENT'] ) && 
+            'lando' === $_ENV['PANTHEON_ENVIRONMENT'] 
+        ) 
+    ) {
     define( 'IS_LOCAL', true );
 } else {
     define( 'IS_LOCAL', false );
@@ -89,7 +95,7 @@ define( 'WP_DEBUG', getenv( 'WP_DEBUG' ) == 'true' ? true : false );
 /**
  * Define site and home URLs
  */
-if ( 'lando' === $_ENV['PANTHEON_ENVIRONMENT'] ) {
+if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) && 'lando' === $_ENV['PANTHEON_ENVIRONMENT'] ) {
     // If on Lando use HTTP_HOST if set
     if ( isset( $_SERVER['HTTP_HOST'] ) ) {
         $site_url = 'https://' . $_SERVER['HTTP_HOST'] . '/';

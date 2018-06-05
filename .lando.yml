@@ -53,10 +53,10 @@ tooling:
     cmd: ./.circleci/build-gulp-assets.sh
     service: node
 
-# Automate some build steps that should happen after every start
-events:
-  post-start:
-    # Run gulp every time node is started
-    - node: "cd $LANDO_MOUNT && ./.circleci/build-gulp-assets.sh"
-    # Run composer every time appserver is started
-    - appserver: "cd $LANDO_MOUNT && ./bin/install-composer-dependencies.sh"
+# Automate build steps after every start
+#events:
+#  post-start:
+#    # Run gulp every time node is started
+#    - node: "cd $LANDO_MOUNT && ./.circleci/build-gulp-assets.sh"
+#    # Run composer every time appserver is started
+#    - appserver: "cd $LANDO_MOUNT && ./bin/install-composer-dependencies.sh"

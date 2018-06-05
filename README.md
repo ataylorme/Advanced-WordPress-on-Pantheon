@@ -77,7 +77,7 @@ First, take care of the one-time setup steps below:
 
 Then, use `lando start` and `lando stop` to start and stop the local development environment.
 
-After cloning this repository you will need to download dependencies. This should happen automattically when starting Lando but can also be done manually with the commands below:
+After cloning this repository you will need to download dependencies. This can be done through Lando with the commands below:
 * `lando composer-install`
 * `lando gulp-build`
 

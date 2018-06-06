@@ -2,10 +2,6 @@ imports:
   - behat-pantheon.yml
 
 default:
-  suites:
-    default:
-      paths:
-        - ./tests/behat
 
   extensions:
     Behat\MinkExtension:

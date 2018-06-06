@@ -19,18 +19,15 @@ proxy:
 services:
   # Spin up a node service so we can run gulp
   node:
-    type: node:8.9
-    node: '8.9'
+    type: node:custom
     ssl: true
-    globals:
-      # install the gulp command line
-      gulp-cli: "latest"
-      # install gulp 4, currently @next
-      gulp: "next"
     overrides:
       services:
-        # expose port 3000 for BrowserSync
-        ports: [3000:3000]
+        ports:
+          # expose port 3000 for BrowserSync
+          - "3000:3000"
+        # use a custom Docker image
+        image: ataylorme/docker-node-advanced-wordpress-on-pantheon:latest
 
 # Additional "lando" commands
 tooling:
@@ -39,6 +36,10 @@ tooling:
   node:
     service: node
   gulp:
+    service: node
+  google-chrome-stable:
+    service: node
+  backstop:
     service: node
   composer:
     service: appserver

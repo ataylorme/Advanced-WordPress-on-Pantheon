@@ -191,6 +191,7 @@ jobs:
             - run:
                 name: run Behat tests
                 command: ./.circleci/behat-test.sh
+                no_output_timeout: 30m
     
     visual_regression_test:
         <<: *defaults

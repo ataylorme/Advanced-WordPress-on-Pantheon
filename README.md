@@ -35,6 +35,7 @@
 This repository is an extension of [pantheon-systems/example-wordpress-composer](https://github.com/pantheon-systems/example-wordpress-composer/) 
 showning an example of an advanced WordPress 
 deployment workflow on Pantheon integrating tools such as:
+* Local development environment with [Lando](https://docs.devwithlando.io/)
 * Asset compilation with [gulp](https://gulpjs.com/) 4
 * PHP dependency management with [Composer](https://getcomposer.org/)
 * Build and testing processes run on [CircleCI 2.0](https://circleci.com/)
@@ -65,19 +66,42 @@ These steps only need to be performed once, unless noted.
 * Open a terminal
 * Checkout the Git repository
 * Enter the Git docroot
-* Install Composer if not already installed
-* Copy `sample.env` to `.env` and update the values accordingly
-* Install Node JS, NPM and Yarn if not already installed
-* Run `./bin/local-build.sh` to install Composer dependencies and compile assets with gulp
 
 ## Local Development
-* Change into the theme directory at `web/wp-content/themes/twentyseventeen-child`
-* Update the `url` export in `web/wp-content/themes/twentyseventeen-child/gulp/constants.js` with your local development URL
-* Run `npm install`, if needed, to download dependencies
-* Run `npm run gulp` to build the CSS and JavaScript
-* Run `npm run dev` to build the CSS and JavaScript, watch for changes and start a [BrowserSync](https://browsersync.io/) instance for automated reloading
 
-## Notes
-* `npm install` will need to be ran after any changes to `web/wp-content/themes/twentyseventeen-child/package.json` 
+### Using Lando as a local development environment
+First, take care of the one-time setup steps below:
+* Install [Lando](https://docs.devwithlando.io/) if not already installed
+* Edit `.lando.yml` and update `name`, `site` and `id` to match those of your Pantheon site
+    - You will also need to edit the node proxy if you wish to access BrowserSync at a different URL
+
+Then, use `lando start` and `lando stop` to start and stop the local development environment.
+
+After cloning this repository you will need to download dependencies. This can be done through Lando with the commands below:
+* `lando composer-install`
+* `lando gulp-build`
+
+Tests can also be run locally on Lando with the commands below:
+* `lando composer local-behat`
+* `lando composer unit-test`
+
+### Using another local development environment
+All of these steps are a one-time step unless noted.
+
+* Install [Composer](https://getcomposer.org) if not already installed
+* Install [NodeJS](https://nodejs.org/en/) and [NPM](https://www.npmjs.com/) if not already installed
+* Copy `sample.env` to `.env` and update the values accordingly
+* Run `./bin/install-composer-dependencies.sh` to install PHP dependencies with Composer
+    - `composer update` will need to be ran if `composer.json` has been changed
+* Run `./.circleci/build-gulp-assets.sh` to compile theme assets
+
+### Updates and file changes
+** Note: ** if you are using Lando for local development prefix all of the commands below with `lando ` to run them on Lando instead of your local system. For example, `npm run dev` would become `lando npm run dev`.
+
 * `composer update` will need to be ran after any changes to `composer.json`
-* `gulp` will need to be ran in `web/wp-content/themes/twentyseventeen-child` after any changes to `web/wp-content/themes/twentyseventeen-child/source` files
+    - Any non-custom PHP code, including to WordPress core, new plugins, etc., should be managed with Composer and updated in this way.
+* `npm run gulp` will need to be ran in `web/wp-content/themes/twentyseventeen-child` after any changes to `web/wp-content/themes/twentyseventeen-child/source` files
+    - `npm run watch` can be used to build the production CSS and JavaScript files, watch for changes in the source files, and rebuild the production files after a change.
+    - `npm run dev` is the same as above but it also starts a [BrowserSync](https://browsersync.io/) instance for automated reloading. Be sure to update the `url` export in `web/wp-content/themes/twentyseventeen-child/gulp/constants.js` with your local development URL. Unless you are using Lando, in which case leave it set to `https://nginx/`.
+* `npm install` will need to be ran after any changes to `web/wp-content/themes/twentyseventeen-child/package.json`
+    - This is for advanced users who wish to customize their frontend build process.

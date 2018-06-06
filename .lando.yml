@@ -1,0 +1,63 @@
+name: pantheon-wp-best-practices
+
+recipe: pantheon
+
+config:
+  framework: wordpress
+  site: pantheon-wp-best-practices
+  id: 094f4627-a25e-4d60-8d5b-a3d99a7232bf
+  xdebug: true
+  webroot: web
+  php: '7.1'
+
+proxy:
+  node:
+    # Setup a proxy for the node service to connect
+    # to BrowserSync at https://wp-best-practices.lndo.site:3000/
+    - wp-best-practices.lndo.site:3000
+
+services:
+  # Spin up a node service so we can run gulp
+  node:
+    type: node:custom
+    ssl: true
+    overrides:
+      services:
+        ports:
+          # expose port 3000 for BrowserSync
+          - "3000:3000"
+        # use a custom Docker image
+        image: ataylorme/docker-node-advanced-wordpress-on-pantheon:latest
+
+# Additional "lando" commands
+tooling:
+  npm:
+    service: node
+  node:
+    service: node
+  gulp:
+    service: node
+  google-chrome-stable:
+    service: node
+  backstop:
+    service: node
+  composer:
+    service: appserver
+  wp:
+    service: appserver
+  composer-install:
+    description: Install Composer dependencies
+    cmd: ./bin/install-composer-dependencies.sh
+    service: appserver
+  gulp-build:
+    description: Install npm dependencies and run gulp
+    cmd: ./.circleci/build-gulp-assets.sh
+    service: node
+
+# Automate build steps after every start
+#events:
+#  post-start:
+#    # Run gulp every time node is started
+#    - node: "cd $LANDO_MOUNT && ./.circleci/build-gulp-assets.sh"
+#    # Run composer every time appserver is started
+#    - appserver: "cd $LANDO_MOUNT && ./bin/install-composer-dependencies.sh"

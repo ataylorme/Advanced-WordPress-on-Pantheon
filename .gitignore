@@ -13,6 +13,7 @@ vendor/
 !.env-sample
 !.travis.yml
 !.circleci
+!.lando.yml
 
 # NPM Modules #
 ###############

@@ -1,0 +1,20 @@
+imports:
+  - behat-pantheon.yml
+
+default:
+
+  extensions:
+    Behat\MinkExtension:
+      # lando runs on https://nginx
+      # See https://docs.devwithlando.io/tutorials/lando-pantheon-workflow.html#configuring-behat-and-travis
+      base_url: https://nginx/
+
+    PaulGibbs\WordpressBehatExtension:
+      site_url: https://nginx/wp
+      users:
+        admin:
+          username: admin
+          password: admin
+      wpcli:
+        binary: wp
+      default_driver: wpcli

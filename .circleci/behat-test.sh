@@ -58,9 +58,6 @@ terminus -n wp $TERMINUS_SITE.$TERMINUS_ENV -- cli version
 # Run the Behat tests
 ./vendor/bin/behat --config=tests/behat/behat-pantheon.yml --strict "$@"
 
-# Change back into previous directory
-cd -
-
 # Restore the backup made before testing
 terminus -n backup:restore $TERMINUS_SITE.$TERMINUS_ENV --element=database --yes
 

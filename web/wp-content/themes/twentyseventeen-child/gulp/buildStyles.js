@@ -1,19 +1,17 @@
-import gulp from 'gulp';
+import {src, dest, watch, parallel, series} from 'gulp';
+import pump from 'pump';
 import {sassPaths, $} from './constants';
+import log from 'fancy-log';
+import colors from 'ansi-colors';
 
-/**
- * @desc Compiles the main Sass file into an expanded,
- *  human readable format and a minified format.
- *  Adds browser prefixing and sourcemaps.
- * @returns {*}
- */
-export default () => {
-    $.util.log($.util.colors.green('Building ') + $.util.colors.yellow(`${sassPaths.mainFile}...`));
-    return gulp.src(sassPaths.mainFile)
-        // start sourcemap
-        .pipe($.sourcemaps.init())
+export default function buildStyles (done) {
+    log(colors.green('Building ') + colors.yellow(`${sassPaths.mainFile}...`));
+    
+    pump([
+        // read source sass file
+        src(sassPaths.mainFile, {sourcemaps: true}),
         // run sass
-        .pipe($.sass.sync({
+        $.sass.sync({
             // define relative image path for "image-url"
             imagePath: '../images',
             outputStyle: 'nested',
@@ -21,28 +19,27 @@ export default () => {
                 './node_modules/breakpoint-sass/stylesheets',
                 './node_modules/normalize.css'
             ]
-        }))
+        })
         // log sass errors
         .on('error', err => {
             let projectPath = __dirname.replace( /\/gulp$/, '');
-            $.util.log($.util.colors.red("CSS Error:"), $.util.colors.yellow(
+            log(colors.red("CSS Error:"), colors.yellow(
                 err.message.replace(projectPath, '.').replace(projectPath, '.')
             ));
-        })
-        // add browser prefixes
-        .pipe($.autoprefixer({
-            browsers: ['last 2 versions', 'ie 10']
-        }))
+        }),
+        // autoprefix
+        $.autoprefixer({
+            browsers: ['last 2 versions']
+        }),
         // save human readable file
-        .pipe(gulp.dest(sassPaths.dest))
-        // minify css
-        .pipe($.cssnano())
-        // rename to min
-        .pipe($.rename({
+        dest(sassPaths.dest, {sourcemaps: true}),
+        // rename to add .min
+        $.rename({
             suffix: ".min"
-        }))
-        // write sourcemap
-        .pipe($.sourcemaps.write('./'))
+        }),
+        // minify
+        $.cssnano(),
         // save minified file
-        .pipe(gulp.dest(sassPaths.dest));
+        dest(sassPaths.dest, {sourcemaps: true}),
+    ], done);
 }

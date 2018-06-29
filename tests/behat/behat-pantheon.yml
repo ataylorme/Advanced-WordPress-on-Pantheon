@@ -1,9 +1,8 @@
-# behat.yml
 default:
   suites:
     default:
       paths:
-        - ./
+        - ./tests/behat
       contexts:
         - Behat\MinkExtension\Context\MinkContext
         - PaulGibbs\WordpressBehatExtension\Context\ContentContext

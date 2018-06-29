@@ -1,44 +1,21 @@
 'use strict';
 
-import gulp from 'gulp';
+// External dependencies
+import {task, parallel, series} from 'gulp';
+import rimraf from 'rimraf';
+import log from 'fancy-log';
+import colors from 'ansi-colors';
+
+// Internal dependencies
 import {JSpaths} from './gulp/constants';
 import buildStyles from './gulp/buildStyles';
 import buildScript from './gulp/buildScript';
-import browserSyncServe from './gulp/browserSyncServe';
-import watch from './gulp/watch';
+import clean from './gulp/clean';
+import watchFiles from './gulp/watch';
+import serve from './gulp/browserSync';
 
-gulp.task('styles', buildStyles);
+export const assets = series(clean, parallel( buildStyles, buildScript ) );
+export const watch = series(clean, parallel( buildStyles, buildScript ), watchFiles);
+export const dev = series(clean, parallel( buildStyles, buildScript ), parallel(serve, watchFiles));
 
-// buildScript will run once because watch is set to false
-gulp.task('scripts', () => buildScript(JSpaths.mainFile, false));
-
-/**
- * BrowserSync task
- * Runs a web server and listens for asset
- * changes to inject into the browser
- */
-gulp.task('browserSync', ['assets'], browserSyncServe);
-
-/**
- * Assets Task
- * Builds scripts and styles
- */
-gulp.task(
-    'assets', [
-    'scripts',
-    'styles'
-    ]
-);
-
-/**
- *  Watch task builds assets and serves them with BrowserSync.
- *  When a file changes the assets are rebuilt and the changes sent to the browser
- */
-gulp.task('watch', ['assets', 'browserSync'], watch);
-
-/**
- * Default task
- * Simply builds assets
- * Runs when `gulp` is invoked with no task specified
- */
-gulp.task('default', ['assets']);
+export default assets;

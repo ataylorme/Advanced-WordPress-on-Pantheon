@@ -1,3 +1,10 @@
+import browserSync from 'browser-sync';
+
+export const server = browserSync.create();
+export const reload = browserSync.reload();
+
+export const url = 'https://nginx/';
+
 export const dirs = {
     src: 'source',
     dest: 'assets'
@@ -16,5 +23,3 @@ export const JSpaths = {
 };
 
 export const $ = require('gulp-load-plugins')();
-
-export const browserSync = require('browser-sync').create();

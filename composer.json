@@ -15,25 +15,26 @@
     }
   ],
   "require": {
-    "composer/installers": "^1.3.0",
-    "vlucas/phpdotenv": "2.*",
-    "wpackagist-plugin/wp-native-php-sessions": "*",
-    "wpackagist-plugin/pantheon-advanced-page-cache": "*",
-    "wpackagist-theme/twentyseventeen": "1.*",
+    "php": ">=7.1",
+    "composer/installers": "v1.5.0",
     "pantheon-systems/wordpress-composer": "4.*",
     "roots/wp-password-bcrypt": "^1.0.0",
-    "rvtraveller/qs-composer-installer": "^1.1"
+    "rvtraveller/qs-composer-installer": "^1.1",
+    "vlucas/phpdotenv": "2.*",
+    "wpackagist-plugin/pantheon-advanced-page-cache": "*",
+    "wpackagist-plugin/wp-native-php-sessions": "0.*",
+    "wpackagist-plugin/wordpress-importer": "0.*",
+    "wpackagist-theme/twentyseventeen": "1.*"
   },
   "require-dev": {
+    "brain/monkey": "~2.2.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "~0.4.4",
+    "pantheon-systems/quicksilver-pushback": "~1",
+    "paulgibbs/behat-wordpress-extension": "~0.9.2",
+    "phpunit/phpunit": "~6.5.4",
     "roave/security-advisories": "dev-master",
-    "paulgibbs/behat-wordpress-extension": "0.7.1",
-    "behat/mink-goutte-driver": "^1.2",
-    "behat/mink-selenium2-driver": "^1.3",
-    "squizlabs/php_codesniffer": "^2.9.0",
-    "wp-coding-standards/wpcs": "dev-master",
-    "phpunit/phpunit": "^6.1",
-    "brain/monkey": "^1.4",
-    "pantheon-systems/quicksilver-pushback": "~1"
+    "squizlabs/php_codesniffer": "3.2.2",
+    "wp-coding-standards/wpcs": "dev-master"
   },
   "config": {
     "vendor-dir": "vendor",
@@ -82,11 +83,17 @@
       "WordPressProject\\composer\\ScriptHandler::createRequiredFiles"
     ],
     "code-sniff": [
-      "./vendor/bin/phpcs --config-set installed_paths ./vendor/wp-coding-standards/wpcs",
       "./vendor/bin/phpcs --extensions=php --runtime-set ignore_warnings_on_exit true ./web/wp-content"
     ],
     "unit-test": [
       "./vendor/bin/phpunit tests/unit/*"
+    ],
+    "wordhat-scenarios": [
+      "./vendor/bin/behat -dl --config=tests/behat/behat-lando.yml --strict"
+    ],
+    "local-behat": [
+      "./vendor/bin/behat --config=tests/behat/behat-lando.yml --strict"
+
     ]
   }
 }

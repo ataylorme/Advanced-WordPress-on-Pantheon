@@ -93,7 +93,6 @@
     ],
     "local-behat": [
       "./vendor/bin/behat --config=tests/behat/behat-lando.yml --strict"
-
     ]
   }
 }

@@ -53,6 +53,14 @@ tooling:
     description: Install npm dependencies and run gulp
     cmd: ./.circleci/build-gulp-assets.sh
     service: node
+  wordhat:
+    description: Run WordHat
+    cmd: ./vendor/bin/behat --config=tests/behat/behat-lando.yml --strict
+    service: appserver
+  wordhat-commands:
+    description: List WordHat commands
+    cmd: ./vendor/bin/behat -dl --config=tests/behat/behat-lando.yml --strict
+    service: appserver
 
 # Automate build steps after every start
 #events:

@@ -24,7 +24,6 @@
     "wpackagist-plugin/pantheon-advanced-page-cache": "*",
     "wpackagist-plugin/wp-native-php-sessions": "0.*",
     "wpackagist-plugin/wordpress-importer": "0.*",
-    "wpackagist-plugin/lh-hsts": "1.*",
     "wpackagist-theme/twentyseventeen": "1.*"
   },
   "require-dev": {

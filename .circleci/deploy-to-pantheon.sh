@@ -4,10 +4,10 @@ set -ex
 
 TERMINUS_DOES_MULTIDEV_EXIST()
 {
-    # Return 1 if on master since dev always exists
+    # Return 0 if on master since dev always exists
     if [[ ${CIRCLE_BRANCH} == "master" ]]
     then
-        return 1;
+        return 0;
     fi
     
     # Stash list of Pantheon multidev environments
@@ -32,7 +32,7 @@ fi
 if ! TERMINUS_DOES_MULTIDEV_EXIST ${TERMINUS_ENV}
 then
     terminus env:wake -n "$TERMINUS_SITE.dev"
-    terminus build:env:create -n "$TERMINUS_SITE.dev" "$TERMINUS_ENV" --clone-content --yes --notify="$NOTIFY"
+    terminus build:env:create -n "$TERMINUS_SITE.dev" "$TERMINUS_ENV" --clone-content --yes
 else
     terminus build:env:push -n "$TERMINUS_SITE.$TERMINUS_ENV" --yes
 fi

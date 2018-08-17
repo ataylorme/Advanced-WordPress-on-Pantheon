@@ -17,4 +17,4 @@ set +ex
 terminus --version
 
 # Authenticate with Terminus
-terminus auth:login -n --machine-token="$TERMINUS_TOKEN"
+terminus auth:login -n --machine-token="$TERMINUS_TOKEN" >/dev/null

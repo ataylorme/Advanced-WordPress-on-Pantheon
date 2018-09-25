@@ -8,7 +8,7 @@ config:
   id: 094f4627-a25e-4d60-8d5b-a3d99a7232bf
   xdebug: true
   webroot: web
-  php: '7.1'
+  php: '7.2'
 
 proxy:
   node:

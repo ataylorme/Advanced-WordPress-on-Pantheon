@@ -55,7 +55,7 @@ tooling:
     service: node
   wordhat:
     description: Run WordHat
-    cmd: ./vendor/bin/behat --config=tests/behat/behat-lando.yml --strict
+    cmd: sh ./bin/local-behat.sh
     service: appserver
   wordhat-commands:
     description: List WordHat commands

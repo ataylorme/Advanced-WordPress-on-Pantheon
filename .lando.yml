@@ -53,6 +53,18 @@ tooling:
     description: Install npm dependencies and run gulp
     cmd: ./.circleci/build-gulp-assets.sh
     service: node
+  code-sniff:
+    description: Run Code Sniffing
+    cmd: ./vendor/bin/phpcs --extensions=php --runtime-set ignore_warnings_on_exit true ./web/wp-content/themes/twentyseventeen-child
+    service: appserver
+  code-sniff-fix:
+    description: Run Code Sniffing
+    cmd: ./vendor/bin/phpcbf --extensions=php ./web/wp-content/themes/twentyseventeen-child
+    service: appserver
+  unit-test:
+    description: Run unit tests
+    cmd: ./vendor/bin/phpunit tests/unit/*
+    service: appserver
   wordhat:
     description: Run WordHat
     cmd: sh ./bin/local-behat.sh

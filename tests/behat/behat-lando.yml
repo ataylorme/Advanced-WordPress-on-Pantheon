@@ -12,7 +12,9 @@ default:
     PaulGibbs\WordpressBehatExtension:
       site_url: https://nginx/wp
       users:
-        admin:
+        -
+          roles:
+            - administrator
           username: admin
           password: admin
       wpcli:

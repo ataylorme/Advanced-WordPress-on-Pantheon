@@ -4,12 +4,12 @@ Feature: Change blogname and blogdescription (no-js)
   So that I have control over my site
 
   Background:
-    Given I am logged in as an admin
+    Given I am logged in as an administrator
     Given I am on the dashboard
 
 
   Scenario: Saving blogname
-    Given I go to menu item "Settings > General"
+    Given I go to the menu "Settings > General"
     When I fill in "blogname" with "Awesome WordHat Test Site"
     And I press "submit"
     And I should see "Settings saved."
@@ -17,7 +17,7 @@ Feature: Change blogname and blogdescription (no-js)
     Then I should see "Awesome WordHat Test Site" in the "h1 a" element
 
   Scenario: Saving blogdescription
-    Given I go to menu item "Settings > General"
+    Given I go to the menu "Settings > General"
     When I fill in "blogdescription" with "GitHub + Composer + CircleCi + Pantheon = Win!"
     And I press "submit"
     And I should see "Settings saved."

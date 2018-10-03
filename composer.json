@@ -87,7 +87,7 @@
       "WordPressProject\\composer\\ScriptHandler::createRequiredFiles"
     ],
     "code-sniff": [
-      "./vendor/bin/phpcs --extensions=php --runtime-set ignore_warnings_on_exit true --ignore=./web/wp-content/plugins/lh-hsts/* ./web/wp-content"
+      "./vendor/bin/phpcs --extensions=php --runtime-set ignore_warnings_on_exit true ./web/wp-content"
     ],
     "unit-test": [
       "./vendor/bin/phpunit tests/unit/*"

@@ -6,7 +6,7 @@ DB_PASSWORD=pantheon
 DB_HOST=database
 DB_PORT=3306
 DB_NAME=pantheon
-DB_FILE_NAME=pre-behat-tests
+DB_FILE_NAME="pre-behat-tests"
 
 # Export the DB
 
@@ -16,9 +16,9 @@ then
     rm $DB_FILE_NAME.sql
 fi
 
-if [ -f $DB_FILE_NAME.gz ]
+if [ -f $DB_FILE_NAME.sql.gz ]
 then
-    rm $DB_FILE_NAME.gz
+    rm $DB_FILE_NAME.sql.gz
 fi
 
 # Dump the current DB
@@ -30,7 +30,7 @@ echo "\nGzipping $DB_FILE_NAME.sql ..."
 gzip $DB_FILE_NAME.sql
 
 # Create the WordPress admin user
-echo -e "\nCreating the WordPress admin user ..."
+echo "\nCreating the WordPress admin user ..."
 wp user create admin no-reply@pantheon.io --user_pass=admin --role=administrator
 
 # Disable the lh-hsts plugin as it causes a redirect loop

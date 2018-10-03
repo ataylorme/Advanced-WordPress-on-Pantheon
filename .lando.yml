@@ -47,23 +47,23 @@ tooling:
     service: appserver
   composer-install:
     description: Install Composer dependencies
-    cmd: ./bin/install-composer-dependencies.sh
+    cmd: sh ./bin/install-composer-dependencies.sh
     service: appserver
   gulp-build:
     description: Install npm dependencies and run gulp
-    cmd: ./.circleci/build-gulp-assets.sh
+    cmd: sh ./.circleci/build-gulp-assets.sh
     service: node
   code-sniff:
     description: Run Code Sniffing
-    cmd: ./vendor/bin/phpcs --extensions=php --runtime-set ignore_warnings_on_exit true ./web/wp-content/themes/twentyseventeen-child
+    cmd: ./vendor/bin/phpcs --extensions=php --runtime-set ignore_warnings_on_exit true ./web/wp-content/themes/twentyseventeen-child/*
     service: appserver
   code-sniff-fix:
-    description: Run Code Sniffing
-    cmd: ./vendor/bin/phpcbf --extensions=php ./web/wp-content/themes/twentyseventeen-child
+    description: Fix Code Sniffing
+    cmd: ./vendor/bin/phpcbf --ignore=*/.git*/*,*/node_modules/* --extensions=php ./web/wp-content/themes/twentyseventeen-child/*
     service: appserver
   unit-test:
     description: Run unit tests
-    cmd: ./vendor/bin/phpunit tests/unit/*
+    cmd: composer -n unit-test
     service: appserver
   wordhat:
     description: Run WordHat
@@ -71,7 +71,7 @@ tooling:
     service: appserver
   wordhat-commands:
     description: List WordHat commands
-    cmd: ./vendor/bin/behat -dl --config=tests/behat/behat-lando.yml --strict
+    cmd: composer -n wordhat-scenarios
     service: appserver
 
 # Automate build steps after every start

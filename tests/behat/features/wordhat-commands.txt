@@ -1,0 +1,91 @@
+Given /^(?:|I )am on (?:|the )homepage$/
+Given /^(?:|I )am on "(?P<page>[^"]+)"$/
+Given /^(?:there are|there is a) posts?:/
+Given /^(?:I am|they are) viewing (?:a|the)(?: blog)? post(?: "([^"]+)"|:)/
+Given I delete the post :post_title
+Given /^(?:I am|they are) on the dashboard/
+Given /^(?:I am|they are) in wp-admin/
+Given I go to the menu :item
+Given I go to the :item menu
+Given the cache has been cleared
+Given the :name plugin is active
+Given /^(?:there are|there is a) users?:/
+Given /^(?:I am|they are) an anonymous user/
+Given /^(?:I am|they are) logged in as an? (.+)$/
+Given /^(?:I am|they are) logged in as (?!an? )(.+)$/
+Given /^I am on the edit ([a-zA-z_-]+) screen for "([^"]*)"$/
+Given /^I am on the edit screen for "(?P<title>[^"]*)"$/
+Given I have the :widget_name widget in :sidebar_name
+
+
+When /^(?:|I )go to (?:|the )homepage$/
+When /^(?:|I )go to "(?P<page>[^"]+)"$/
+When /^(?:|I )reload the page$/
+When /^(?:|I )move backward one page$/
+When /^(?:|I )move forward one page$/
+When /^(?:|I )press "(?P<button>(?:[^"]|\\")*)"$/
+When /^(?:|I )follow "(?P<link>(?:[^"]|\\")*)"$/
+When /^(?:|I )fill in "(?P<field>(?:[^"]|\\")*)" with "(?P<value>(?:[^"]|\\")*)"$/
+When /^(?:|I )fill in "(?P<field>(?:[^"]|\\")*)" with:$/
+When /^(?:|I )fill in "(?P<value>(?:[^"]|\\")*)" for "(?P<field>(?:[^"]|\\")*)"$/
+When /^(?:|I )fill in the following:$/
+When /^(?:|I )select "(?P<option>(?:[^"]|\\")*)" from "(?P<select>(?:[^"]|\\")*)"$/
+When /^(?:|I )additionally select "(?P<option>(?:[^"]|\\")*)" from "(?P<select>(?:[^"]|\\")*)"$/
+When /^(?:|I )check "(?P<option>(?:[^"]|\\")*)"$/
+When /^(?:|I )uncheck "(?P<option>(?:[^"]|\\")*)"$/
+When /^(?:|I )attach the file "(?P<path>[^"]*)" to "(?P<field>(?:[^"]|\\")*)"$/
+When /^(?:I|they) go to the dashboard/
+When /^(?:I|they) go to wp-admin/
+When I click on the :link link in the header
+When the cache is cleared
+When I activate the :name plugin
+When I deactivate the :name plugin
+When I switch the theme to :name
+When I delete the :user_login user account
+When /^(?:I am|they are) viewing posts published by (.+)$/
+When I log out
+When /^I change the title to "(?P<title>[^"]*)"$/
+When /^I switch to the post content editor's (visual|text) mode$/i
+When I enter the following content into the post content editor:
+When /^I publish the (post|changes?)$/
+
+
+Then /^(?:|I )should be on "(?P<page>[^"]+)"$/
+Then /^(?:|I )should be on (?:|the )homepage$/
+Then /^the (?i)url(?-i) should match (?P<pattern>"(?:[^"]|\\")*")$/
+Then /^the response status code should be (?P<code>\d+)$/
+Then /^the response status code should not be (?P<code>\d+)$/
+Then /^(?:|I )should see "(?P<text>(?:[^"]|\\")*)"$/
+Then /^(?:|I )should not see "(?P<text>(?:[^"]|\\")*)"$/
+Then /^(?:|I )should see text matching (?P<pattern>"(?:[^"]|\\")*")$/
+Then /^(?:|I )should not see text matching (?P<pattern>"(?:[^"]|\\")*")$/
+Then /^the response should contain "(?P<text>(?:[^"]|\\")*)"$/
+Then /^the response should not contain "(?P<text>(?:[^"]|\\")*)"$/
+Then /^(?:|I )should see "(?P<text>(?:[^"]|\\")*)" in the "(?P<element>[^"]*)" element$/
+Then /^(?:|I )should not see "(?P<text>(?:[^"]|\\")*)" in the "(?P<element>[^"]*)" element$/
+Then /^the "(?P<element>[^"]*)" element should contain "(?P<value>(?:[^"]|\\")*)"$/
+Then /^the "(?P<element>[^"]*)" element should not contain "(?P<value>(?:[^"]|\\")*)"$/
+Then /^(?:|I )should see an? "(?P<element>[^"]*)" element$/
+Then /^(?:|I )should not see an? "(?P<element>[^"]*)" element$/
+Then /^the "(?P<field>(?:[^"]|\\")*)" field should contain "(?P<value>(?:[^"]|\\")*)"$/
+Then /^the "(?P<field>(?:[^"]|\\")*)" field should not contain "(?P<value>(?:[^"]|\\")*)"$/
+Then /^(?:|I )should see (?P<num>\d+) "(?P<element>[^"]*)" elements?$/
+Then /^the "(?P<checkbox>(?:[^"]|\\")*)" checkbox should be checked$/
+Then /^the "(?P<checkbox>(?:[^"]|\\")*)" checkbox is checked$/
+Then /^the checkbox "(?P<checkbox>(?:[^"]|\\")*)" (?:is|should be) checked$/
+Then /^the "(?P<checkbox>(?:[^"]|\\")*)" checkbox should (?:be unchecked|not be checked)$/
+Then /^the "(?P<checkbox>(?:[^"]|\\")*)" checkbox is (?:unchecked|not checked)$/
+Then /^the checkbox "(?P<checkbox>(?:[^"]|\\")*)" should (?:be unchecked|not be checked)$/
+Then /^the checkbox "(?P<checkbox>(?:[^"]|\\")*)" is (?:unchecked|not checked)$/
+Then /^print current URL$/
+Then /^print last response$/
+Then /^show last response$/
+Then I should not be able to view the post :post_title
+Then I should be on the :admin_screen screen
+Then /^(?:I|they) should see an? (error|status) message that says "([^"]+)"$/
+Then /^(?:I|they) should not be able to log in as an? (.+)$/
+Then /^(?:I|they) should not be able to log in as (.+)$/
+Then /^the post content editor is in (visual|text) mode$/i
+Then I should be on the edit :post_type screen for :post_title
+Then I should see the :title metabox
+Then I should not see the :title metabox

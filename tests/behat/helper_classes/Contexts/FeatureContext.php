@@ -25,8 +25,6 @@ final class FeatureContext extends RawWordpressContext
     /**
      * Edit post/page/post-type page (/wp-admin/post.php?post=<id>&action=edit) object.
      *
-     * TODO: this needs to not be public!
-     *
      * @var PostsEditPage
      */
     public $edit_post_page;
@@ -73,9 +71,7 @@ final class FeatureContext extends RawWordpressContext
      */
     public function iGoToEditScreenFor(string $title, string $post_type)
     {
-        // echo "Getting the post '$title' for the post type '$post_type'" . PHP_EOL;
         $post = $this->getContentFromTitle($title,$post_type);
-        // $post = $this->getDriver()->content->get($title, ['by' => 'title', 'post_type' => $post_type]);
         $this->edit_post_page->open(array(
             'id' => $post['id'],
         ));
@@ -100,85 +96,20 @@ final class FeatureContext extends RawWordpressContext
     }
 
     /**
-     * Log user in as an admin.
+     * Go to a specific post by ID
      *
-     * Example: Given I am an admin
+     * Example: Given I am viewing the post with an ID of 1234
      *
-     * @Given I am an admin
+     * @Given I am viewing the post with an ID of :post_id
      *
-     * @throws \RuntimeException
+     * @param string $post_id
+     *
+     * @throws \UnexpectedValueException
      */
-    public function iAmAnAdmin()
+    public function iAmViewingPostID($post_id)
     {
-        $role = 'administrator';
-        $found_user = null;
-        $users      = $this->getWordpressParameter('users');
-        foreach ($users as $user) {
-            if (in_array($role, $user['roles'], true)) {
-                $found_user = $user;
-                break;
-            }
-        }
-        if ($found_user === null) {
-            throw new RuntimeException("[W801] User not found for role \"{$role}\"");
-        }
-
-        $username = $found_user['username'];
-        $password = $found_user['password'];
-        
-
-        if ($this->loggedIn()) {
-            $this->logOut();
-        }
-        
-        $this->visitPath('wp-login.php');
-        $session = $this->getSession();
-        $page = $session->getPage();
-
-        /*
-        * For debugging
-        */
-        $url = $session->getCurrentUrl();
-        echo "Viewing the page $url" . PHP_EOL;
-
-        $page->fillField('user_login', $username);
-        $page->fillField('user_pass', $password);
-        
-        $html_data = $session->getDriver()->getContent();
-        $file_and_path = '/app/behat_output.html';
-        file_put_contents($file_and_path, $html_data);
-        
-        /*
-        $node = $page->findField('user_login');
-        
-        try {
-            $node->focus();
-        } catch (UnsupportedDriverActionException $e) {
-            // This will fail for GoutteDriver but neither is it necessary.
-        }
-        
-        // This is to make sure value is set properly.
-        $node->setValue('');
-        $node->setValue($username);
-        $node->setValue($username);
-        $node = $page->findField('user_pass');
-        
-        try {
-            $node->focus();
-        } catch (UnsupportedDriverActionException $e) {
-            // This will fail for GoutteDriver but neither is it necessary.
-        }
-
-        // This is to make sure value is set properly.
-        $node->setValue('');
-        $node->setValue($password);
-        $node->setValue($password);
-        */
-
-        $page->findButton('wp-submit')->click();
-        if (! $this->loggedIn()) {
-            throw new ExpectationException('[W803] The user could not be logged-in.', $this->getSession()->getDriver());
-        }
+        $post = $this->getDriver()->content->get($post_id, ['by' => 'ID']);
+        $this->visitPath($post->url);
     }
 
 }

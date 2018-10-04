@@ -54,11 +54,11 @@ tooling:
     service: appserver
   composer-install:
     description: Install Composer dependencies
-    cmd: sh ./bin/install-composer-dependencies.sh
+    cmd: ./bin/install-composer-dependencies.sh
     service: appserver
   gulp-build:
     description: Install npm dependencies and run gulp
-    cmd: sh ./.circleci/build-gulp-assets.sh
+    cmd: ./.circleci/build-gulp-assets.sh
     service: node
   code-sniff:
     description: Run Code Sniffing
@@ -74,8 +74,7 @@ tooling:
     service: appserver
   wordhat:
     description: Run WordHat
-    #cmd: sh ./bin/local-behat.sh
-    cmd: sh ./bin/local-behat-headless-chrome.sh
+    cmd: ./bin/local-behat-headless-chrome.sh
     service: appserver
   wordhat-commands:
     description: List WordHat commands

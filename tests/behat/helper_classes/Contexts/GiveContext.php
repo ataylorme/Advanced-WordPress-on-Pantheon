@@ -48,18 +48,6 @@ final class GiveContext extends RawWordpressContext
     public function iChangeTheGiveDonationLevel(string $donation_level, string $value)
     {
         
-        /*
-        * For debugging
-        */
-        /*
-        $url = $this->getSession()->getCurrentUrl();
-        echo "Viewing the page $url" . PHP_EOL;
-        
-        $html_data = $this->getSession()->getDriver()->getContent();
-        $file_and_path = '/app/behat_output.html';
-        file_put_contents($file_and_path, $html_data);
-        */
-        
         $selector = '_give_donation_levels_' . $donation_level . '__give_amount';
         $page = $this->getSession()->getPage();
         $page->fillField($selector, $value);
@@ -90,18 +78,6 @@ final class GiveContext extends RawWordpressContext
      */
     public function checkDefaultDonationAmount(string $donation_amount)
     {
-
-        /*
-        * For debugging
-        */
-        /*
-        $url = $this->getSession()->getCurrentUrl();
-        echo "Viewing the page $url" . PHP_EOL;
-
-        $html_data = $this->getSession()->getDriver()->getContent();
-        $file_and_path = '/app/behat_output.html';
-        file_put_contents($file_and_path, $html_data);
-        */
         
         $selector = '#give-amount-text';
         $this->assertSession()->elementExists('css', $selector);

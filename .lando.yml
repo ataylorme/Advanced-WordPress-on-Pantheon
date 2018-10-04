@@ -29,6 +29,13 @@ services:
         # use a custom Docker image
         image: ataylorme/docker-node-advanced-wordpress-on-pantheon:latest
 
+  # Use a custom appserver with headless Chrome
+  appserver:
+    type: php:custom
+    overrides:
+      services:
+        image: ataylorme/docker-php-advanced-wordpress-on-pantheon:headless-chrome-lando
+
 # Additional "lando" commands
 tooling:
   npm:
@@ -67,16 +74,17 @@ tooling:
     service: appserver
   wordhat:
     description: Run WordHat
-    cmd: sh ./bin/local-behat.sh
+    #cmd: sh ./bin/local-behat.sh
+    cmd: sh ./bin/local-behat-headless-chrome.sh
     service: appserver
   wordhat-commands:
     description: List WordHat commands
     cmd: composer -n wordhat-scenarios
     service: appserver
 
-# Automate build steps after every start
+# Automate startup tasks
 #events:
-#  post-start:
+  #post-start:
 #    # Run gulp every time node is started
 #    - node: "cd $LANDO_MOUNT && ./.circleci/build-gulp-assets.sh"
 #    # Run composer every time appserver is started

@@ -40,7 +40,7 @@ final class GiveContext extends RawWordpressContext
     }
 
     /**
-     * @When /^I set the Give donation level (?P<donation_level>[0-9]+) to "(?P<value>[^"]*)"$/
+     * @When I set the Give donation level :donation_level to :value
      * 
      * @param string $donation_level
      * @param string $value
@@ -71,7 +71,7 @@ final class GiveContext extends RawWordpressContext
      *
      * Example: Given I am on the edit screen of the Give form "Hello World"
      *
-     * @Given /^I am on the edit screen of the Give form "(?P<title>[^"]*)"$/
+     * @Given I am on the edit screen of the Give form :title
      *
      * @param string $title The name of the 'post' being edited.
      */

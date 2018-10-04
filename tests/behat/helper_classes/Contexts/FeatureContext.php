@@ -41,7 +41,7 @@ final class FeatureContext extends RawWordpressContext
     }
 
     /**
-     * @When I click the :arg1 element
+     * @When I click the :selector element
      * 
      * @param string $selector
      */
@@ -64,7 +64,7 @@ final class FeatureContext extends RawWordpressContext
      *
      * Example: Given I am on the edit screen of the "Hello World" "page"
      *
-     * @Given /^I am on the edit screen of the "(?P<title>[^"]*)" "(?P<post_type>[^"]*)"$/
+     * @Given I am on the edit screen of the :title :post_type
      *
      * @param string $title The name of the 'post' being edited.
      * @param string $post_type The post type of the 'post' being edited.

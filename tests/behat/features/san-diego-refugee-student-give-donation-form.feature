@@ -7,7 +7,7 @@ Feature: Manage the San Diego Refugees Donation form
 Background:
     #Given I am an admin
     Given I am logged in as an administrator
-    Given the give plugin is active
+    #Given the give plugin is active
     #Given I am on the edit screen of the post 1269
     Given I am on the edit screen for "San Diego Refugees Donation"
 

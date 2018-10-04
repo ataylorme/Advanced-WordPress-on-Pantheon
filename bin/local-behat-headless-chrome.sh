@@ -4,12 +4,12 @@
 if [[ $(jobs | grep chrome) ]]
 then
     jobs | grep chrome
-    echo "\n Headless Chrome is already running ..."
+    echo -e "\n Headless Chrome is already running ..."
 else
-    echo "\n Starting Chrome in headless mode ..."
+    echo -e "\n Starting Chrome in headless mode ..."
     google-chrome-unstable --disable-gpu --headless --remote-debugging-address=0.0.0.0 --remote-debugging-port=9222 --no-sandbox </dev/null &>/dev/null &
     jobs | grep chrome
-    echo "\n Chrome started in headless mode ..."
+    echo -e "\n Chrome started in headless mode ..."
 fi
 
 # Stash DB credentials
@@ -34,19 +34,19 @@ then
 fi
 
 # Dump the current DB
-echo "\nExporting the $DB_NAME database to $DB_FILE_NAME.sql ..."
+echo -e "\nExporting the $DB_NAME database to $DB_FILE_NAME.sql ..."
 mysqldump --opt --user=$DB_USER --host=$DB_HOST --port=$DB_PORT --password=$DB_PASSWORD $DB_NAME > $DB_FILE_NAME.sql
 
 # gzip the backup file
-echo "\nGzipping $DB_FILE_NAME.sql ..."
+echo -e "\nGzipping $DB_FILE_NAME.sql ..."
 gzip $DB_FILE_NAME.sql
 
 # Create the WordPress admin user
-echo "\nCreating the WordPress admin user ..."
+echo -e "\nCreating the WordPress admin user ..."
 wp user create admin no-reply@pantheon.io --user_pass=admin --role=administrator
 
 # Disable the lh-hsts plugin as it causes a redirect loop
-echo "\nDeactivating the lh-hsts plugin ..."
+echo -e "\nDeactivating the lh-hsts plugin ..."
 wp plugin deactivate lh-hsts
 
 # Run WordHat
@@ -64,17 +64,17 @@ SQLSTART="mysql --user=$DB_USER --host=$DB_HOST --port=$DB_PORT --password=$DB_P
 DB_TABLES=$($SQLSTART -e 'SHOW TABLES' | awk '{ print $1}' | grep -v '^Tables' )
 
 # Drop each tables
-echo "\nDropping all the tables in the $DB_NAME database..."
+echo -e "\nDropping all the tables in the $DB_NAME database..."
 for DB_TABLE in $DB_TABLES; do
     $SQLSTART -e "DROP TABLE $DB_TABLE"
 done
 
 # Import the DB
-echo "\nImporting the $DB_NAME database..."
+echo -e "\nImporting the $DB_NAME database..."
 cat $DB_FILE_NAME.sql | $SQLSTART
 
 # Remove the DB export file
-echo "\nCleaning up the leftover $DB_FILE_NAME.sql ..."
+echo -e "\nCleaning up the leftover $DB_FILE_NAME.sql ..."
 if [ -f $DB_FILE_NAME.sql ]
 then
     rm $DB_FILE_NAME.sql

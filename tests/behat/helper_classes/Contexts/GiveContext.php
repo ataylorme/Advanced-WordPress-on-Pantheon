@@ -40,25 +40,70 @@ final class GiveContext extends RawWordpressContext
     }
 
     /**
-     * @When I set the Give donation level :donation_level to :value
+     * Ordinal numbers to itegers
+     *
+     * @param string $ordinal_num the ordinal number, e.g. first
+     * @return void|int
+     */
+    public function ordinalNmumberToInt( string $ordinal_num ){
+        if( empty( $ordinal_num ) ){
+            throw new \Exception("The ordinal cannot be empty");
+        }
+        
+        $ordinal_num = strtolower($ordinal_num);
+        
+        $ordinal_numbers = array (
+            'first' => 1,
+            'second' => 2,
+            'third' => 3,
+            'fourth' => 4,
+            'fifth' => 4,
+            'sixth' => 5,
+            'seventh' => 7,
+            'eigth' => 8,
+            'ninth' => 9,
+            'tenth' => 10,
+        );
+
+        if( ! array_key_exists( $ordinal_num, $ordinal_numbers ) ){
+            throw new \Exception("The ordinal '$ordinal_num' could not be translated to an integer");
+        }
+
+        return $ordinal_numbers[$ordinal_num];
+    }
+
+    /**
+     * Donation level to number
+     *
+     * @param string $donation_level the ordinal donation number, e.g. first
+     * @return int
+     */
+    private function donationLevelToNum(string $donation_level){
+        return $this->ordinalNmumberToInt($donation_level) - 1;
+    }
+
+    /**
+     * @When I set the :donation_level Give donation level to :value
      * 
      * @param string $donation_level
      * @param string $value
      */
     public function iChangeTheGiveDonationLevel(string $donation_level, string $value)
     {
+        $donation_level = $this->donationLevelToNum($donation_level);
         $selector = '_give_donation_levels_' . $donation_level . '__give_amount';
         $page = $this->getSession()->getPage();
         $page->fillField($selector, $value);
     }
     
     /**
-     * @When I set the default Give donation level to :donation_level
+     * @When I set the :donation_level Give donation level as the default
      * 
      * @param string $donation_level
      */
     public function iChangeTheDefaultGiveDonationLevel(string $donation_level)
     {
+        $donation_level = $this->donationLevelToNum($donation_level);
         $page = $this->getSession()->getPage();
         $radioButtonName = "_give_donation_levels[$donation_level][_give_default]";
         $radioButton = $page->find('named', ['radio', $radioButtonName]);

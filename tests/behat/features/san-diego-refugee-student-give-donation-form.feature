@@ -12,12 +12,10 @@ Background:
     Then the "title" field should contain "San Diego Refugees Donation"
     And I should be on the edit "give_form" screen for "San Diego Refugees Donation"
 
-  Scenario: Confirm donation level amount changes
-    When I set the Give donation level 0 to "25.00"
-    And I set the Give donation level 1 to "100.00"
-    And I set the Give donation level 2 to "250.00"
-    And I set the default Give donation level to 2
+  Scenario: Confirm donation level amount and default changes
+    When I set the third Give donation level to "500.00"
+    And I set the third Give donation level as the default
     And I press "publish"
     And I am viewing the post "San Diego Refugees Donation"
     And the cache has been cleared
-    Then the default donation amount should be "250.00"
+    Then the default donation amount should be "500.00"

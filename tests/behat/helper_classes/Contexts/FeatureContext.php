@@ -57,6 +57,23 @@ final class FeatureContext extends RawWordpressContext
         $element->click();
     }
 
+    /**
+     * @When /^I check the "([^"]*)" radio button$/
+     */
+    public function iCheckTheRadioButton($labelText)
+    {
+        $page = $this->getSession()->getPage();
+        $radioButton = $page->find('named', ['radio', $labelText]);
+        if ($radioButton) {
+            $select = $radioButton->getAttribute('name');
+            $option = $radioButton->getAttribute('value');
+            $page->selectFieldOption($select, $option);
+            return;
+        }
+
+        throw new \Exception("Radio button with label {$labelText} not found");
+    }
+
      /**
      * Go to the edit post admin page for the referenced post title and post type.
      *

@@ -16,7 +16,8 @@ Background:
     When I set the Give donation level 0 to "25.00"
     And I set the Give donation level 1 to "100.00"
     And I set the Give donation level 2 to "250.00"
+    And I set the default Give donation level to 2
     And I press "publish"
     And I am viewing the post "San Diego Refugees Donation"
     And the cache has been cleared
-    Then the default donation amount should be "100.00"
+    Then the default donation amount should be "250.00"

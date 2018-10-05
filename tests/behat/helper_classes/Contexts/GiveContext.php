@@ -47,10 +47,28 @@ final class GiveContext extends RawWordpressContext
      */
     public function iChangeTheGiveDonationLevel(string $donation_level, string $value)
     {
-        
         $selector = '_give_donation_levels_' . $donation_level . '__give_amount';
         $page = $this->getSession()->getPage();
         $page->fillField($selector, $value);
+    }
+    
+    /**
+     * @When I set the default Give donation level to :donation_level
+     * 
+     * @param string $donation_level
+     */
+    public function iChangeTheDefaultGiveDonationLevel(string $donation_level)
+    {
+        $page = $this->getSession()->getPage();
+        $radioButtonName = "_give_donation_levels[$donation_level][_give_default]";
+        $radioButton = $page->find('named', ['radio', $radioButtonName]);
+        if (!$radioButton) {
+            throw new \Exception("Donation level $donation_level not found");
+        }
+        
+        $select = $radioButton->getAttribute('name');
+        $option = $radioButton->getAttribute('value');
+        $page->selectFieldOption($select, $option);
 
     }
 

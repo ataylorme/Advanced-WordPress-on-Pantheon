@@ -126,7 +126,7 @@ final class GiveContext extends RawWordpressContext
      *
      * @param string $title The name of the 'post' being edited.
      */
-    public function iGoToEditScreenFor(string $title)
+    public function iGoToTheGiveFormEditScreenFor(string $title)
     {
         $post = $this->getContentFromTitle($title,'give_forms');
         $this->edit_post_page->open(array(

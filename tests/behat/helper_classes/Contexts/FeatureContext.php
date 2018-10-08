@@ -71,7 +71,9 @@ final class FeatureContext extends RawWordpressContext
             return;
         }
 
-        throw new \Exception("Radio button with label {$labelText} not found");
+        throw new \Exception(
+            "Radio button with label {$labelText} not found"
+        );
     }
 
      /**

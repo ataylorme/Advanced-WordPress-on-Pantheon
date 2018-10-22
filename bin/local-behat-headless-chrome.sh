@@ -27,4 +27,4 @@ wp plugin deactivate lh-hsts
 ./vendor/bin/behat --config=tests/behat/behat-lando.yml --strict
 
 # Restore the DB
-#./bin/restore-db.sh
+./bin/restore-db.sh

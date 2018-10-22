@@ -76,6 +76,14 @@ tooling:
     description: Run WordHat
     cmd: ./bin/local-behat-headless-chrome.sh
     service: appserver
+  restore-db:
+    description: Restore the database
+    cmd: ./bin/restore-db.sh
+    service: appserver
+  export-db:
+    description: export the database
+    cmd: ./bin/export-db.sh
+    service: appserver
   wordhat-commands:
     description: List WordHat commands
     cmd: composer -n wordhat-scenarios

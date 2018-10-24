@@ -131,4 +131,13 @@ final class FeatureContext extends RawWordpressContext
         $this->visitPath($post->url);
     }
 
+    /**
+     * @Then I wait for the element with the id :element to appear
+     *
+     * @param string $element
+     */
+    public function waitForElementToAppear(string $element) {
+        $this->getSession()->wait( 5000, "document.getElementById('$element')" );
+    }
+
 }

@@ -10,3 +10,7 @@ Feature: Verify the San Diego Refugees Donation form
     And I submit the Give donation form
     And I should be on "/donation-confirmation/"
     And I should see "Donation Confirmation"
+    Given I am logged in as an administrator
+    Given I am editing the latest Give donation
+    Then I should see "Complete" in the "#give-payment-status" element
+    And I should see "andrew@pantheon.io"

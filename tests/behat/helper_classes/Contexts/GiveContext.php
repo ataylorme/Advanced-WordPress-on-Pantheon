@@ -133,6 +133,29 @@ final class GiveContext extends RawWordpressContext
             'id' => $post['id'],
         ));
     }
+ 
+    /**
+     * Go to the edit post admin page for the latest Give form donation
+     *
+     * @Given I am editing the latest Give donation
+     */
+    public function iGoToTheLatestGiveDonationEditScreen()
+    {
+       $args = array (
+            '--post_type=give_payment',
+            '--field=ID',
+            '--orderby=date',
+            '--order=DESC',
+            '--post_status=publish',
+            '--posts_per_page=1',
+        );
+        
+        $wpcli_output = $this->getDriver()->wpcli('post', 'list', $args);
+        $post_id = (int) $wpcli_output['stdout'];
+
+        $this->visitPath('/wp-admin/edit.php?post_type=give_forms&page=give-payment-history&view=view-payment-details&id=' . $post_id);
+
+    }
     
     /**
      * @Then the default donation amount should be :donation_amount

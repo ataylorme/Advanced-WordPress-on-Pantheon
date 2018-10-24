@@ -153,5 +153,17 @@ final class GiveContext extends RawWordpressContext
         }
 
     }
+    
+    /**
+     * @Then I submit the Give donation form
+     */
+    public function submitGiveDonationForm()
+    {
+        $session = $this->getSession();
+        $page = $session->getPage();
+        $page->pressButton('give-purchase-button');
+        // Looks for the '#give-email-access-form' element, giving up after 5 seconds.
+        $session->wait( 5000, "document.getElementById('give-email-access-form')" );
+    }
 
 }

@@ -9,9 +9,9 @@ Feature: Manage the San Diego Refugees Donation form
     When I fill in "give-first" with "Andrew"
     And I fill in "give-last" with "Taylor"
     And I fill in "give-email" with "andrew@pantheon.io"
-    And I press "Donate Now"
-    Then I wait for the element with the id "give-email-access-form" to appear
+    And I submit the Give donation form
     And I should be on "/donation-confirmation/"
+    And I should see "Donation Confirmation"
 
   Scenario: Confirm donation level amount and default changes
     Given I am logged in as an administrator

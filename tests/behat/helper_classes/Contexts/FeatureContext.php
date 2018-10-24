@@ -127,7 +127,9 @@ final class FeatureContext extends RawWordpressContext
      */
     public function iAmViewingPostID($post_id)
     {
-        $post = $this->getDriver()->content->get($post_id, ['by' => 'ID']);
+        $post = $this->getDriver()->content->get(
+            $post_id, ['by' => 'ID']
+        );
         $this->visitPath($post->url);
     }
 

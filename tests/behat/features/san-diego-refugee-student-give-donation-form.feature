@@ -6,9 +6,9 @@ Feature: Manage the San Diego Refugees Donation form
 
   Scenario: Confirm donation submissions
     Given I am viewing the post "San Diego Refugees Donation"
-    When I fill in "give-first" with "Andrew"
-    And I fill in "give-last" with "Taylor"
-    And I fill in "give-email" with "andrew@pantheon.io"
+    When I set the Give first name to "Andrew"
+    And I set the Give last name to "Taylor"
+    And I set the Give email to "andrew@pantheon.io"
     And I submit the Give donation form
     And I should be on "/donation-confirmation/"
     And I should see "Donation Confirmation"

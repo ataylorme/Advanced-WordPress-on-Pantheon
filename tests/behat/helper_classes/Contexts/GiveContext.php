@@ -166,4 +166,43 @@ final class GiveContext extends RawWordpressContext
         $session->wait( 5000, "document.getElementById('give-email-access-form')" );
     }
 
+    /**
+     * Sets the Give donation form first name field
+     * Example: When I set the Give first name to "Andrew"
+     *
+     * @When I set the Give first name to :first_name
+     * 
+     * @param string $first_name
+     */
+    public function fillGiveFirstNameField(string $first_name)
+    {
+        $this->getSession()->getPage()->fillField('give-first', $first_name);
+    }
+
+    /**
+     * Sets the Give donation form last name field
+     * Example: When I set the Give last name to "Taylor"
+     *
+     * @When I set the Give last name to :last_name
+     * 
+     * @param string $last_name
+     */
+    public function fillGiveLastNameField(string $last_name)
+    {
+        $this->getSession()->getPage()->fillField('give-last', $last_name);
+    }
+
+    /**
+     * Sets the Give donation form email field
+     * Example: When I set the Give email to "andrew@pantheon.io"
+     *
+     * @When I set the Give email to :email_address
+     * 
+     * @param string $email_address
+     */
+    public function fillGiveEmailField(string $email_address)
+    {
+        $this->getSession()->getPage()->fillField('give-email', $email_address);
+    }
+
 }

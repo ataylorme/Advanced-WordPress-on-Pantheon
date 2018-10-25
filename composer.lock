@@ -355,15 +355,15 @@
         },
         {
             "name": "wpackagist-plugin/give",
-            "version": "2.2.5",
+            "version": "2.3.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/give/",
-                "reference": "tags/2.2.5"
+                "reference": "tags/2.3.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/give.2.2.5.zip",
+                "url": "https://downloads.wordpress.org/plugin/give.2.3.0.zip",
                 "reference": null,
                 "shasum": null
             },

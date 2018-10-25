@@ -29,6 +29,13 @@ services:
         # use a custom Docker image
         image: ataylorme/docker-node-advanced-wordpress-on-pantheon:latest
 
+  # Use a custom appserver with headless Chrome
+  appserver:
+    type: php:custom
+    overrides:
+      services:
+        image: ataylorme/docker-php-advanced-wordpress-on-pantheon:headless-chrome-lando
+
 # Additional "lando" commands
 tooling:
   npm:
@@ -53,18 +60,38 @@ tooling:
     description: Install npm dependencies and run gulp
     cmd: ./.circleci/build-gulp-assets.sh
     service: node
+  code-sniff:
+    description: Run Code Sniffing
+    cmd: ./vendor/bin/phpcs --extensions=php --runtime-set ignore_warnings_on_exit true ./web/wp-content/themes/twentyseventeen-child/*
+    service: appserver
+  code-sniff-fix:
+    description: Fix Code Sniffing
+    cmd: ./vendor/bin/phpcbf --ignore=*/.git*/*,*/node_modules/* --extensions=php ./web/wp-content/themes/twentyseventeen-child/*
+    service: appserver
+  unit-test:
+    description: Run unit tests
+    cmd: composer -n unit-test
+    service: appserver
   wordhat:
     description: Run WordHat
-    cmd: ./vendor/bin/behat --config=tests/behat/behat-lando.yml --strict
+    cmd: ./bin/local-behat-headless-chrome.sh
+    service: appserver
+  restore-db:
+    description: Restore the database
+    cmd: ./bin/restore-db.sh
+    service: appserver
+  export-db:
+    description: export the database
+    cmd: ./bin/export-db.sh
     service: appserver
   wordhat-commands:
     description: List WordHat commands
-    cmd: ./vendor/bin/behat -dl --config=tests/behat/behat-lando.yml --strict
+    cmd: composer -n wordhat-scenarios
     service: appserver
 
-# Automate build steps after every start
+# Automate startup tasks
 #events:
-#  post-start:
+  #post-start:
 #    # Run gulp every time node is started
 #    - node: "cd $LANDO_MOUNT && ./.circleci/build-gulp-assets.sh"
 #    # Run composer every time appserver is started

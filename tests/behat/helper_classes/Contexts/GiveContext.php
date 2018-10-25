@@ -148,6 +148,7 @@ final class GiveContext extends RawWordpressContext
             '--order=DESC',
             '--post_status=publish',
             '--posts_per_page=1',
+            '--ignore_sticky_posts=1',
         );
         
         $wpcli_output = $this->getDriver()->wpcli('post', 'list', $args);

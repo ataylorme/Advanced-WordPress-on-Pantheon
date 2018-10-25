@@ -24,7 +24,7 @@ echo -e "\nDeactivating the lh-hsts plugin ..."
 wp plugin deactivate lh-hsts
 
 # Run WordHat
-./vendor/bin/behat --config=tests/behat/behat-lando.yml --strict
+./vendor/bin/behat --config=tests/behat/behat-lando.yml --strict --format-settings='{"paths": false}'
 
 # Restore the DB
 ./bin/restore-db.sh

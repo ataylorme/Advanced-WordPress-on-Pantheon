@@ -5,9 +5,9 @@
   "main": "gulpfile.babel.js",
   "private": true,
   "scripts": {
-    "gulp": "node ./node_modules/gulp/bin/gulp.js",
-    "watch": "node ./node_modules/gulp/bin/gulp.js watch",
-    "dev": "node ./node_modules/gulp/bin/gulp.js dev"
+    "gulp": "gulp",
+    "watch": "gulp watch",
+    "dev": "gulp dev"
   },
   "devDependencies": {
     "ansi-colors": "~2.0.1",

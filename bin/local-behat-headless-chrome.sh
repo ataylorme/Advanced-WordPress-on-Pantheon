@@ -17,7 +17,15 @@ fi
 
 # Create the WordPress admin user
 echo -e "\nCreating the WordPress admin user ..."
-wp user create admin no-reply@pantheon.io --user_pass=admin --role=administrator
+
+# Check if an admin user with our desired username exists
+BEHAT_ADMIN_USER_EXISTS=$(wp user list --login=admin --format=count)
+
+# Create the admin user if needed
+if [[ "$BEHAT_ADMIN_USER_EXISTS" == "0" ]]
+then
+  wp user create admin no-reply@pantheon.io --user_pass=admin --role=administrator
+fi
 
 # Run WordHat
 ./vendor/bin/behat --config=tests/behat/behat-lando.yml --strict --colors --format-settings='{"paths": false}'

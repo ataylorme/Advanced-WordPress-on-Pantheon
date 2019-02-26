@@ -13,10 +13,11 @@ default:
       site_url: https://nginx/wp
       users:
         -
+          password: admin
+          username: admin
           roles:
             - administrator
-          username: admin
-          password: admin
       wpcli:
         binary: wp
       default_driver: wpcli
+      path: web/wp

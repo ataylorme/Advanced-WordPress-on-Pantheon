@@ -11,43 +11,45 @@ config:
   php: '7.2'
 
 services:
-
-  # Spin up a PHP CI service for Behat, PHPUnit, etc.
-  ci_php:
+  # Use a custom appserver with headless Chrome
+  appserver:
     type: php:custom
     overrides:
-      image: quay.io/pantheon-public/build-tools-ci:4.x
+      image: ataylorme/docker-php-advanced-wordpress-on-pantheon:headless-chrome-lando
+      ports:
+        # Expose port 9222 for headless Chrome
+        - "9222:9222"
 
 # Additional "lando" commands
 tooling:
   composer:
-    service: ci_php
+    service: appserver
   wp:
     service: appserver
   composer-install:
     description: Install Composer dependencies
     cmd: ./bin/install-composer-dependencies.sh
-    service: ci_php
+    service: appserver
   code-sniff:
     description: Run Code Sniffing
     cmd: ./vendor/bin/phpcs --extensions=php --runtime-set ignore_warnings_on_exit true ./web/wp-content/themes/twentyseventeen-child/* ./tests/*
-    service: ci_php
+    service: appserver
   code-sniff-fix:
     description: Fix Code Sniffing
     cmd: ./vendor/bin/phpcbf --ignore=*/.git*/*,*/node_modules/* --extensions=php ./web/wp-content/themes/twentyseventeen-child/* ./tests/*
-    service: ci_php
+    service: appserver
   unit-test:
     description: Run unit tests
     cmd: composer -n unit-test
-    service: ci_php
+    service: appserver
   wordhat:
     description: Run WordHat
     cmd: ./bin/local-behat-headless-chrome.sh
-    service: ci_php
+    service: appserver
   restore-db:
     description: Restore the database
     cmd: ./bin/restore-db.sh
-    service: ci_php
+    service: appserver
   export-db:
     description: export the database
     cmd: ./bin/export-db.sh
@@ -55,4 +57,4 @@ tooling:
   wordhat-commands:
     description: List WordHat commands
     cmd: composer -n wordhat-scenarios
-    service: ci_php
+    service: appserver

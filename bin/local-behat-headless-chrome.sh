@@ -19,12 +19,8 @@ fi
 echo -e "\nCreating the WordPress admin user ..."
 wp user create admin no-reply@pantheon.io --user_pass=admin --role=administrator
 
-# Disable the lh-hsts plugin as it causes a redirect loop
-echo -e "\nDeactivating the lh-hsts plugin ..."
-wp plugin deactivate lh-hsts
-
 # Run WordHat
-./vendor/bin/behat --config=tests/behat/behat-lando.yml --strict --format-settings='{"paths": false}'
+./vendor/bin/behat --config=tests/behat/behat-lando.yml --strict --colors --format-settings='{"paths": false}'
 
 # Restore the DB
 ./bin/restore-db.sh

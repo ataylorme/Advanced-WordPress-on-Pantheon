@@ -14,6 +14,7 @@ default:
         - PaulGibbs\WordpressBehatExtension\Context\WidgetContext
         - PantheonSystems\WordHatHelpers\Contexts\FeatureContext
         - PantheonSystems\WordHatHelpers\Contexts\GiveContext
+        - PantheonSystems\WordHatHelpers\Contexts\PantheonContext
 
   extensions:
     Behat\MinkExtension:

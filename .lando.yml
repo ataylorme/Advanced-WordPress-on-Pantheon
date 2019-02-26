@@ -10,76 +10,44 @@ config:
   webroot: web
   php: '7.2'
 
-proxy:
-  node:
-    # Setup a proxy for the node service to connect
-    # to BrowserSync at https://wp-best-practices.lndo.site:3000/
-    - wp-best-practices.lndo.site:3000
-
 services:
-  # Spin up a node service so we can run gulp
-  node:
-    type: node:custom
-    ssl: true
-    overrides:
-      services:
-        ports:
-          # expose port 3000 for BrowserSync
-          - "3000:3000"
-        # use a custom Docker image
-        image: ataylorme/docker-node-advanced-wordpress-on-pantheon:latest
 
-  # Use a custom appserver with headless Chrome
-  appserver:
+  # Spin up a PHP CI service for Behat, PHPUnit, etc.
+  ci_php:
     type: php:custom
     overrides:
-      services:
-        image: ataylorme/docker-php-advanced-wordpress-on-pantheon:headless-chrome-lando
+      image: quay.io/pantheon-public/build-tools-ci:4.x
 
 # Additional "lando" commands
 tooling:
-  npm:
-    service: node
-  node:
-    service: node
-  gulp:
-    service: node
-  google-chrome-stable:
-    service: node
-  backstop:
-    service: node
   composer:
-    service: appserver
+    service: ci_php
   wp:
     service: appserver
   composer-install:
     description: Install Composer dependencies
     cmd: ./bin/install-composer-dependencies.sh
-    service: appserver
-  gulp-build:
-    description: Install npm dependencies and run gulp
-    cmd: ./.circleci/build-gulp-assets.sh
-    service: node
+    service: ci_php
   code-sniff:
     description: Run Code Sniffing
     cmd: ./vendor/bin/phpcs --extensions=php --runtime-set ignore_warnings_on_exit true ./web/wp-content/themes/twentyseventeen-child/* ./tests/*
-    service: appserver
+    service: ci_php
   code-sniff-fix:
     description: Fix Code Sniffing
     cmd: ./vendor/bin/phpcbf --ignore=*/.git*/*,*/node_modules/* --extensions=php ./web/wp-content/themes/twentyseventeen-child/* ./tests/*
-    service: appserver
+    service: ci_php
   unit-test:
     description: Run unit tests
     cmd: composer -n unit-test
-    service: appserver
+    service: ci_php
   wordhat:
     description: Run WordHat
     cmd: ./bin/local-behat-headless-chrome.sh
-    service: appserver
+    service: ci_php
   restore-db:
     description: Restore the database
     cmd: ./bin/restore-db.sh
-    service: appserver
+    service: ci_php
   export-db:
     description: export the database
     cmd: ./bin/export-db.sh
@@ -87,12 +55,4 @@ tooling:
   wordhat-commands:
     description: List WordHat commands
     cmd: composer -n wordhat-scenarios
-    service: appserver
-
-# Automate startup tasks
-#events:
-  #post-start:
-#    # Run gulp every time node is started
-#    - node: "cd $LANDO_MOUNT && ./.circleci/build-gulp-assets.sh"
-#    # Run composer every time appserver is started
-#    - appserver: "cd $LANDO_MOUNT && ./bin/install-composer-dependencies.sh"
+    service: ci_php

@@ -14,7 +14,7 @@ Background:
 
   Scenario: Verify new post on the front-end and in the admin
     Given I am an anonymous user
-    When I am on the homepage
+    When I go to "/blog"
     Then I should not be logged in
     And I should see "Author article"
     When I am logged in as an administrator

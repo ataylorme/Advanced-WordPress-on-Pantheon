@@ -48,7 +48,6 @@ jobs:
             - restore_cache:
                 keys:
                     - composer-cache
-                    - terminus-install
 
             - run:
                 name: declare environment variables
@@ -66,12 +65,6 @@ jobs:
                 key: composer-cache
                 paths:
                     - $HOME/.composer/cache
-
-            - save_cache:
-                key: terminus-install
-                paths:
-                    - $HOME/.terminus
-                    - $HOME/terminus
 
             - persist_to_workspace:
                 # Must be relative path from working_directory
@@ -140,7 +133,6 @@ jobs:
             - restore_cache:
                 keys:
                     - composer-cache
-                    - terminus-install
 
             - run:
                 name: declare environment variables
@@ -174,10 +166,6 @@ jobs:
                 # Must be absolute path or relative path from working_directory
                 at: /tmp
 
-            - restore_cache:
-                keys:
-                    - terminus-install
-
             - run:
                 name: copy vendor
                 command: cp -r /tmp/vendor ./vendor
@@ -194,6 +182,27 @@ jobs:
                 name: run Behat tests
                 command: ./.circleci/behat-test.sh
                 no_output_timeout: 30m
+
+    behat_test_cleanup:
+        <<: *defaults
+        steps:
+            - checkout
+            
+            - run:
+                name: declare environment variables
+                command: ./.circleci/set-up-globals.sh
+                when: always
+
+            - run:
+                name: configure Composer/Terminus
+                command: ./.circleci/set-terminus-composer.sh
+                when: always
+
+            - run:
+                name: run Behat test cleanup
+                command: ./.circleci/behat-test-cleanup.sh
+                when: always
+                no_output_timeout: 10m
     
     visual_regression_test:
         <<: *defaults
@@ -264,3 +273,7 @@ workflows:
                 - build_php_and_deploy_to_pantheon
                 - visual_regression_test
                 - lighthouse_performance_test
+      # Run Behat cleanup after Behat
+      - behat_test_cleanup:
+            requires:
+                - behat_test

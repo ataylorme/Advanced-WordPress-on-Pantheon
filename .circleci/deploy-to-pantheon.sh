@@ -37,6 +37,9 @@ else
     terminus build:env:push -n "$TERMINUS_SITE.$TERMINUS_ENV" --yes
 fi
 
+# Update WordPress database
+terminus -n wp $TERMINUS_SITE.$TERMINUS_ENV -- core update-db
+
 set +ex
 echo 'terminus secrets:set'
 terminus secrets:set -n "$TERMINUS_SITE.$TERMINUS_ENV" token "$GITHUB_TOKEN" --file='github-secrets.json' --clear --skip-if-empty

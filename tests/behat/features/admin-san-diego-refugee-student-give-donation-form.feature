@@ -1,4 +1,4 @@
-@javascript
+@javascript @give_wp
 Feature: Manage the San Diego Refugees Donation form
   As an administrator of the site
   I want modifications made to the settings of the San Diego Refugees Donation form to be reflected on the front end of the site

@@ -1,4 +1,4 @@
-@javascript
+@javascript @give_wp
 Feature: Verify the San Diego Refugees Donation form
   I want to verify submission of the San Diego Refugees Donation form
 

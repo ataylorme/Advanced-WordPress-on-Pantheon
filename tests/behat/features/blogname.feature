@@ -1,3 +1,4 @@
+@javascript
 Feature: Change blogname and blogdescription
   As a maintainer of the site
   I want to be able to change basic settings

@@ -99,19 +99,25 @@ define( 'WP_DEBUG', getenv( 'WP_DEBUG' ) == 'true' ? true : false );
  */
 if ( isset( $_ENV['PANTHEON_ENVIRONMENT'] ) && 'lando' === $_ENV['PANTHEON_ENVIRONMENT'] ) {
     // If on Lando use HTTP_HOST if set
-    if ( isset( $_SERVER['HTTP_HOST'] ) ) {
+    if ( false !== getenv('LANDO_BEHAT') ) {
+        $site_url = $_ENV['LANDO_INTERNAL_SITE_URL'];
+    } else if ( isset( $_SERVER['HTTP_HOST'] ) ) {
         $site_url = 'https://' . $_SERVER['HTTP_HOST'] . '/';
     } else if( php_sapi_name() == 'cli' ) {
         // Otherwise, if we are in wp-cli use the internal container URL
         $site_url = 'https://nginx/';
     } else {
-        // Fall back to the app name if nothing else
-        $site_url = 'https://' . $_SERVER['LANDO_APP_NAME'] . '.lndo.site/';
+        // Fall back to the app name and domain if nothing else
+        $site_url = 'https://' . $_SERVER['LANDO_APP_NAME'] . '.' . $_SERVER['LANDO_DOMAIN'] . '/';
     }
 } else {
     // If not on Lando check for WP_HOME in .env, otherwise use HTTP_HOST
     $site_url = getenv( 'WP_HOME' ) !== false ? getenv( 'WP_HOME' ) : 'https://' . $_SERVER['HTTP_HOST'] . '/';
 }
+
+// Trailing slash it
+$site_url = rtrim( $site_url, '/\\' ) . '/';
+
 define( 'WP_HOME', $site_url );
 define( 'WP_SITEURL', $site_url . 'wp/' );
 

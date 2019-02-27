@@ -1,10 +1,6 @@
 #!/bin/bash
-# Stash DB credentials
-DB_USER=pantheon
-DB_PASSWORD=pantheon
-DB_HOST=database
-DB_PORT=3306
-DB_NAME=pantheon
+
+# Stash DB name
 DB_FILE_NAME="pre-behat-tests"
 
 # Export the DB

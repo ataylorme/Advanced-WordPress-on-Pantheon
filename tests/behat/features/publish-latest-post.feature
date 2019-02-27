@@ -1,3 +1,4 @@
+@javascript
 Feature: Visibility of the latest posts
   In order to have confidence that published articles show up
   As a content author

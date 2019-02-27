@@ -6,7 +6,7 @@ config:
   framework: wordpress
   site: pantheon-wp-best-practices
   id: 094f4627-a25e-4d60-8d5b-a3d99a7232bf
-  xdebug: true
+  xdebug: false
   webroot: web
   php: '7.2'
 
@@ -16,9 +16,8 @@ services:
     type: php:custom
     overrides:
       image: ataylorme/docker-php-advanced-wordpress-on-pantheon:headless-chrome-lando
-      ports:
-        # Expose port 9222 for headless Chrome
-        - "9222:9222"
+      environment:
+        LANDO_INTERNAL_SITE_URL: https://edge_ssl.pantheonwpbestpractices.internal
 
 # Additional "lando" commands
 tooling:
@@ -42,6 +41,11 @@ tooling:
     description: Run unit tests
     cmd: composer -n unit-test
     service: appserver
+  tmp_permissions:
+    description: Temp directory permission
+    cmd: chmod 777 /tmp
+    service: appserver
+    user: root
   wordhat:
     description: Run WordHat
     cmd: ./bin/local-behat-headless-chrome.sh

@@ -11,45 +11,52 @@ config:
   php: '7.2'
 
 services:
-  # Use a custom appserver with headless Chrome
-  appserver:
+  # Spin up a PHP CI service for Behat, PHPUnit, etc.
+  ci_php:
     type: php:custom
     overrides:
       image: ataylorme/docker-php-advanced-wordpress-on-pantheon:headless-chrome-lando
       environment:
+        PANTHEON_ENVIRONMENT: lando
+        # Get this info from "lando info"
         LANDO_INTERNAL_SITE_URL: https://edge_ssl.pantheonwpbestpractices.internal
+        DB_HOST: 'database'
+        DB_PORT: 3306
+        DB_USER: 'pantheon'
+        DB_PASSWORD: 'pantheon'
+        DB_NAME: 'pantheon'
 
 # Additional "lando" commands
 tooling:
   composer:
-    service: appserver
+    service: ci_php
   wp:
-    service: appserver
+    service: ci_php
   composer-install:
     description: Install Composer dependencies
     cmd: ./bin/install-composer-dependencies.sh
-    service: appserver
+    service: ci_php
   code-sniff:
     description: Run Code Sniffing
     cmd: ./vendor/bin/phpcs --extensions=php --runtime-set ignore_warnings_on_exit true ./web/wp-content/themes/twentyseventeen-child/* ./tests/*
-    service: appserver
+    service: ci_php
   code-sniff-fix:
     description: Fix Code Sniffing
     cmd: ./vendor/bin/phpcbf --ignore=*/.git*/*,*/node_modules/* --extensions=php ./web/wp-content/themes/twentyseventeen-child/* ./tests/*
-    service: appserver
+    service: ci_php
   unit-test:
     description: Run unit tests
     cmd: composer -n unit-test
-    service: appserver
+    service: ci_php
   tmp_permissions:
     description: Temp directory permission
     cmd: chmod 777 /tmp
-    service: appserver
+    service: ci_php
     user: root
   wordhat:
     description: Run WordHat
     cmd: ./bin/local-behat-headless-chrome.sh
-    service: appserver
+    service: ci_php
   restore-db:
     description: Restore the database
     cmd: ./bin/restore-db.sh
@@ -61,4 +68,4 @@ tooling:
   wordhat-commands:
     description: List WordHat commands
     cmd: composer -n wordhat-scenarios
-    service: appserver
+    service: ci_php

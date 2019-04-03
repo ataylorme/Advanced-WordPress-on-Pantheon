@@ -37,7 +37,6 @@ web/wp-content/mu-plugins/*
 !web/wp-content/mu-plugins/alter-wpcfm-config-path.php
 !web/wp-content/plugins/
 web/wp-content/plugins/*
-!web/wp-content/plugins/lh-hsts
 !web/wp-content/themes
 web/wp-content/themes/*
 !web/wp-content/themes/twentyseventeen-child/

@@ -1,3 +1,8 @@
+# ARCHIVED
+
+See [`ataylorme/ataylorme-wordpress`](https://github.com/ataylorme/ataylorme-wordpress) for a current example.
+
+---
 ```
     .+?:
      .+??.

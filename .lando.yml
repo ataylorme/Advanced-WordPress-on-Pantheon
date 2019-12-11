@@ -61,6 +61,7 @@ tooling:
     description: List WordHat commands
     cmd: ./vendor/bin/behat -dl --config=tests/behat/behat-lando.yml --strict
     service: appserver
+  push: disabled
 
 # Automate build steps after every start
 #events:
